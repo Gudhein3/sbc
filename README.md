@@ -2,7 +2,7 @@
 TBD: Syntax section
 # Bootstrapping
 ```shell
-$ nasm -fELF64 bootstrap/sbc.s sbc.o
+$ nasm -fELF64 bootstrap/sbc.s -o sbc.o
 $ cc -no-pie -o sbc sbc.o
 $ ./sbc sbc.sb sbc
 $ ./sbc sbc.sb sbc
