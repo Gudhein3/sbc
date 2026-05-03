@@ -1,0 +1,41 @@
+extern printf
+extern fprintf
+extern stderr
+extern atoi
+
+fact(n)!
+    if n <= 0
+        1;
+    else
+        n*fact(n-1);
+
+usage(prog)! {
+    fprintf(*stderr, "Usage: %s fibonacci-seq-limit\n", prog);
+}
+
+global main
+main(argc, argv) max, x, y, z {
+    1 : x;
+    2 : y;
+    if argc != 2 {
+        usage(argv[0]);
+        return 2;
+    }
+    atoi(argv[1]) : max;
+    while x < max {
+        printf("%d\n", x);
+        y : z;
+        x + y : y;
+        z : x;
+    }
+    printf("5! = %d\n", fact(5));
+    0 : x;
+    while 1 {
+        printf("%d\n", x);
+        if x >= 3 {
+            break;
+        }
+        x + 1 : x;
+    }
+    0;
+}
