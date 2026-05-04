@@ -1118,6 +1118,432 @@ jmp .L41
 .L42: ; if
 	leave
 	ret
+parseEscapeCode:
+	push rbp
+	mov rbp, rsp
+	sub rsp, 32
+	mov rax, next
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	push rax
+	lea rax, [rbp-8]
+	pop rcx
+	mov [rax], rcx
+	mov rax, rcx
+	mov rax, [rbp-8]
+	push rax
+	mov rax, 110
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L46
+	mov rax, 10
+jmp .L47
+.L46: ; if
+	mov rax, [rbp-8]
+	push rax
+	mov rax, 116
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L48
+	mov rax, 9
+jmp .L49
+.L48: ; if
+	mov rax, [rbp-8]
+	push rax
+	mov rax, 92
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L50
+	mov rax, 92
+jmp .L51
+.L50: ; if
+	mov rax, [rbp-8]
+	push rax
+	mov rax, 39
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L52
+	mov rax, 39
+jmp .L53
+.L52: ; if
+	mov rax, [rbp-8]
+	push rax
+	mov rax, 120
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L54
+	mov rax, next
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	push rax
+	lea rax, [rbp-8]
+	pop rcx
+	mov [rax], rcx
+	mov rax, rcx
+	mov rax, isxdigit
+	push r13
+	mov r13, rax
+	mov rax, [rbp-8]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	test rax, rax
+	setz al
+	movzx rax, al
+	test rax, rax
+	jz .L55
+	mov rax, fprintf
+	push r13
+	mov r13, rax
+	mov rax, stderr
+	mov rax, [rax]
+	push rdi
+	mov rdi, rax
+	lea rax, [abs string+161]
+	push rsi
+	mov rsi, rax
+	mov rax, [rbp-8]
+	push rdx
+	mov rdx, rax
+	xor rax, rax
+	call r13
+	pop rdx
+	pop rsi
+	pop rdi
+	pop r13
+	mov rax, exit
+	push r13
+	mov r13, rax
+	mov rax, 1
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+.L55: ; if
+	mov rax, [rbp-8]
+	push rax
+	mov rax, 57
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	setb al
+	movzx rax, al
+	test rax, rax
+	jz .L57
+	mov rax, [rbp-8]
+	push rax
+	mov rax, 48
+	mov rcx, rax
+	pop rax
+	sub rax, rcx
+	push rax
+	lea rax, [rbp-16]
+	pop rcx
+	mov [rax], rcx
+	mov rax, rcx
+jmp .L58
+.L57: ; if
+	mov rax, [rbp-8]
+	push rax
+	mov rax, 102
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	setb al
+	movzx rax, al
+	test rax, rax
+	jz .L59
+	mov rax, [rbp-8]
+	push rax
+	mov rax, 97
+	mov rcx, rax
+	pop rax
+	sub rax, rcx
+	push rax
+	mov rax, 10
+	mov rcx, rax
+	pop rax
+	add rax, rcx
+	push rax
+	lea rax, [rbp-16]
+	pop rcx
+	mov [rax], rcx
+	mov rax, rcx
+jmp .L60
+.L59: ; if
+	mov rax, [rbp-8]
+	push rax
+	mov rax, 70
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	setb al
+	movzx rax, al
+	test rax, rax
+	jz .L61
+	mov rax, [rbp-8]
+	push rax
+	mov rax, 65
+	mov rcx, rax
+	pop rax
+	sub rax, rcx
+	push rax
+	mov rax, 10
+	mov rcx, rax
+	pop rax
+	add rax, rcx
+	push rax
+	lea rax, [rbp-16]
+	pop rcx
+	mov [rax], rcx
+	mov rax, rcx
+.L61: ; if
+.L60: ; else
+.L58: ; else
+	mov rax, next
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	push rax
+	lea rax, [rbp-8]
+	pop rcx
+	mov [rax], rcx
+	mov rax, rcx
+	mov rax, isxdigit
+	push r13
+	mov r13, rax
+	mov rax, [rbp-8]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	test rax, rax
+	setz al
+	movzx rax, al
+	test rax, rax
+	jz .L63
+	mov rax, fprintf
+	push r13
+	mov r13, rax
+	mov rax, stderr
+	mov rax, [rax]
+	push rdi
+	mov rdi, rax
+	lea rax, [abs string+195]
+	push rsi
+	mov rsi, rax
+	mov rax, [rbp-8]
+	push rdx
+	mov rdx, rax
+	xor rax, rax
+	call r13
+	pop rdx
+	pop rsi
+	pop rdi
+	pop r13
+	mov rax, exit
+	push r13
+	mov r13, rax
+	mov rax, 1
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+.L63: ; if
+	mov rax, [rbp-8]
+	push rax
+	mov rax, 57
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	setb al
+	movzx rax, al
+	test rax, rax
+	jz .L65
+	mov rax, [rbp-16]
+	push rax
+	mov rax, 16
+	mov rcx, rax
+	pop rax
+	mul rcx
+	push rax
+	mov rax, [rbp-8]
+	mov rcx, rax
+	pop rax
+	add rax, rcx
+	push rax
+	mov rax, 48
+	mov rcx, rax
+	pop rax
+	sub rax, rcx
+	push rax
+	lea rax, [rbp-16]
+	pop rcx
+	mov [rax], rcx
+	mov rax, rcx
+jmp .L66
+.L65: ; if
+	mov rax, [rbp-8]
+	push rax
+	mov rax, 102
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	setb al
+	movzx rax, al
+	test rax, rax
+	jz .L67
+	mov rax, [rbp-16]
+	push rax
+	mov rax, 16
+	mov rcx, rax
+	pop rax
+	mul rcx
+	push rax
+	mov rax, [rbp-8]
+	mov rcx, rax
+	pop rax
+	add rax, rcx
+	push rax
+	mov rax, 97
+	mov rcx, rax
+	pop rax
+	sub rax, rcx
+	push rax
+	mov rax, 10
+	mov rcx, rax
+	pop rax
+	add rax, rcx
+	push rax
+	lea rax, [rbp-16]
+	pop rcx
+	mov [rax], rcx
+	mov rax, rcx
+jmp .L68
+.L67: ; if
+	mov rax, [rbp-8]
+	push rax
+	mov rax, 70
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	setb al
+	movzx rax, al
+	test rax, rax
+	jz .L69
+	mov rax, [rbp-16]
+	push rax
+	mov rax, 16
+	mov rcx, rax
+	pop rax
+	mul rcx
+	push rax
+	mov rax, [rbp-8]
+	mov rcx, rax
+	pop rax
+	add rax, rcx
+	push rax
+	mov rax, 65
+	mov rcx, rax
+	pop rax
+	sub rax, rcx
+	push rax
+	mov rax, 10
+	mov rcx, rax
+	pop rax
+	add rax, rcx
+	push rax
+	lea rax, [rbp-16]
+	pop rcx
+	mov [rax], rcx
+	mov rax, rcx
+.L69: ; if
+.L68: ; else
+.L66: ; else
+	mov rax, [rbp-16]
+jmp .L71
+.L54: ; if
+	mov rax, fprintf
+	push r13
+	mov r13, rax
+	mov rax, stderr
+	mov rax, [rax]
+	push rdi
+	mov rdi, rax
+	lea rax, [abs string+229]
+	push rsi
+	mov rsi, rax
+	mov rax, [rbp-8]
+	push rdx
+	mov rdx, rax
+	xor rax, rax
+	call r13
+	pop rdx
+	pop rsi
+	pop rdi
+	pop r13
+	mov rax, exit
+	push r13
+	mov r13, rax
+	mov rax, 1
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+.L71: ; else
+.L53: ; else
+.L51: ; else
+.L49: ; else
+.L47: ; else
+	leave
+	ret
+	leave
+	ret
 primary:
 	push rbp
 	mov rbp, rsp
@@ -1160,11 +1586,11 @@ primary:
 	pop rdi
 	pop r13
 	test rax, rax
-	jz .L46
+	jz .L72
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+161]
+	lea rax, [abs string+257]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -1180,7 +1606,7 @@ primary:
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L47
+	jz .L73
 	mov rax, next
 	push r13
 	mov r13, rax
@@ -1197,7 +1623,7 @@ primary:
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+172]
+	lea rax, [abs string+268]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -1213,11 +1639,11 @@ primary:
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L48
+	jz .L74
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+174]
+	lea rax, [abs string+270]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -1237,7 +1663,7 @@ primary:
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-.L49: ; while continue
+.L75: ; while continue
 	mov rax, isxdigit
 	push r13
 	mov r13, rax
@@ -1249,7 +1675,7 @@ primary:
 	pop rdi
 	pop r13
 	test rax, rax
-	jz .L50
+	jz .L76
 	mov rax, emit
 	push r13
 	mov r13, rax
@@ -1281,12 +1707,12 @@ primary:
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-jmp .L49
-.L50: ; while break
-.L48: ; if
-jmp .L52
-.L47: ; if
-.L53: ; while continue
+jmp .L75
+.L76: ; while break
+.L74: ; if
+jmp .L78
+.L73: ; if
+.L79: ; while continue
 	mov rax, isdigit
 	push r13
 	mov r13, rax
@@ -1298,7 +1724,7 @@ jmp .L52
 	pop rdi
 	pop r13
 	test rax, rax
-	jz .L54
+	jz .L80
 	mov rax, emit
 	push r13
 	mov r13, rax
@@ -1322,21 +1748,21 @@ jmp .L52
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-jmp .L53
-.L54: ; while break
-.L52: ; else
+jmp .L79
+.L80: ; while break
+.L78: ; else
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+176]
+	lea rax, [abs string+272]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
-jmp .L55
-.L46: ; if
+jmp .L81
+.L72: ; if
 	mov rax, isalpha
 	push r13
 	mov r13, rax
@@ -1348,14 +1774,14 @@ jmp .L55
 	pop rdi
 	pop r13
 	test rax, rax
-	jz .L56
+	jz .L82
 	mov rax, 0
 	push rax
 	lea rax, [rbp-24]
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-.L57: ; while continue
+.L83: ; while continue
 	mov rax, isalnum
 	push r13
 	mov r13, rax
@@ -1367,7 +1793,7 @@ jmp .L55
 	pop rdi
 	pop r13
 	test rax, rax
-	jz .L58
+	jz .L84
 	mov rax, Bschar
 	push r13
 	mov r13, rax
@@ -1413,8 +1839,8 @@ jmp .L55
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-jmp .L57
-.L58: ; while break
+jmp .L83
+.L84: ; while break
 	mov rax, Bschar
 	push r13
 	mov r13, rax
@@ -1442,7 +1868,7 @@ jmp .L57
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-.L59: ; while continue
+.L85: ; while continue
 	mov rax, [rbp-24]
 	push rax
 	mov rax, varcnt
@@ -1453,7 +1879,7 @@ jmp .L57
 	setb al
 	movzx rax, al
 	test rax, rax
-	jz .L60
+	jz .L86
 	mov rax, strcmp
 	push r13
 	mov r13, rax
@@ -1492,11 +1918,11 @@ jmp .L57
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L61
+	jz .L87
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+178]
+	lea rax, [abs string+274]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -1525,7 +1951,7 @@ jmp .L57
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+194]
+	lea rax, [abs string+290]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -1538,8 +1964,8 @@ jmp .L57
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-	jmp .L60 ; break
-.L61: ; if
+	jmp .L86 ; break
+.L87: ; if
 	mov rax, [rbp-24]
 	push rax
 	mov rax, 1
@@ -1551,18 +1977,18 @@ jmp .L57
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-jmp .L59
-.L60: ; while break
+jmp .L85
+.L86: ; while break
 	mov rax, [rbp-40]
 	test rax, rax
 	setz al
 	movzx rax, al
 	test rax, rax
-	jz .L63
+	jz .L89
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+197]
+	lea rax, [abs string+293]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -1582,16 +2008,88 @@ jmp .L59
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+208]
+	lea rax, [abs string+304]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
-.L63: ; if
-jmp .L65
-.L56: ; if
+.L89: ; if
+jmp .L91
+.L82: ; if
+	mov rax, [rbp-8]
+	push rax
+	mov rax, 123
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L92
+	mov rax, next
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	mov rax, whitespace
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+.L93: ; while continue
+	mov rax, peek
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	push rax
+	mov rax, 125
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	setne al
+	movzx rax, al
+	test rax, rax
+	jz .L94
+	mov rax, stmt
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	mov rax, whitespace
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+jmp .L93
+.L94: ; while break
+	mov rax, next
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+jmp .L95
+.L92: ; if
 	mov rax, [rbp-8]
 	push rax
 	mov rax, 40
@@ -1601,7 +2099,7 @@ jmp .L65
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L66
+	jz .L96
 	mov rax, next
 	push r13
 	mov r13, rax
@@ -1628,8 +2126,8 @@ jmp .L65
 	call r13
 	pop rdi
 	pop r13
-jmp .L67
-.L66: ; if
+jmp .L97
+.L96: ; if
 	mov rax, [rbp-8]
 	push rax
 	mov rax, 38
@@ -1639,7 +2137,7 @@ jmp .L67
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L68
+	jz .L98
 	mov rax, next
 	push r13
 	mov r13, rax
@@ -1656,668 +2154,11 @@ jmp .L67
 	call r13
 	add rsp, 8
 	pop r13
-jmp .L69
-.L68: ; if
-	mov rax, [rbp-8]
-	push rax
-	mov rax, 42
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L70
-	mov rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	mov rax, primary
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+210]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-jmp .L71
-.L70: ; if
-	mov rax, [rbp-8]
-	push rax
-	mov rax, 39
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L72
-	mov rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-	mov rax, [rbp-8]
-	push rax
-	mov rax, 92
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L73
-	mov rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-	mov rax, [rbp-8]
-	push rax
-	mov rax, 110
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L74
-	mov rax, 10
-	push rax
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-jmp .L75
-.L74: ; if
-	mov rax, [rbp-8]
-	push rax
-	mov rax, 116
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L76
-	mov rax, 9
-	push rax
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-jmp .L77
-.L76: ; if
-	mov rax, [rbp-8]
-	push rax
-	mov rax, 92
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L78
-	mov rax, 92
-	push rax
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-jmp .L79
-.L78: ; if
-	mov rax, [rbp-8]
-	push rax
-	mov rax, 39
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L80
-	mov rax, 39
-	push rax
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-jmp .L81
-.L80: ; if
-	mov rax, fprintf
-	push r13
-	mov r13, rax
-	mov rax, stderr
-	mov rax, [rax]
-	push rdi
-	mov rdi, rax
-	lea rax, [abs string+227]
-	push rsi
-	mov rsi, rax
-	mov rax, [rbp-8]
-	push rdx
-	mov rdx, rax
-	xor rax, rax
-	call r13
-	pop rdx
-	pop rsi
-	pop rdi
-	pop r13
-	mov rax, exit
-	push r13
-	mov r13, rax
-	mov rax, 1
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-.L81: ; else
-.L79: ; else
-.L77: ; else
-.L75: ; else
-.L73: ; if
-	mov rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	mov rax, expect
-	push r13
-	mov r13, rax
-	mov rax, 39
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+255]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, emitd
-	push r13
-	mov r13, rax
-	mov rax, [rbp-8]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+266]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-jmp .L83
-.L72: ; if
-	mov rax, [rbp-8]
-	push rax
-	mov rax, 34
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L84
-	mov rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-	mov rax, strbufsz
-	mov rax, [rax]
-	push rax
-	lea rax, [rbp-16]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-.L85: ; while continue
-	mov rax, peek
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-	push rax
-	mov rax, 34
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	setne al
-	movzx rax, al
-	test rax, rax
-	jz .L86
-	mov rax, peek
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-	mov rax, [rbp-8]
-	push rax
-	mov rax, 92
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L87
-	mov rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-	mov rax, [rbp-8]
-	push rax
-	mov rax, 110
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L88
-	mov rax, Bschar
-	push r13
-	mov r13, rax
-	mov rax, strbuf
-	push rax
-	mov rax, strbufsz
-	mov rax, [rax]
-	mov rcx, rax
-	pop rax
-	add rax, rcx
-	push rdi
-	mov rdi, rax
-	mov rax, 10
-	push rsi
-	mov rsi, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop rsi
-	pop rdi
-	pop r13
-jmp .L89
-.L88: ; if
-	mov rax, [rbp-8]
-	push rax
-	mov rax, 116
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L90
-	mov rax, Bschar
-	push r13
-	mov r13, rax
-	mov rax, strbuf
-	push rax
-	mov rax, strbufsz
-	mov rax, [rax]
-	mov rcx, rax
-	pop rax
-	add rax, rcx
-	push rdi
-	mov rdi, rax
-	mov rax, 9
-	push rsi
-	mov rsi, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop rsi
-	pop rdi
-	pop r13
-jmp .L91
-.L90: ; if
-	mov rax, [rbp-8]
-	push rax
-	mov rax, 92
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L92
-	mov rax, Bschar
-	push r13
-	mov r13, rax
-	mov rax, strbuf
-	push rax
-	mov rax, strbufsz
-	mov rax, [rax]
-	mov rcx, rax
-	pop rax
-	add rax, rcx
-	push rdi
-	mov rdi, rax
-	mov rax, 92
-	push rsi
-	mov rsi, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop rsi
-	pop rdi
-	pop r13
-jmp .L93
-.L92: ; if
-	mov rax, [rbp-8]
-	push rax
-	mov rax, 34
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L94
-	mov rax, Bschar
-	push r13
-	mov r13, rax
-	mov rax, strbuf
-	push rax
-	mov rax, strbufsz
-	mov rax, [rax]
-	mov rcx, rax
-	pop rax
-	add rax, rcx
-	push rdi
-	mov rdi, rax
-	mov rax, 34
-	push rsi
-	mov rsi, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop rsi
-	pop rdi
-	pop r13
-jmp .L95
-.L94: ; if
-	mov rax, fprintf
-	push r13
-	mov r13, rax
-	mov rax, stderr
-	mov rax, [rax]
-	push rdi
-	mov rdi, rax
-	lea rax, [abs string+268]
-	push rsi
-	mov rsi, rax
-	mov rax, [rbp-8]
-	push rdx
-	mov rdx, rax
-	xor rax, rax
-	call r13
-	pop rdx
-	pop rsi
-	pop rdi
-	pop r13
-	mov rax, exit
-	push r13
-	mov r13, rax
-	mov rax, 1
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-.L95: ; else
-.L93: ; else
-.L91: ; else
-.L89: ; else
-jmp .L96
-.L87: ; if
-	mov rax, Bschar
-	push r13
-	mov r13, rax
-	mov rax, strbuf
-	push rax
-	mov rax, strbufsz
-	mov rax, [rax]
-	mov rcx, rax
-	pop rax
-	add rax, rcx
-	push rdi
-	mov rdi, rax
-	mov rax, [rbp-8]
-	push rsi
-	mov rsi, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop rsi
-	pop rdi
-	pop r13
-.L96: ; else
-	mov rax, strbufsz
-	mov rax, [rax]
-	push rax
-	mov rax, 1
-	mov rcx, rax
-	pop rax
-	add rax, rcx
-	push rax
-	mov rax, strbufsz
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-	mov rax, nextr
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-jmp .L85
-.L86: ; while break
-	mov rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	mov rax, Bschar
-	push r13
-	mov r13, rax
-	mov rax, strbuf
-	push rax
-	mov rax, strbufsz
-	mov rax, [rax]
-	mov rcx, rax
-	pop rax
-	add rax, rcx
-	push rdi
-	mov rdi, rax
-	mov rax, 0
-	push rsi
-	mov rsi, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop rsi
-	pop rdi
-	pop r13
-	mov rax, strbufsz
-	mov rax, [rax]
-	push rax
-	mov rax, 1
-	mov rcx, rax
-	pop rax
-	add rax, rcx
-	push rax
-	mov rax, strbufsz
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+296]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, emitd
-	push r13
-	mov r13, rax
-	mov rax, [rbp-16]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+319]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-jmp .L97
-.L84: ; if
-	mov rax, [rbp-8]
-	push rax
-	mov rax, 45
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L98
-	mov rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	mov rax, primary
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+322]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
 jmp .L99
 .L98: ; if
 	mov rax, [rbp-8]
 	push rax
-	mov rax, 33
+	mov rax, 42
 	mov rcx, rax
 	pop rax
 	cmp rax, rcx
@@ -2344,27 +2185,7 @@ jmp .L99
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+332]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+348]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+358]
+	lea rax, [abs string+306]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -2373,6 +2194,445 @@ jmp .L99
 	pop r13
 jmp .L101
 .L100: ; if
+	mov rax, [rbp-8]
+	push rax
+	mov rax, 126
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L102
+	mov rax, next
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	mov rax, primary
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+323]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+jmp .L103
+.L102: ; if
+	mov rax, [rbp-8]
+	push rax
+	mov rax, 39
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L104
+	mov rax, next
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	push rax
+	lea rax, [rbp-8]
+	pop rcx
+	mov [rax], rcx
+	mov rax, rcx
+	mov rax, [rbp-8]
+	push rax
+	mov rax, 92
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L105
+	mov rax, parseEscapeCode
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	push rax
+	lea rax, [rbp-8]
+	pop rcx
+	mov [rax], rcx
+	mov rax, rcx
+.L105: ; if
+	mov rax, next
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	mov rax, expect
+	push r13
+	mov r13, rax
+	mov rax, 39
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+333]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	mov rax, emitd
+	push r13
+	mov r13, rax
+	mov rax, [rbp-8]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+344]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+jmp .L107
+.L104: ; if
+	mov rax, [rbp-8]
+	push rax
+	mov rax, 34
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L108
+	mov rax, next
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	push rax
+	lea rax, [rbp-8]
+	pop rcx
+	mov [rax], rcx
+	mov rax, rcx
+	mov rax, strbufsz
+	mov rax, [rax]
+	push rax
+	lea rax, [rbp-16]
+	pop rcx
+	mov [rax], rcx
+	mov rax, rcx
+.L109: ; while continue
+	mov rax, peek
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	push rax
+	lea rax, [rbp-8]
+	pop rcx
+	mov [rax], rcx
+	mov rax, rcx
+	push rax
+	mov rax, 34
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	setne al
+	movzx rax, al
+	test rax, rax
+	jz .L110
+	mov rax, peek
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	push rax
+	lea rax, [rbp-8]
+	pop rcx
+	mov [rax], rcx
+	mov rax, rcx
+	mov rax, [rbp-8]
+	push rax
+	mov rax, 92
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L111
+	mov rax, parseEscapeCode
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	push rax
+	lea rax, [rbp-8]
+	pop rcx
+	mov [rax], rcx
+	mov rax, rcx
+.L111: ; if
+	mov rax, Bschar
+	push r13
+	mov r13, rax
+	mov rax, strbuf
+	push rax
+	mov rax, strbufsz
+	mov rax, [rax]
+	mov rcx, rax
+	pop rax
+	add rax, rcx
+	push rdi
+	mov rdi, rax
+	mov rax, [rbp-8]
+	push rsi
+	mov rsi, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop rsi
+	pop rdi
+	pop r13
+	mov rax, strbufsz
+	mov rax, [rax]
+	push rax
+	mov rax, 1
+	mov rcx, rax
+	pop rax
+	add rax, rcx
+	push rax
+	mov rax, strbufsz
+	pop rcx
+	mov [rax], rcx
+	mov rax, rcx
+	mov rax, nextr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+jmp .L109
+.L110: ; while break
+	mov rax, next
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	mov rax, Bschar
+	push r13
+	mov r13, rax
+	mov rax, strbuf
+	push rax
+	mov rax, strbufsz
+	mov rax, [rax]
+	mov rcx, rax
+	pop rax
+	add rax, rcx
+	push rdi
+	mov rdi, rax
+	mov rax, 0
+	push rsi
+	mov rsi, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop rsi
+	pop rdi
+	pop r13
+	mov rax, strbufsz
+	mov rax, [rax]
+	push rax
+	mov rax, 1
+	mov rcx, rax
+	pop rax
+	add rax, rcx
+	push rax
+	mov rax, strbufsz
+	pop rcx
+	mov [rax], rcx
+	mov rax, rcx
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+346]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	mov rax, emitd
+	push r13
+	mov r13, rax
+	mov rax, [rbp-16]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+369]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+jmp .L113
+.L108: ; if
+	mov rax, [rbp-8]
+	push rax
+	mov rax, 45
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L114
+	mov rax, next
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	mov rax, primary
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+372]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+jmp .L115
+.L114: ; if
+	mov rax, [rbp-8]
+	push rax
+	mov rax, 33
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L116
+	mov rax, next
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	mov rax, primary
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+382]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+398]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+408]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+jmp .L117
+.L116: ; if
 	mov rax, fprintf
 	push r13
 	mov r13, rax
@@ -2380,7 +2640,7 @@ jmp .L101
 	mov rax, [rax]
 	push rdi
 	mov rdi, rax
-	lea rax, [abs string+374]
+	lea rax, [abs string+424]
 	push rsi
 	mov rsi, rax
 	mov rax, [rbp-8]
@@ -2402,15 +2662,17 @@ jmp .L101
 	call r13
 	pop rdi
 	pop r13
+.L117: ; else
+.L115: ; else
+.L113: ; else
+.L107: ; else
+.L103: ; else
 .L101: ; else
 .L99: ; else
 .L97: ; else
-.L83: ; else
-.L71: ; else
-.L69: ; else
-.L67: ; else
-.L65: ; else
-.L55: ; else
+.L95: ; else
+.L91: ; else
+.L81: ; else
 	mov rax, whitespace
 	push r13
 	mov r13, rax
@@ -2441,7 +2703,7 @@ jmp .L101
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L102
+	jz .L118
 	mov rax, next
 	push r13
 	mov r13, rax
@@ -2453,7 +2715,7 @@ jmp .L101
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+408]
+	lea rax, [abs string+458]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -2463,7 +2725,7 @@ jmp .L101
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+419]
+	lea rax, [abs string+469]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -2500,14 +2762,14 @@ jmp .L101
 	setne al
 	movzx rax, al
 	test rax, rax
-	jz .L103
+	jz .L119
 	mov rax, 0
 	push rax
 	lea rax, [rbp-24]
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-.L104: ; while continue
+.L120: ; while continue
 	mov rax, [rbp-24]
 	push rax
 	mov rax, 6
@@ -2517,7 +2779,7 @@ jmp .L101
 	setb al
 	movzx rax, al
 	test rax, rax
-	jz .L105
+	jz .L121
 	mov rax, [rbp-32]
 	push rax
 	mov rax, 1
@@ -2540,7 +2802,7 @@ jmp .L101
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+434]
+	lea rax, [abs string+484]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -2564,7 +2826,7 @@ jmp .L101
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+441]
+	lea rax, [abs string+491]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -2588,7 +2850,7 @@ jmp .L101
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+448]
+	lea rax, [abs string+498]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -2625,7 +2887,7 @@ jmp .L101
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L106
+	jz .L122
 	mov rax, next
 	push r13
 	mov r13, rax
@@ -2634,8 +2896,8 @@ jmp .L101
 	call r13
 	add rsp, 8
 	pop r13
-jmp .L107
-.L106: ; if
+jmp .L123
+.L122: ; if
 	mov rax, [rbp-8]
 	push rax
 	mov rax, 41
@@ -2645,10 +2907,10 @@ jmp .L107
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L108
-	jmp .L105 ; break
-.L108: ; if
-.L107: ; else
+	jz .L124
+	jmp .L121 ; break
+.L124: ; if
+.L123: ; else
 	mov rax, [rbp-24]
 	push rax
 	mov rax, 1
@@ -2660,9 +2922,9 @@ jmp .L107
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-jmp .L104
-.L105: ; while break
-.L103: ; if
+jmp .L120
+.L121: ; while break
+.L119: ; if
 	mov rax, expect
 	push r13
 	mov r13, rax
@@ -2683,22 +2945,22 @@ jmp .L104
 	setz al
 	movzx rax, al
 	test rax, rax
-	jz .L111
+	jz .L127
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+455]
+	lea rax, [abs string+505]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
-.L111: ; if
+.L127: ; if
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+464]
+	lea rax, [abs string+514]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -2708,7 +2970,7 @@ jmp .L104
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+479]
+	lea rax, [abs string+529]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -2725,25 +2987,25 @@ jmp .L104
 	setz al
 	movzx rax, al
 	test rax, rax
-	jz .L113
+	jz .L129
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+490]
+	lea rax, [abs string+540]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
-.L113: ; if
+.L129: ; if
 	mov rax, 0
 	push rax
 	lea rax, [rbp-24]
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-.L115: ; while continue
+.L131: ; while continue
 	mov rax, [rbp-24]
 	push rax
 	mov rax, [rbp-32]
@@ -2753,11 +3015,11 @@ jmp .L104
 	setb al
 	movzx rax, al
 	test rax, rax
-	jz .L116
+	jz .L132
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+503]
+	lea rax, [abs string+553]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -2791,7 +3053,7 @@ jmp .L104
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+509]
+	lea rax, [abs string+559]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -2809,19 +3071,19 @@ jmp .L104
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-jmp .L115
-.L116: ; while break
+jmp .L131
+.L132: ; while break
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+511]
+	lea rax, [abs string+561]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
-.L102: ; if
+.L118: ; if
 	mov rax, whitespace
 	push r13
 	mov r13, rax
@@ -2852,11 +3114,11 @@ jmp .L115
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L118
+	jz .L134
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+521]
+	lea rax, [abs string+571]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -2892,7 +3154,7 @@ jmp .L115
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+532]
+	lea rax, [abs string+582]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -2902,14 +3164,14 @@ jmp .L115
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+542]
+	lea rax, [abs string+592]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
-.L118: ; if
+.L134: ; if
 	leave
 	ret
 expr:
@@ -2932,10 +3194,10 @@ expr:
 	call r13
 	add rsp, 8
 	pop r13
-.L120: ; while continue
+.L136: ; while continue
 	mov rax, 1
 	test rax, rax
-	jz .L121
+	jz .L137
 	mov rax, peek
 	push r13
 	mov r13, rax
@@ -2958,7 +3220,7 @@ expr:
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L122
+	jz .L138
 	mov rax, next
 	push r13
 	mov r13, rax
@@ -2970,7 +3232,7 @@ expr:
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+565]
+	lea rax, [abs string+615]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -2996,7 +3258,7 @@ expr:
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+576]
+	lea rax, [abs string+626]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3006,7 +3268,7 @@ expr:
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+591]
+	lea rax, [abs string+641]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3016,15 +3278,15 @@ expr:
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+601]
+	lea rax, [abs string+651]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
-jmp .L123
-.L122: ; if
+jmp .L139
+.L138: ; if
 	mov rax, [rbp-8]
 	push rax
 	mov rax, 45
@@ -3034,7 +3296,7 @@ jmp .L123
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L124
+	jz .L140
 	mov rax, next
 	push r13
 	mov r13, rax
@@ -3046,7 +3308,7 @@ jmp .L123
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+616]
+	lea rax, [abs string+666]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3072,7 +3334,7 @@ jmp .L123
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+627]
+	lea rax, [abs string+677]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3082,7 +3344,7 @@ jmp .L123
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+642]
+	lea rax, [abs string+692]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3092,15 +3354,15 @@ jmp .L123
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+652]
+	lea rax, [abs string+702]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
-jmp .L125
-.L124: ; if
+jmp .L141
+.L140: ; if
 	mov rax, [rbp-8]
 	push rax
 	mov rax, 38
@@ -3110,7 +3372,7 @@ jmp .L125
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L126
+	jz .L142
 	mov rax, next
 	push r13
 	mov r13, rax
@@ -3122,7 +3384,7 @@ jmp .L125
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+667]
+	lea rax, [abs string+717]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3148,7 +3410,7 @@ jmp .L125
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+678]
+	lea rax, [abs string+728]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3158,7 +3420,7 @@ jmp .L125
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+693]
+	lea rax, [abs string+743]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3168,15 +3430,15 @@ jmp .L125
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+703]
+	lea rax, [abs string+753]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
-jmp .L127
-.L126: ; if
+jmp .L143
+.L142: ; if
 	mov rax, [rbp-8]
 	push rax
 	mov rax, 124
@@ -3186,83 +3448,7 @@ jmp .L127
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L128
-	mov rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+718]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, primary
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	mov rax, whitespace
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+729]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+744]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+754]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-jmp .L129
-.L128: ; if
-	mov rax, [rbp-8]
-	push rax
-	mov rax, 94
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L130
+	jz .L144
 	mov rax, next
 	push r13
 	mov r13, rax
@@ -3327,8 +3513,84 @@ jmp .L129
 	call r13
 	pop rdi
 	pop r13
-jmp .L131
-.L130: ; if
+jmp .L145
+.L144: ; if
+	mov rax, [rbp-8]
+	push rax
+	mov rax, 94
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L146
+	mov rax, next
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+818]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	mov rax, primary
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	mov rax, whitespace
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+829]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+844]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+854]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+jmp .L147
+.L146: ; if
 	mov rax, [rbp-8]
 	push rax
 	mov rax, 42
@@ -3338,7 +3600,7 @@ jmp .L131
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L132
+	jz .L148
 	mov rax, next
 	push r13
 	mov r13, rax
@@ -3350,7 +3612,7 @@ jmp .L131
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+819]
+	lea rax, [abs string+869]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3376,7 +3638,7 @@ jmp .L131
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+830]
+	lea rax, [abs string+880]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3386,7 +3648,7 @@ jmp .L131
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+845]
+	lea rax, [abs string+895]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3396,15 +3658,15 @@ jmp .L131
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+855]
+	lea rax, [abs string+905]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
-jmp .L133
-.L132: ; if
+jmp .L149
+.L148: ; if
 	mov rax, [rbp-8]
 	push rax
 	mov rax, 47
@@ -3414,7 +3676,7 @@ jmp .L133
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L134
+	jz .L150
 	mov rax, next
 	push r13
 	mov r13, rax
@@ -3426,7 +3688,7 @@ jmp .L133
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+865]
+	lea rax, [abs string+915]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3442,66 +3704,6 @@ jmp .L133
 	add rsp, 8
 	pop r13
 	mov rax, whitespace
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+876]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+891]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+901]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+916]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-jmp .L135
-.L134: ; if
-	mov rax, [rbp-8]
-	push rax
-	mov rax, 37
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L136
-	mov rax, next
 	push r13
 	mov r13, rax
 	push 0
@@ -3519,6 +3721,66 @@ jmp .L135
 	call r13
 	pop rdi
 	pop r13
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+941]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+951]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+966]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+jmp .L151
+.L150: ; if
+	mov rax, [rbp-8]
+	push rax
+	mov rax, 37
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L152
+	mov rax, next
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+976]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
 	mov rax, primary
 	push r13
 	mov r13, rax
@@ -3538,77 +3800,7 @@ jmp .L135
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+937]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+952]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+962]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+977]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, emits
-	push r13
-	mov r13, rax
 	lea rax, [abs string+987]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-jmp .L137
-.L136: ; if
-	mov rax, [rbp-8]
-	push rax
-	mov rax, 61
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L138
-	mov rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	mov rax, expect
-	push r13
-	mov r13, rax
-	mov rax, 61
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3625,26 +3817,10 @@ jmp .L137
 	call r13
 	pop rdi
 	pop r13
-	mov rax, primary
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	mov rax, whitespace
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1013]
+	lea rax, [abs string+1012]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3654,7 +3830,7 @@ jmp .L137
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1028]
+	lea rax, [abs string+1027]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3664,45 +3840,25 @@ jmp .L137
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1038]
+	lea rax, [abs string+1037]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+1053]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+1063]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-jmp .L139
-.L138: ; if
+jmp .L153
+.L152: ; if
 	mov rax, [rbp-8]
 	push rax
-	mov rax, 33
+	mov rax, 61
 	mov rcx, rax
 	pop rax
 	cmp rax, rcx
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L140
+	jz .L154
 	mov rax, next
 	push r13
 	mov r13, rax
@@ -3724,7 +3880,7 @@ jmp .L139
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1079]
+	lea rax, [abs string+1052]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3750,7 +3906,7 @@ jmp .L139
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1090]
+	lea rax, [abs string+1063]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3760,7 +3916,7 @@ jmp .L139
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1105]
+	lea rax, [abs string+1078]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3770,7 +3926,7 @@ jmp .L139
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1115]
+	lea rax, [abs string+1088]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3780,7 +3936,7 @@ jmp .L139
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1130]
+	lea rax, [abs string+1103]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3790,15 +3946,121 @@ jmp .L139
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1141]
+	lea rax, [abs string+1113]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
-jmp .L141
-.L140: ; if
+jmp .L155
+.L154: ; if
+	mov rax, [rbp-8]
+	push rax
+	mov rax, 33
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L156
+	mov rax, next
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	mov rax, expect
+	push r13
+	mov r13, rax
+	mov rax, 61
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+1129]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	mov rax, primary
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	mov rax, whitespace
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+1140]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+1155]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+1165]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+1180]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+1191]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+jmp .L157
+.L156: ; if
 	mov rax, [rbp-8]
 	push rax
 	mov rax, 60
@@ -3808,7 +4070,7 @@ jmp .L141
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L142
+	jz .L158
 	mov rax, next
 	push r13
 	mov r13, rax
@@ -3839,7 +4101,7 @@ jmp .L141
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L143
+	jz .L159
 	mov rax, 1
 	push rax
 	lea rax, [rbp-16]
@@ -3854,8 +4116,8 @@ jmp .L141
 	call r13
 	add rsp, 8
 	pop r13
-jmp .L144
-.L143: ; if
+jmp .L160
+.L159: ; if
 	mov rax, peek
 	push r13
 	mov r13, rax
@@ -3872,7 +4134,7 @@ jmp .L144
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L145
+	jz .L161
 	mov rax, 2
 	push rax
 	lea rax, [rbp-16]
@@ -3887,76 +4149,8 @@ jmp .L144
 	call r13
 	add rsp, 8
 	pop r13
-.L145: ; if
-.L144: ; else
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+1157]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, primary
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	mov rax, whitespace
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+1168]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+1183]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, [rbp-16]
-	push rax
-	mov rax, 2
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L147
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+1193]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-jmp .L148
-.L147: ; if
+.L161: ; if
+.L160: ; else
 	mov rax, emits
 	push r13
 	mov r13, rax
@@ -3967,28 +4161,32 @@ jmp .L148
 	call r13
 	pop rdi
 	pop r13
-	mov rax, [rbp-16]
-	push rax
-	mov rax, 1
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L149
+	mov rax, primary
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	mov rax, whitespace
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1222]
+	lea rax, [abs string+1218]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
-jmp .L150
-.L149: ; if
 	mov rax, emits
 	push r13
 	mov r13, rax
@@ -3999,8 +4197,16 @@ jmp .L150
 	call r13
 	pop rdi
 	pop r13
-.L150: ; else
-.L148: ; else
+	mov rax, [rbp-16]
+	push rax
+	mov rax, 2
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L163
 	mov rax, emits
 	push r13
 	mov r13, rax
@@ -4011,8 +4217,64 @@ jmp .L150
 	call r13
 	pop rdi
 	pop r13
-jmp .L151
-.L142: ; if
+jmp .L164
+.L163: ; if
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+1257]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	mov rax, [rbp-16]
+	push rax
+	mov rax, 1
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L165
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+1272]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+jmp .L166
+.L165: ; if
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+1283]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+.L166: ; else
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+1293]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+.L164: ; else
+jmp .L167
+.L158: ; if
 	mov rax, [rbp-8]
 	push rax
 	mov rax, 62
@@ -4022,7 +4284,7 @@ jmp .L151
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L152
+	jz .L168
 	mov rax, next
 	push r13
 	mov r13, rax
@@ -4053,7 +4315,7 @@ jmp .L151
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L153
+	jz .L169
 	mov rax, 1
 	push rax
 	lea rax, [rbp-16]
@@ -4068,8 +4330,8 @@ jmp .L151
 	call r13
 	add rsp, 8
 	pop r13
-jmp .L154
-.L153: ; if
+jmp .L170
+.L169: ; if
 	mov rax, peek
 	push r13
 	mov r13, rax
@@ -4086,7 +4348,7 @@ jmp .L154
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L155
+	jz .L171
 	mov rax, 2
 	push rax
 	lea rax, [rbp-16]
@@ -4101,12 +4363,12 @@ jmp .L154
 	call r13
 	add rsp, 8
 	pop r13
-.L155: ; if
-.L154: ; else
+.L171: ; if
+.L170: ; else
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1259]
+	lea rax, [abs string+1309]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4132,7 +4394,7 @@ jmp .L154
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1270]
+	lea rax, [abs string+1320]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4142,7 +4404,7 @@ jmp .L154
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1285]
+	lea rax, [abs string+1335]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4158,23 +4420,23 @@ jmp .L154
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L157
+	jz .L173
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1295]
+	lea rax, [abs string+1345]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
-jmp .L158
-.L157: ; if
+jmp .L174
+.L173: ; if
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1309]
+	lea rax, [abs string+1359]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4190,58 +4452,58 @@ jmp .L158
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L159
+	jz .L175
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1324]
+	lea rax, [abs string+1374]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
-jmp .L160
-.L159: ; if
+jmp .L176
+.L175: ; if
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1335]
+	lea rax, [abs string+1385]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
-.L160: ; else
-.L158: ; else
+.L176: ; else
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1345]
+	lea rax, [abs string+1395]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
-jmp .L161
-.L152: ; if
-	jmp .L121 ; break
-.L161: ; else
+.L174: ; else
+jmp .L177
+.L168: ; if
+	jmp .L137 ; break
+.L177: ; else
+.L167: ; else
+.L157: ; else
+.L155: ; else
+.L153: ; else
 .L151: ; else
+.L149: ; else
+.L147: ; else
+.L145: ; else
+.L143: ; else
 .L141: ; else
 .L139: ; else
-.L137: ; else
-.L135: ; else
-.L133: ; else
-.L131: ; else
-.L129: ; else
-.L127: ; else
-.L125: ; else
-.L123: ; else
-jmp .L120
-.L121: ; while break
+jmp .L136
+.L137: ; while break
 	mov rax, whitespace
 	push r13
 	mov r13, rax
@@ -4272,7 +4534,7 @@ jmp .L120
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L162
+	jz .L178
 	mov rax, next
 	push r13
 	mov r13, rax
@@ -4284,7 +4546,7 @@ jmp .L120
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1361]
+	lea rax, [abs string+1411]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4302,7 +4564,7 @@ jmp .L120
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1372]
+	lea rax, [abs string+1422]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4312,7 +4574,7 @@ jmp .L120
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1382]
+	lea rax, [abs string+1432]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4322,14 +4584,14 @@ jmp .L120
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1399]
+	lea rax, [abs string+1449]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
-.L162: ; if
+.L178: ; if
 	leave
 	ret
 section .bss
@@ -4377,11 +4639,11 @@ tryword:
 	setne al
 	movzx rax, al
 	test rax, rax
-	jz .L164
+	jz .L180
 	mov rax, 0
 	leave
 	ret
-.L164: ; if
+.L180: ; if
 	mov rax, [rbp-24]
 	push rax
 	mov rax, 1
@@ -4401,7 +4663,7 @@ tryword:
 	call r13
 	add rsp, 8
 	pop r13
-.L166: ; while continue
+.L182: ; while continue
 	mov rax, Blchar
 	push r13
 	mov r13, rax
@@ -4413,7 +4675,7 @@ tryword:
 	pop rdi
 	pop r13
 	test rax, rax
-	jz .L167
+	jz .L183
 	mov rax, peek
 	push r13
 	mov r13, rax
@@ -4445,14 +4707,14 @@ tryword:
 	setne al
 	movzx rax, al
 	test rax, rax
-	jz .L168
+	jz .L184
 	mov rax, [rbp-8]
 	push rax
 	lea rax, [rbp-32]
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-.L169: ; while continue
+.L185: ; while continue
 	mov rax, [rbp-32]
 	push rax
 	mov rax, [rbp-24]
@@ -4462,7 +4724,7 @@ tryword:
 	setb al
 	movzx rax, al
 	test rax, rax
-	jz .L170
+	jz .L186
 	mov rax, push
 	push r13
 	mov r13, rax
@@ -4485,8 +4747,8 @@ tryword:
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-jmp .L169
-.L170: ; while break
+jmp .L185
+.L186: ; while break
 	mov rax, push
 	push r13
 	mov r13, rax
@@ -4508,7 +4770,7 @@ jmp .L169
 	mov rax, 0
 	leave
 	ret
-.L168: ; if
+.L184: ; if
 	mov rax, [rbp-24]
 	push rax
 	mov rax, 1
@@ -4528,8 +4790,8 @@ jmp .L169
 	call r13
 	add rsp, 8
 	pop r13
-jmp .L166
-.L167: ; while break
+jmp .L182
+.L183: ; while break
 	mov rax, peek
 	push r13
 	mov r13, rax
@@ -4554,14 +4816,14 @@ jmp .L166
 	pop rdi
 	pop r13
 	test rax, rax
-	jz .L172
+	jz .L188
 	mov rax, [rbp-8]
 	push rax
 	lea rax, [rbp-32]
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-.L173: ; while continue
+.L189: ; while continue
 	mov rax, [rbp-32]
 	push rax
 	mov rax, [rbp-24]
@@ -4571,7 +4833,7 @@ jmp .L166
 	setb al
 	movzx rax, al
 	test rax, rax
-	jz .L174
+	jz .L190
 	mov rax, push
 	push r13
 	mov r13, rax
@@ -4594,8 +4856,8 @@ jmp .L166
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-jmp .L173
-.L174: ; while break
+jmp .L189
+.L190: ; while break
 	mov rax, push
 	push r13
 	mov r13, rax
@@ -4617,7 +4879,7 @@ jmp .L173
 	mov rax, 0
 	leave
 	ret
-.L172: ; if
+.L188: ; if
 	mov rax, whitespace
 	push r13
 	mov r13, rax
@@ -4665,7 +4927,7 @@ stmt:
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L176
+	jz .L192
 	mov rax, next
 	push r13
 	mov r13, rax
@@ -4682,7 +4944,7 @@ stmt:
 	call r13
 	add rsp, 8
 	pop r13
-.L177: ; while continue
+.L193: ; while continue
 	mov rax, peek
 	push r13
 	mov r13, rax
@@ -4699,7 +4961,7 @@ stmt:
 	setne al
 	movzx rax, al
 	test rax, rax
-	jz .L178
+	jz .L194
 	mov rax, stmt
 	push r13
 	mov r13, rax
@@ -4716,8 +4978,8 @@ stmt:
 	call r13
 	add rsp, 8
 	pop r13
-jmp .L177
-.L178: ; while break
+jmp .L193
+.L194: ; while break
 	mov rax, next
 	push r13
 	mov r13, rax
@@ -4729,12 +4991,12 @@ jmp .L177
 	mov rax, 0
 	leave
 	ret
-jmp .L179
-.L176: ; if
+jmp .L195
+.L192: ; if
 	mov rax, tryword
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1414]
+	lea rax, [abs string+1464]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4742,11 +5004,11 @@ jmp .L179
 	pop rdi
 	pop r13
 	test rax, rax
-	jz .L180
+	jz .L196
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1423]
+	lea rax, [abs string+1473]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4767,7 +5029,7 @@ jmp .L179
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1431]
+	lea rax, [abs string+1481]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4787,12 +5049,12 @@ jmp .L179
 	mov rax, 0
 	leave
 	ret
-jmp .L181
-.L180: ; if
+jmp .L197
+.L196: ; if
 	mov rax, tryword
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1444]
+	lea rax, [abs string+1494]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4800,11 +5062,11 @@ jmp .L181
 	pop rdi
 	pop r13
 	test rax, rax
-	jz .L182
+	jz .L198
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1450]
+	lea rax, [abs string+1500]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4825,7 +5087,7 @@ jmp .L181
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1458]
+	lea rax, [abs string+1508]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4845,12 +5107,12 @@ jmp .L181
 	mov rax, 0
 	leave
 	ret
-jmp .L183
-.L182: ; if
+jmp .L199
+.L198: ; if
 	mov rax, tryword
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1468]
+	lea rax, [abs string+1518]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4858,7 +5120,7 @@ jmp .L183
 	pop rdi
 	pop r13
 	test rax, rax
-	jz .L184
+	jz .L200
 	mov rax, continueaddress
 	mov rax, [rax]
 	push rax
@@ -4919,7 +5181,7 @@ jmp .L183
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1474]
+	lea rax, [abs string+1524]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4939,7 +5201,7 @@ jmp .L183
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1477]
+	lea rax, [abs string+1527]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4957,7 +5219,7 @@ jmp .L183
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1497]
+	lea rax, [abs string+1547]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4967,7 +5229,7 @@ jmp .L183
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1513]
+	lea rax, [abs string+1563]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -5005,7 +5267,7 @@ jmp .L183
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1520]
+	lea rax, [abs string+1570]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -5035,7 +5297,7 @@ jmp .L183
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1527]
+	lea rax, [abs string+1577]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -5055,7 +5317,7 @@ jmp .L183
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1530]
+	lea rax, [abs string+1580]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -5077,12 +5339,12 @@ jmp .L183
 	mov rax, 0
 	leave
 	ret
-jmp .L185
-.L184: ; if
+jmp .L201
+.L200: ; if
 	mov rax, tryword
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1547]
+	lea rax, [abs string+1597]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -5090,7 +5352,7 @@ jmp .L185
 	pop rdi
 	pop r13
 	test rax, rax
-	jz .L186
+	jz .L202
 	mov rax, expr
 	push r13
 	mov r13, rax
@@ -5102,7 +5364,7 @@ jmp .L185
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1554]
+	lea rax, [abs string+1604]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -5112,7 +5374,7 @@ jmp .L185
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1562]
+	lea rax, [abs string+1612]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -5140,12 +5402,12 @@ jmp .L185
 	mov rax, 0
 	leave
 	ret
-jmp .L187
-.L186: ; if
+jmp .L203
+.L202: ; if
 	mov rax, tryword
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1568]
+	lea rax, [abs string+1618]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -5153,7 +5415,7 @@ jmp .L187
 	pop rdi
 	pop r13
 	test rax, rax
-	jz .L188
+	jz .L204
 	mov rax, addrcounter
 	mov rax, [rax]
 	push rax
@@ -5184,7 +5446,7 @@ jmp .L187
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1571]
+	lea rax, [abs string+1621]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -5194,7 +5456,7 @@ jmp .L187
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1587]
+	lea rax, [abs string+1637]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -5253,7 +5515,7 @@ jmp .L187
 	mov rax, tryword
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1594]
+	lea rax, [abs string+1644]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -5286,11 +5548,11 @@ jmp .L187
 	mov rax, rcx
 	mov rax, [rbp-32]
 	test rax, rax
-	jz .L189
+	jz .L205
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1599]
+	lea rax, [abs string+1649]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -5317,11 +5579,11 @@ jmp .L187
 	call r13
 	pop rdi
 	pop r13
-.L189: ; if
+.L205: ; if
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1606]
+	lea rax, [abs string+1656]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -5341,7 +5603,7 @@ jmp .L187
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1609]
+	lea rax, [abs string+1659]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -5350,7 +5612,7 @@ jmp .L187
 	pop r13
 	mov rax, [rbp-32]
 	test rax, rax
-	jz .L191
+	jz .L207
 	mov rax, stmt
 	push r13
 	mov r13, rax
@@ -5362,7 +5624,7 @@ jmp .L187
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1617]
+	lea rax, [abs string+1667]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -5382,23 +5644,23 @@ jmp .L187
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1620]
+	lea rax, [abs string+1670]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
-.L191: ; if
+.L207: ; if
 	mov rax, 0
 	leave
 	ret
-.L188: ; if
-.L187: ; else
-.L185: ; else
-.L183: ; else
-.L181: ; else
-.L179: ; else
+.L204: ; if
+.L203: ; else
+.L201: ; else
+.L199: ; else
+.L197: ; else
+.L195: ; else
 	mov rax, expr
 	push r13
 	mov r13, rax
@@ -5431,10 +5693,10 @@ top:
 	push rbp
 	mov rbp, rsp
 	sub rsp, 64
-.L194: ; while continue
+.L210: ; while continue
 	mov rax, 1
 	test rax, rax
-	jz .L195
+	jz .L211
 	mov rax, whitespace
 	push r13
 	mov r13, rax
@@ -5467,14 +5729,14 @@ top:
 	pop rdi
 	pop r13
 	test rax, rax
-	jz .L196
+	jz .L212
 	mov rax, 0
 	push rax
 	lea rax, [rbp-16]
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-.L197: ; while continue
+.L213: ; while continue
 	mov rax, isalnum
 	push r13
 	mov r13, rax
@@ -5486,7 +5748,7 @@ top:
 	pop rdi
 	pop r13
 	test rax, rax
-	jz .L198
+	jz .L214
 	mov rax, Bschar
 	push r13
 	mov r13, rax
@@ -5532,8 +5794,8 @@ top:
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-jmp .L197
-.L198: ; while break
+jmp .L213
+.L214: ; while break
 	mov rax, Bschar
 	push r13
 	mov r13, rax
@@ -5561,7 +5823,7 @@ jmp .L197
 	mov rax, namebuffer
 	push rdi
 	mov rdi, rax
-	lea rax, [abs string+1630]
+	lea rax, [abs string+1680]
 	push rsi
 	mov rsi, rax
 	push 0
@@ -5573,377 +5835,6 @@ jmp .L197
 	pop r13
 	push rax
 	mov rax, 0
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L199
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+1637]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, whitespace
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	mov rax, peek
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-.L200: ; while continue
-	mov rax, isalnum
-	push r13
-	mov r13, rax
-	mov rax, [rbp-8]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	test rax, rax
-	jz .L201
-	mov rax, emit
-	push r13
-	mov r13, rax
-	mov rax, [rbp-8]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-jmp .L200
-.L201: ; while break
-	mov rax, emit
-	push r13
-	mov r13, rax
-	mov rax, 10
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-jmp .L202
-.L199: ; if
-	mov rax, strcmp
-	push r13
-	mov r13, rax
-	mov rax, namebuffer
-	push rdi
-	mov rdi, rax
-	lea rax, [abs string+1645]
-	push rsi
-	mov rsi, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop rsi
-	pop rdi
-	pop r13
-	push rax
-	mov rax, 0
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L203
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+1652]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, whitespace
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	mov rax, peek
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-.L204: ; while continue
-	mov rax, isalnum
-	push r13
-	mov r13, rax
-	mov rax, [rbp-8]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	test rax, rax
-	jz .L205
-	mov rax, emit
-	push r13
-	mov r13, rax
-	mov rax, [rbp-8]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-jmp .L204
-.L205: ; while break
-	mov rax, emit
-	push r13
-	mov r13, rax
-	mov rax, 10
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-jmp .L206
-.L203: ; if
-	mov rax, strcmp
-	push r13
-	mov r13, rax
-	mov rax, namebuffer
-	push rdi
-	mov rdi, rax
-	lea rax, [abs string+1660]
-	push rsi
-	mov rsi, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop rsi
-	pop rdi
-	pop r13
-	push rax
-	mov rax, 0
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L207
-	mov rax, 0
-	push rax
-	lea rax, [rbp-16]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-	mov rax, whitespace
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	mov rax, expect
-	push r13
-	mov r13, rax
-	mov rax, 34
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-.L208: ; while continue
-	mov rax, peek
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-	push rax
-	mov rax, 34
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	setne al
-	movzx rax, al
-	test rax, rax
-	jz .L209
-	mov rax, peek
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-	mov rax, [rbp-8]
-	push rax
-	mov rax, 92
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L210
-	mov rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-	mov rax, [rbp-8]
-	push rax
-	mov rax, 110
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L211
-	mov rax, Bschar
-	push r13
-	mov r13, rax
-	mov rax, namebuffer
-	push rax
-	mov rax, [rbp-16]
-	mov rcx, rax
-	pop rax
-	add rax, rcx
-	push rdi
-	mov rdi, rax
-	mov rax, 10
-	push rsi
-	mov rsi, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop rsi
-	pop rdi
-	pop r13
-jmp .L212
-.L211: ; if
-	mov rax, [rbp-8]
-	push rax
-	mov rax, 116
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L213
-	mov rax, Bschar
-	push r13
-	mov r13, rax
-	mov rax, namebuffer
-	push rax
-	mov rax, [rbp-16]
-	mov rcx, rax
-	pop rax
-	add rax, rcx
-	push rdi
-	mov rdi, rax
-	mov rax, 9
-	push rsi
-	mov rsi, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop rsi
-	pop rdi
-	pop r13
-jmp .L214
-.L213: ; if
-	mov rax, [rbp-8]
-	push rax
-	mov rax, 92
 	mov rcx, rax
 	pop rax
 	cmp rax, rcx
@@ -5951,140 +5842,60 @@ jmp .L214
 	movzx rax, al
 	test rax, rax
 	jz .L215
-	mov rax, Bschar
+	mov rax, emits
 	push r13
 	mov r13, rax
-	mov rax, namebuffer
-	push rax
-	mov rax, [rbp-16]
-	mov rcx, rax
-	pop rax
-	add rax, rcx
+	lea rax, [abs string+1687]
 	push rdi
 	mov rdi, rax
-	mov rax, 92
-	push rsi
-	mov rsi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	mov rax, whitespace
+	push r13
+	mov r13, rax
 	push 0
 	xor rax, rax
 	call r13
 	add rsp, 8
-	pop rsi
-	pop rdi
 	pop r13
-jmp .L216
-.L215: ; if
-	mov rax, [rbp-8]
-	push rax
-	mov rax, 34
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L217
-	mov rax, Bschar
+	mov rax, peek
 	push r13
 	mov r13, rax
-	mov rax, namebuffer
-	push rax
-	mov rax, [rbp-16]
-	mov rcx, rax
-	pop rax
-	add rax, rcx
-	push rdi
-	mov rdi, rax
-	mov rax, 34
-	push rsi
-	mov rsi, rax
 	push 0
 	xor rax, rax
 	call r13
 	add rsp, 8
-	pop rsi
-	pop rdi
 	pop r13
-jmp .L218
-.L217: ; if
-	mov rax, fprintf
-	push r13
-	mov r13, rax
-	mov rax, stderr
-	mov rax, [rax]
-	push rdi
-	mov rdi, rax
-	lea rax, [abs string+1667]
-	push rsi
-	mov rsi, rax
-	mov rax, [rbp-8]
-	push rdx
-	mov rdx, rax
-	xor rax, rax
-	call r13
-	pop rdx
-	pop rsi
-	pop rdi
-	pop r13
-	mov rax, exit
-	push r13
-	mov r13, rax
-	mov rax, 1
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-.L218: ; else
-.L216: ; else
-.L214: ; else
-.L212: ; else
-jmp .L219
-.L210: ; if
-	mov rax, Bschar
-	push r13
-	mov r13, rax
-	mov rax, namebuffer
 	push rax
-	mov rax, [rbp-16]
-	mov rcx, rax
-	pop rax
-	add rax, rcx
-	push rdi
-	mov rdi, rax
-	mov rax, [rbp-8]
-	push rsi
-	mov rsi, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop rsi
-	pop rdi
-	pop r13
-.L219: ; else
-	mov rax, [rbp-16]
-	push rax
-	mov rax, 1
-	mov rcx, rax
-	pop rax
-	add rax, rcx
-	push rax
-	lea rax, [rbp-16]
+	lea rax, [rbp-8]
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-	mov rax, nextr
+.L216: ; while continue
+	mov rax, isalnum
 	push r13
 	mov r13, rax
-	push 0
+	mov rax, [rbp-8]
+	push rdi
+	mov rdi, rax
 	xor rax, rax
 	call r13
-	add rsp, 8
+	pop rdi
 	pop r13
-jmp .L208
-.L209: ; while break
+	test rax, rax
+	jz .L217
+	mov rax, emit
+	push r13
+	mov r13, rax
+	mov rax, [rbp-8]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
 	mov rax, next
 	push r13
 	mov r13, rax
@@ -6093,35 +5904,26 @@ jmp .L208
 	call r13
 	add rsp, 8
 	pop r13
-	mov rax, Bschar
-	push r13
-	mov r13, rax
-	mov rax, namebuffer
 	push rax
-	mov rax, [rbp-16]
-	mov rcx, rax
-	pop rax
-	add rax, rcx
-	push rdi
-	mov rdi, rax
-	mov rax, 0
-	push rsi
-	mov rsi, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop rsi
-	pop rdi
-	pop r13
-	mov rax, inputfile
-	mov rax, [rax]
-	push rax
-	lea rax, [rbp-48]
+	lea rax, [rbp-8]
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-	mov rax, fopen
+jmp .L216
+.L217: ; while break
+	mov rax, emit
+	push r13
+	mov r13, rax
+	mov rax, 10
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+jmp .L218
+.L215: ; if
+	mov rax, strcmp
 	push r13
 	mov r13, rax
 	mov rax, namebuffer
@@ -6138,33 +5940,25 @@ jmp .L208
 	pop rdi
 	pop r13
 	push rax
-	mov rax, inputfile
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-	mov rax, inputfile
-	test rax, rax
-	setz al
+	mov rax, 0
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L220
-	mov rax, fprintf
+	jz .L219
+	mov rax, emits
 	push r13
 	mov r13, rax
-	mov rax, stderr
-	mov rax, [rax]
+	lea rax, [abs string+1702]
 	push rdi
 	mov rdi, rax
-	lea rax, [abs string+1698]
-	push rsi
-	mov rsi, rax
-	mov rax, namebuffer
-	push rdx
-	mov rdx, rax
-	mov rax, strerror
-	push r13
-	mov r13, rax
-	mov rax, getErrno
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	mov rax, whitespace
 	push r13
 	mov r13, rax
 	push 0
@@ -6172,55 +5966,6 @@ jmp .L208
 	call r13
 	add rsp, 8
 	pop r13
-	mov rax, [rax]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	push rcx
-	mov rcx, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop rcx
-	pop rdx
-	pop rsi
-	pop rdi
-	pop r13
-	mov rax, 2
-	leave
-	ret
-.L220: ; if
-	mov rax, top
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	mov rax, fclose
-	push r13
-	mov r13, rax
-	mov rax, inputfile
-	mov rax, [rax]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, [rbp-48]
-	push rax
-	mov rax, inputfile
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-jmp .L222
-.L207: ; if
 	mov rax, peek
 	push r13
 	mov r13, rax
@@ -6230,14 +5975,33 @@ jmp .L222
 	add rsp, 8
 	pop r13
 	push rax
-	mov rax, 59
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
+	lea rax, [rbp-8]
+	pop rcx
+	mov [rax], rcx
+	mov rax, rcx
+.L220: ; while continue
+	mov rax, isalnum
+	push r13
+	mov r13, rax
+	mov rax, [rbp-8]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
 	test rax, rax
-	jz .L223
+	jz .L221
+	mov rax, emit
+	push r13
+	mov r13, rax
+	mov rax, [rbp-8]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
 	mov rax, next
 	push r13
 	mov r13, rax
@@ -6246,40 +6010,71 @@ jmp .L222
 	call r13
 	add rsp, 8
 	pop r13
-	mov rax, emits
+	push rax
+	lea rax, [rbp-8]
+	pop rcx
+	mov [rax], rcx
+	mov rax, rcx
+jmp .L220
+.L221: ; while break
+	mov rax, emit
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1721]
+	mov rax, 10
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
-	mov rax, emits
+jmp .L222
+.L219: ; if
+	mov rax, strcmp
 	push r13
 	mov r13, rax
 	mov rax, namebuffer
 	push rdi
 	mov rdi, rax
+	lea rax, [abs string+1710]
+	push rsi
+	mov rsi, rax
+	push 0
 	xor rax, rax
 	call r13
+	add rsp, 8
+	pop rsi
 	pop rdi
 	pop r13
-	mov rax, emits
+	push rax
+	mov rax, 0
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L223
+	mov rax, fprintf
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1735]
+	mov rax, stderr
+	mov rax, [rax]
 	push rdi
 	mov rdi, rax
+	lea rax, [abs string+1717]
+	push rsi
+	mov rsi, rax
+	push 0
 	xor rax, rax
 	call r13
+	add rsp, 8
+	pop rsi
 	pop rdi
 	pop r13
-	mov rax, emits
+	mov rax, exit
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1745]
+	mov rax, 1
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -6297,7 +6092,7 @@ jmp .L224
 	add rsp, 8
 	pop r13
 	push rax
-	mov rax, 91
+	mov rax, 59
 	mov rcx, rax
 	pop rax
 	cmp rax, rcx
@@ -6313,15 +6108,10 @@ jmp .L224
 	call r13
 	add rsp, 8
 	pop r13
-	push rax
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1760]
+	lea rax, [abs string+1758]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -6341,7 +6131,79 @@ jmp .L224
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1774]
+	lea rax, [abs string+1772]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+1782]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+jmp .L226
+.L225: ; if
+	mov rax, peek
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	push rax
+	mov rax, 91
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L227
+	mov rax, next
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	push rax
+	lea rax, [rbp-8]
+	pop rcx
+	mov [rax], rcx
+	mov rax, rcx
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+1797]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	mov rax, emits
+	push r13
+	mov r13, rax
+	mov rax, namebuffer
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+1811]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -6357,7 +6219,7 @@ jmp .L224
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L226
+	jz .L228
 	mov rax, next
 	push r13
 	mov r13, rax
@@ -6374,7 +6236,7 @@ jmp .L224
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1782]
+	lea rax, [abs string+1819]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -6390,11 +6252,11 @@ jmp .L224
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L227
+	jz .L229
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1784]
+	lea rax, [abs string+1821]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -6414,7 +6276,7 @@ jmp .L224
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-.L228: ; while continue
+.L230: ; while continue
 	mov rax, isxdigit
 	push r13
 	mov r13, rax
@@ -6426,7 +6288,7 @@ jmp .L224
 	pop rdi
 	pop r13
 	test rax, rax
-	jz .L229
+	jz .L231
 	mov rax, emit
 	push r13
 	mov r13, rax
@@ -6458,12 +6320,12 @@ jmp .L224
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-jmp .L228
-.L229: ; while break
-.L227: ; if
-jmp .L231
-.L226: ; if
-.L232: ; while continue
+jmp .L230
+.L231: ; while break
+.L229: ; if
+jmp .L233
+.L228: ; if
+.L234: ; while continue
 	mov rax, isdigit
 	push r13
 	mov r13, rax
@@ -6475,7 +6337,7 @@ jmp .L231
 	pop rdi
 	pop r13
 	test rax, rax
-	jz .L233
+	jz .L235
 	mov rax, emit
 	push r13
 	mov r13, rax
@@ -6499,9 +6361,9 @@ jmp .L231
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-jmp .L232
-.L233: ; while break
-.L231: ; else
+jmp .L234
+.L235: ; while break
+.L233: ; else
 	mov rax, expect
 	push r13
 	mov r13, rax
@@ -6525,15 +6387,15 @@ jmp .L232
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1786]
+	lea rax, [abs string+1823]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
-jmp .L234
-.L225: ; if
+jmp .L236
+.L227: ; if
 	mov rax, emits
 	push r13
 	mov r13, rax
@@ -6547,7 +6409,7 @@ jmp .L234
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1802]
+	lea rax, [abs string+1839]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -6595,7 +6457,7 @@ jmp .L234
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1805]
+	lea rax, [abs string+1842]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -6605,7 +6467,7 @@ jmp .L234
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1816]
+	lea rax, [abs string+1853]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -6618,7 +6480,7 @@ jmp .L234
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-.L235: ; while continue
+.L237: ; while continue
 	mov rax, [rbp-16]
 	push rax
 	mov rax, 6
@@ -6628,7 +6490,7 @@ jmp .L234
 	setb al
 	movzx rax, al
 	test rax, rax
-	jz .L236
+	jz .L238
 	mov rax, whitespace
 	push r13
 	mov r13, rax
@@ -6659,9 +6521,9 @@ jmp .L234
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L237
-	jmp .L236 ; break
-.L237: ; if
+	jz .L239
+	jmp .L238 ; break
+.L239: ; if
 	mov rax, isalpha
 	push r13
 	mov r13, rax
@@ -6676,7 +6538,7 @@ jmp .L234
 	setz al
 	movzx rax, al
 	test rax, rax
-	jz .L239
+	jz .L241
 	mov rax, fprintf
 	push r13
 	mov r13, rax
@@ -6684,7 +6546,7 @@ jmp .L234
 	mov rax, [rax]
 	push rdi
 	mov rdi, rax
-	lea rax, [abs string+1831]
+	lea rax, [abs string+1868]
 	push rsi
 	mov rsi, rax
 	mov rax, [rbp-8]
@@ -6706,7 +6568,7 @@ jmp .L234
 	call r13
 	pop rdi
 	pop r13
-.L239: ; if
+.L241: ; if
 	mov rax, variables
 	push rax
 	mov rax, varcnt
@@ -6741,7 +6603,7 @@ jmp .L234
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-.L241: ; while continue
+.L243: ; while continue
 	mov rax, isalnum
 	push r13
 	mov r13, rax
@@ -6753,7 +6615,7 @@ jmp .L234
 	pop rdi
 	pop r13
 	test rax, rax
-	jz .L242
+	jz .L244
 	mov rax, [rbp-8]
 	push rax
 	lea rax, [rbp-40]
@@ -6794,8 +6656,8 @@ jmp .L234
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-jmp .L241
-.L242: ; while break
+jmp .L243
+.L244: ; while break
 	mov rax, 0
 	push rax
 	lea rax, [rbp-40]
@@ -6837,7 +6699,7 @@ jmp .L241
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1852]
+	lea rax, [abs string+1889]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -6857,7 +6719,7 @@ jmp .L241
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1863]
+	lea rax, [abs string+1900]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -6881,7 +6743,7 @@ jmp .L241
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1867]
+	lea rax, [abs string+1904]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -6904,9 +6766,9 @@ jmp .L241
 	setne al
 	movzx rax, al
 	test rax, rax
-	jz .L243
-	jmp .L236 ; break
-.L243: ; if
+	jz .L245
+	jmp .L238 ; break
+.L245: ; if
 	mov rax, next
 	push r13
 	mov r13, rax
@@ -6926,8 +6788,8 @@ jmp .L241
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-jmp .L235
-.L236: ; while break
+jmp .L237
+.L238: ; while break
 	mov rax, whitespace
 	push r13
 	mov r13, rax
@@ -6946,10 +6808,10 @@ jmp .L235
 	call r13
 	pop rdi
 	pop r13
-.L245: ; while continue
+.L247: ; while continue
 	mov rax, 1
 	test rax, rax
-	jz .L246
+	jz .L248
 	mov rax, whitespace
 	push r13
 	mov r13, rax
@@ -6980,7 +6842,7 @@ jmp .L235
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L247
+	jz .L249
 	mov rax, next
 	push r13
 	mov r13, rax
@@ -6989,8 +6851,8 @@ jmp .L235
 	call r13
 	add rsp, 8
 	pop r13
-	jmp .L246 ; break
-.L247: ; if
+	jmp .L248 ; break
+.L249: ; if
 	mov rax, isalpha
 	push r13
 	mov r13, rax
@@ -7005,7 +6867,7 @@ jmp .L235
 	setz al
 	movzx rax, al
 	test rax, rax
-	jz .L249
+	jz .L251
 	mov rax, fprintf
 	push r13
 	mov r13, rax
@@ -7013,7 +6875,7 @@ jmp .L235
 	mov rax, [rax]
 	push rdi
 	mov rdi, rax
-	lea rax, [abs string+1869]
+	lea rax, [abs string+1906]
 	push rsi
 	mov rsi, rax
 	mov rax, [rbp-8]
@@ -7035,7 +6897,7 @@ jmp .L235
 	call r13
 	pop rdi
 	pop r13
-.L249: ; if
+.L251: ; if
 	mov rax, variables
 	push rax
 	mov rax, varcnt
@@ -7070,7 +6932,7 @@ jmp .L235
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-.L251: ; while continue
+.L253: ; while continue
 	mov rax, isalnum
 	push r13
 	mov r13, rax
@@ -7082,7 +6944,7 @@ jmp .L235
 	pop rdi
 	pop r13
 	test rax, rax
-	jz .L252
+	jz .L254
 	mov rax, [rbp-8]
 	push rax
 	lea rax, [rbp-40]
@@ -7123,8 +6985,8 @@ jmp .L235
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-jmp .L251
-.L252: ; while break
+jmp .L253
+.L254: ; while break
 	mov rax, 0
 	push rax
 	lea rax, [rbp-40]
@@ -7179,9 +7041,9 @@ jmp .L251
 	setne al
 	movzx rax, al
 	test rax, rax
-	jz .L253
-	jmp .L246 ; break
-.L253: ; if
+	jz .L255
+	jmp .L248 ; break
+.L255: ; if
 	mov rax, next
 	push r13
 	mov r13, rax
@@ -7190,8 +7052,8 @@ jmp .L251
 	call r13
 	add rsp, 8
 	pop r13
-jmp .L245
-.L246: ; while break
+jmp .L247
+.L248: ; while break
 	mov rax, [rbp-32]
 	push rax
 	mov rax, 8
@@ -7206,7 +7068,7 @@ jmp .L245
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1890]
+	lea rax, [abs string+1927]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -7243,7 +7105,7 @@ jmp .L245
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1901]
+	lea rax, [abs string+1938]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -7261,7 +7123,7 @@ jmp .L245
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1903]
+	lea rax, [abs string+1940]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -7271,20 +7133,20 @@ jmp .L245
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+1911]
+	lea rax, [abs string+1948]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
-.L234: ; else
+.L236: ; else
+.L226: ; else
 .L224: ; else
 .L222: ; else
-.L206: ; else
-.L202: ; else
-jmp .L255
-.L196: ; if
+.L218: ; else
+jmp .L257
+.L212: ; if
 	mov rax, [rbp-8]
 	push rax
 	mov rax, 0xFF
@@ -7294,10 +7156,10 @@ jmp .L255
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L256
-	jmp .L195 ; break
-jmp .L257
-.L256: ; if
+	jz .L258
+	jmp .L211 ; break
+jmp .L259
+.L258: ; if
 	mov rax, fprintf
 	push r13
 	mov r13, rax
@@ -7305,7 +7167,7 @@ jmp .L257
 	mov rax, [rax]
 	push rdi
 	mov rdi, rax
-	lea rax, [abs string+1917]
+	lea rax, [abs string+1954]
 	push rsi
 	mov rsi, rax
 	mov rax, [rbp-8]
@@ -7327,10 +7189,10 @@ jmp .L257
 	call r13
 	pop rdi
 	pop r13
+.L259: ; else
 .L257: ; else
-.L255: ; else
-jmp .L194
-.L195: ; while break
+jmp .L210
+.L211: ; while break
 	leave
 	ret
 usage:
@@ -7345,7 +7207,7 @@ usage:
 	mov rax, [rax]
 	push rdi
 	mov rdi, rax
-	lea rax, [abs string+1942]
+	lea rax, [abs string+1979]
 	push rsi
 	mov rsi, rax
 	mov rax, [rbp-8]
@@ -7378,7 +7240,7 @@ main:
 	mov [rbp-8], rdi
 	mov [rbp-16], rsi
 	sub rsp, 80
-	lea rax, [abs string+2002]
+	lea rax, [abs string+2039]
 	push rax
 	mov rax, ra
 	push rax
@@ -7388,7 +7250,7 @@ main:
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-	lea rax, [abs string+2006]
+	lea rax, [abs string+2043]
 	push rax
 	mov rax, ra
 	push rax
@@ -7398,7 +7260,7 @@ main:
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-	lea rax, [abs string+2010]
+	lea rax, [abs string+2047]
 	push rax
 	mov rax, ra
 	push rax
@@ -7408,7 +7270,7 @@ main:
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-	lea rax, [abs string+2014]
+	lea rax, [abs string+2051]
 	push rax
 	mov rax, ra
 	push rax
@@ -7418,7 +7280,7 @@ main:
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-	lea rax, [abs string+2018]
+	lea rax, [abs string+2055]
 	push rax
 	mov rax, ra
 	push rax
@@ -7428,7 +7290,7 @@ main:
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-	lea rax, [abs string+2021]
+	lea rax, [abs string+2058]
 	push rax
 	mov rax, ra
 	push rax
@@ -7447,7 +7309,7 @@ main:
 	setb al
 	movzx rax, al
 	test rax, rax
-	jz .L258
+	jz .L260
 	mov rax, usage
 	push r13
 	mov r13, rax
@@ -7465,87 +7327,29 @@ main:
 	mov rax, 2
 	leave
 	ret
-.L258: ; if
-	mov rax, [rbp-8]
-	push rax
-	mov rax, 1
-	mov rcx, rax
-	pop rax
-	sub rax, rcx
-	push rax
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-	mov rax, [rbp-16]
-	push rax
-	mov rax, 8
-	mov rcx, rax
-	pop rax
-	add rax, rcx
-	push rax
-	lea rax, [rbp-16]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-	mov rax, strcmp
-	push r13
-	mov r13, rax
-	mov rax, [rbp-16]
-	push rax
-	mov rax, 0
-	pop rcx
-	mov rax, [rcx+rax*8]
-	push rdi
-	mov rdi, rax
-	lea rax, [abs string+2024]
-	push rsi
-	mov rsi, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop rsi
-	pop rdi
-	pop r13
-	push rax
-	mov rax, 0
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L260
-	mov rax, [rbp-8]
-	push rax
-	mov rax, 1
-	mov rcx, rax
-	pop rax
-	sub rax, rcx
-	push rax
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-	mov rax, [rbp-16]
-	push rax
-	mov rax, 8
-	mov rcx, rax
-	pop rax
-	add rax, rcx
-	push rax
-	lea rax, [rbp-16]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-	mov rax, 1
-	push rax
-	mov rax, dooutputparse
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
 .L260: ; if
+	mov rax, [rbp-8]
+	push rax
+	mov rax, 1
+	mov rcx, rax
+	pop rax
+	sub rax, rcx
+	push rax
+	lea rax, [rbp-8]
+	pop rcx
+	mov [rax], rcx
+	mov rax, rcx
+	mov rax, [rbp-16]
+	push rax
+	mov rax, 8
+	mov rcx, rax
+	pop rax
+	add rax, rcx
+	push rax
+	lea rax, [rbp-16]
+	pop rcx
+	mov [rax], rcx
+	mov rax, rcx
 	mov rax, strcmp
 	push r13
 	mov r13, rax
@@ -7556,7 +7360,7 @@ main:
 	mov rax, [rcx+rax*8]
 	push rdi
 	mov rdi, rax
-	lea rax, [abs string+2028]
+	lea rax, [abs string+2061]
 	push rsi
 	mov rsi, rax
 	push 0
@@ -7599,11 +7403,69 @@ main:
 	mov rax, rcx
 	mov rax, 1
 	push rax
-	lea rax, [rbp-24]
+	mov rax, dooutputparse
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
 .L262: ; if
+	mov rax, strcmp
+	push r13
+	mov r13, rax
+	mov rax, [rbp-16]
+	push rax
+	mov rax, 0
+	pop rcx
+	mov rax, [rcx+rax*8]
+	push rdi
+	mov rdi, rax
+	lea rax, [abs string+2065]
+	push rsi
+	mov rsi, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop rsi
+	pop rdi
+	pop r13
+	push rax
+	mov rax, 0
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L264
+	mov rax, [rbp-8]
+	push rax
+	mov rax, 1
+	mov rcx, rax
+	pop rax
+	sub rax, rcx
+	push rax
+	lea rax, [rbp-8]
+	pop rcx
+	mov [rax], rcx
+	mov rax, rcx
+	mov rax, [rbp-16]
+	push rax
+	mov rax, 8
+	mov rcx, rax
+	pop rax
+	add rax, rcx
+	push rax
+	lea rax, [rbp-16]
+	pop rcx
+	mov [rax], rcx
+	mov rax, rcx
+	mov rax, 1
+	push rax
+	lea rax, [rbp-24]
+	pop rcx
+	mov [rax], rcx
+	mov rax, rcx
+.L264: ; if
 	mov rax, fopen
 	push r13
 	mov r13, rax
@@ -7614,7 +7476,7 @@ main:
 	mov rax, [rcx+rax*8]
 	push rdi
 	mov rdi, rax
-	lea rax, [abs string+2031]
+	lea rax, [abs string+2068]
 	push rsi
 	mov rsi, rax
 	push 0
@@ -7634,7 +7496,7 @@ main:
 	setz al
 	movzx rax, al
 	test rax, rax
-	jz .L264
+	jz .L266
 	mov rax, fprintf
 	push r13
 	mov r13, rax
@@ -7642,7 +7504,7 @@ main:
 	mov rax, [rax]
 	push rdi
 	mov rdi, rax
-	lea rax, [abs string+2034]
+	lea rax, [abs string+2071]
 	push rsi
 	mov rsi, rax
 	mov rax, [rbp-16]
@@ -7684,7 +7546,7 @@ main:
 	mov rax, 2
 	leave
 	ret
-.L264: ; if
+.L266: ; if
 	mov rax, [rbp-16]
 	push rax
 	mov rax, 1
@@ -7720,10 +7582,10 @@ main:
 	mov rax, fopen
 	push r13
 	mov r13, rax
-	lea rax, [abs string+2057]
+	lea rax, [abs string+2094]
 	push rdi
 	mov rdi, rax
-	lea rax, [abs string+2063]
+	lea rax, [abs string+2100]
 	push rsi
 	mov rsi, rax
 	push 0
@@ -7743,7 +7605,7 @@ main:
 	setz al
 	movzx rax, al
 	test rax, rax
-	jz .L266
+	jz .L268
 	mov rax, fprintf
 	push r13
 	mov r13, rax
@@ -7751,7 +7613,7 @@ main:
 	mov rax, [rax]
 	push rdi
 	mov rdi, rax
-	lea rax, [abs string+2066]
+	lea rax, [abs string+2103]
 	push rsi
 	mov rsi, rax
 	mov rax, strerror
@@ -7783,11 +7645,11 @@ main:
 	mov rax, 2
 	leave
 	ret
-.L266: ; if
+.L268: ; if
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+2092]
+	lea rax, [abs string+2129]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -7797,7 +7659,7 @@ main:
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+2117]
+	lea rax, [abs string+2154]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -7807,7 +7669,7 @@ main:
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+2128]
+	lea rax, [abs string+2165]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -7817,7 +7679,7 @@ main:
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+2151]
+	lea rax, [abs string+2188]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -7827,7 +7689,7 @@ main:
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+2160]
+	lea rax, [abs string+2197]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -7837,37 +7699,7 @@ main:
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+2178]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+2196]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+2202]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	mov rax, emits
-	push r13
-	mov r13, rax
-	lea rax, [abs string+2211]
+	lea rax, [abs string+2215]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -7887,7 +7719,37 @@ main:
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+2250]
+	lea rax, [abs string+2239]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+2248]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+2270]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	mov rax, emits
+	push r13
+	mov r13, rax
+	lea rax, [abs string+2287]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -7905,7 +7767,7 @@ main:
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+2256]
+	lea rax, [abs string+2293]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -7915,7 +7777,7 @@ main:
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+2273]
+	lea rax, [abs string+2310]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -7952,7 +7814,7 @@ main:
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-.L268: ; while continue
+.L270: ; while continue
 	mov rax, [rbp-40]
 	push rax
 	mov rax, strbufsz
@@ -7963,11 +7825,11 @@ main:
 	setb al
 	movzx rax, al
 	test rax, rax
-	jz .L269
+	jz .L271
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+2285]
+	lea rax, [abs string+2322]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -8009,12 +7871,12 @@ main:
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-jmp .L268
-.L269: ; while break
+jmp .L270
+.L271: ; while break
 	mov rax, emits
 	push r13
 	mov r13, rax
-	lea rax, [abs string+2287]
+	lea rax, [abs string+2324]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -8043,7 +7905,7 @@ jmp .L268
 	call r13
 	pop rdi
 	pop r13
-	lea rax, [abs string+2289]
+	lea rax, [abs string+2326]
 	push rax
 	mov rax, assemblerargv
 	push rax
@@ -8068,8 +7930,8 @@ jmp .L268
 	mov rax, rcx
 	mov rax, [rbp-24]
 	test rax, rax
-	jz .L270
-	lea rax, [abs string+2294]
+	jz .L272
+	lea rax, [abs string+2331]
 	push rax
 	mov rax, assemblerargv
 	push rax
@@ -8092,8 +7954,8 @@ jmp .L268
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-.L270: ; if
-	lea rax, [abs string+2297]
+.L272: ; if
+	lea rax, [abs string+2334]
 	push rax
 	mov rax, assemblerargv
 	push rax
@@ -8104,7 +7966,7 @@ jmp .L268
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-	lea rax, [abs string+2305]
+	lea rax, [abs string+2342]
 	push rax
 	mov rax, assemblerargv
 	push rax
@@ -8120,7 +7982,7 @@ jmp .L268
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-	lea rax, [abs string+2311]
+	lea rax, [abs string+2348]
 	push rax
 	mov rax, assemblerargv
 	push rax
@@ -8136,7 +7998,7 @@ jmp .L268
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-	lea rax, [abs string+2314]
+	lea rax, [abs string+2351]
 	push rax
 	mov rax, assemblerargv
 	push rax
@@ -8168,7 +8030,7 @@ jmp .L268
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-	lea rax, [abs string+2320]
+	lea rax, [abs string+2357]
 	push rax
 	mov rax, linkerargv
 	push rax
@@ -8179,7 +8041,7 @@ jmp .L268
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-	lea rax, [abs string+2323]
+	lea rax, [abs string+2360]
 	push rax
 	mov rax, linkerargv
 	push rax
@@ -8195,7 +8057,7 @@ jmp .L268
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-	lea rax, [abs string+2331]
+	lea rax, [abs string+2368]
 	push rax
 	mov rax, linkerargv
 	push rax
@@ -8227,7 +8089,7 @@ jmp .L268
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-	lea rax, [abs string+2334]
+	lea rax, [abs string+2371]
 	push rax
 	mov rax, linkerargv
 	push rax
@@ -8255,10 +8117,10 @@ jmp .L268
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-.L272: ; while continue
+.L274: ; while continue
 	mov rax, [rbp-8]
 	test rax, rax
-	jz .L273
+	jz .L275
 	mov rax, [rbp-16]
 	push rax
 	mov rax, 0
@@ -8308,8 +8170,8 @@ jmp .L268
 	pop rcx
 	mov [rax], rcx
 	mov rax, rcx
-jmp .L272
-.L273: ; while break
+jmp .L274
+.L275: ; while break
 	mov rax, 0
 	push rax
 	mov rax, linkerargv
@@ -8343,7 +8205,7 @@ jmp .L272
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L274
+	jz .L276
 	mov rax, fprintf
 	push r13
 	mov r13, rax
@@ -8351,7 +8213,7 @@ jmp .L272
 	mov rax, [rax]
 	push rdi
 	mov rdi, rax
-	lea rax, [abs string+2340]
+	lea rax, [abs string+2377]
 	push rsi
 	mov rsi, rax
 	push 0
@@ -8381,8 +8243,8 @@ jmp .L272
 	pop rsi
 	pop rdi
 	pop r13
-jmp .L275
-.L274: ; if
+jmp .L277
+.L276: ; if
 	mov rax, [rbp-48]
 	push rax
 	mov rax, 0
@@ -8392,11 +8254,11 @@ jmp .L275
 	setb al
 	movzx rax, al
 	test rax, rax
-	jz .L276
+	jz .L278
 	mov rax, perror
 	push r13
 	mov r13, rax
-	lea rax, [abs string+2361]
+	lea rax, [abs string+2398]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -8406,8 +8268,8 @@ jmp .L275
 	mov rax, 1
 	leave
 	ret
-.L276: ; if
-.L275: ; else
+.L278: ; if
+.L277: ; else
 	mov rax, 0
 	push rax
 	lea rax, [rbp-56]
@@ -8446,7 +8308,7 @@ jmp .L275
 	setne al
 	movzx rax, al
 	test rax, rax
-	jz .L278
+	jz .L280
 	mov rax, fprintf
 	push r13
 	mov r13, rax
@@ -8454,7 +8316,7 @@ jmp .L275
 	mov rax, [rax]
 	push rdi
 	mov rdi, rax
-	lea rax, [abs string+2366]
+	lea rax, [abs string+2403]
 	push rsi
 	mov rsi, rax
 	mov rax, [rbp-56]
@@ -8468,7 +8330,6 @@ jmp .L275
 	mov rcx, rax
 	pop rax
 	shr rax, cl
-	movzx rax, al
 	push rdx
 	mov rdx, rax
 	xor rax, rax
@@ -8480,7 +8341,7 @@ jmp .L275
 	mov rax, 1
 	leave
 	ret
-.L278: ; if
+.L280: ; if
 	mov rax, fork
 	push r13
 	mov r13, rax
@@ -8503,7 +8364,7 @@ jmp .L275
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L280
+	jz .L282
 	mov rax, fprintf
 	push r13
 	mov r13, rax
@@ -8511,7 +8372,7 @@ jmp .L275
 	mov rax, [rax]
 	push rdi
 	mov rdi, rax
-	lea rax, [abs string+2399]
+	lea rax, [abs string+2436]
 	push rsi
 	mov rsi, rax
 	push 0
@@ -8541,8 +8402,8 @@ jmp .L275
 	pop rsi
 	pop rdi
 	pop r13
-jmp .L281
-.L280: ; if
+jmp .L283
+.L282: ; if
 	mov rax, [rbp-48]
 	push rax
 	mov rax, 0
@@ -8552,11 +8413,11 @@ jmp .L281
 	setb al
 	movzx rax, al
 	test rax, rax
-	jz .L282
+	jz .L284
 	mov rax, perror
 	push r13
 	mov r13, rax
-	lea rax, [abs string+2417]
+	lea rax, [abs string+2454]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -8566,8 +8427,8 @@ jmp .L281
 	mov rax, 1
 	leave
 	ret
-.L282: ; if
-.L281: ; else
+.L284: ; if
+.L283: ; else
 	mov rax, 0
 	push rax
 	lea rax, [rbp-56]
@@ -8606,7 +8467,7 @@ jmp .L281
 	setne al
 	movzx rax, al
 	test rax, rax
-	jz .L284
+	jz .L286
 	mov rax, fprintf
 	push r13
 	mov r13, rax
@@ -8614,7 +8475,7 @@ jmp .L281
 	mov rax, [rax]
 	push rdi
 	mov rdi, rax
-	lea rax, [abs string+2422]
+	lea rax, [abs string+2459]
 	push rsi
 	mov rsi, rax
 	mov rax, [rbp-56]
@@ -8628,7 +8489,6 @@ jmp .L281
 	mov rcx, rax
 	pop rax
 	shr rax, cl
-	movzx rax, al
 	push rdx
 	mov rdx, rax
 	xor rax, rax
@@ -8640,9 +8500,9 @@ jmp .L281
 	mov rax, 1
 	leave
 	ret
-.L284: ; if
+.L286: ; if
 	mov rax, 0
 	leave
 	ret
 section .rodata
-string: db 37,99,0,37,99,0,37,115,0,37,122,117,0,69,120,112,101,99,116,101,100,32,37,99,32,98,117,116,32,103,111,116,32,37,99,10,0,9,108,101,97,32,114,97,120,44,32,91,114,98,112,45,0,93,10,0,9,109,111,118,32,114,97,120,44,32,0,10,0,73,110,118,97,108,105,100,32,108,101,102,116,32,101,120,112,114,101,115,115,105,111,110,58,32,39,37,99,39,10,0,9,109,111,118,32,114,97,120,44,32,91,114,97,120,93,10,0,9,112,117,115,104,32,114,97,120,10,0,9,112,111,112,32,114,99,120,10,0,9,108,101,97,32,114,97,120,44,32,91,114,99,120,43,114,97,120,42,56,93,10,0,9,109,111,118,32,114,97,120,44,32,0,48,0,120,0,10,0,9,109,111,118,32,114,97,120,44,32,91,114,98,112,45,0,93,10,0,9,109,111,118,32,114,97,120,44,32,0,10,0,9,109,111,118,32,114,97,120,44,32,91,114,97,120,93,10,0,73,110,118,97,108,105,100,32,101,115,99,97,112,101,32,99,111,100,101,58,32,39,92,37,99,39,10,0,9,109,111,118,32,114,97,120,44,32,0,10,0,73,110,118,97,108,105,100,32,101,115,99,97,112,101,32,99,111,100,101,58,32,39,92,37,99,39,10,0,9,108,101,97,32,114,97,120,44,32,91,97,98,115,32,115,116,114,105,110,103,43,0,93,10,0,9,110,101,103,32,114,97,120,10,0,9,116,101,115,116,32,114,97,120,44,32,114,97,120,10,0,9,115,101,116,122,32,97,108,10,0,9,109,111,118,122,120,32,114,97,120,44,32,97,108,10,0,73,110,118,97,108,105,100,32,112,114,105,109,97,114,121,32,101,120,112,114,101,115,115,105,111,110,58,32,39,37,99,39,10,0,9,112,117,115,104,32,114,49,51,10,0,9,109,111,118,32,114,49,51,44,32,114,97,120,10,0,9,112,117,115,104,32,0,10,9,109,111,118,32,0,44,32,114,97,120,10,0,9,112,117,115,104,32,48,10,0,9,120,111,114,32,114,97,120,44,32,114,97,120,10,0,9,99,97,108,108,32,114,49,51,10,0,9,97,100,100,32,114,115,112,44,32,56,10,0,9,112,111,112,32,0,10,0,9,112,111,112,32,114,49,51,10,0,9,112,117,115,104,32,114,97,120,10,0,9,112,111,112,32,114,99,120,10,0,9,109,111,118,32,114,97,120,44,32,91,114,99,120,43,114,97,120,42,56,93,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,97,100,100,32,114,97,120,44,32,114,99,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,115,117,98,32,114,97,120,44,32,114,99,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,97,110,100,32,114,97,120,44,32,114,99,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,111,114,32,114,97,120,44,32,114,99,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,120,111,114,32,114,97,120,44,32,114,99,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,109,117,108,32,114,99,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,120,111,114,32,114,100,120,44,32,114,100,120,10,0,9,100,105,118,32,114,99,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,120,111,114,32,114,100,120,44,32,114,100,120,10,0,9,100,105,118,32,114,99,120,10,0,9,109,111,118,32,114,97,120,44,32,114,100,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,99,109,112,32,114,97,120,44,32,114,99,120,10,0,9,115,101,116,101,32,97,108,10,0,9,109,111,118,122,120,32,114,97,120,44,32,97,108,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,99,109,112,32,114,97,120,44,32,114,99,120,10,0,9,115,101,116,110,101,32,97,108,10,0,9,109,111,118,122,120,32,114,97,120,44,32,97,108,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,115,104,108,32,114,97,120,44,32,99,108,10,0,9,99,109,112,32,114,97,120,44,32,114,99,120,10,0,9,115,101,116,98,101,32,97,108,10,0,9,115,101,116,98,32,97,108,10,0,9,109,111,118,122,120,32,114,97,120,44,32,97,108,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,115,104,114,32,114,97,120,44,32,99,108,10,0,9,99,109,112,32,114,97,120,44,32,114,99,120,10,0,9,115,101,116,97,101,32,97,108,10,0,9,115,101,116,97,32,97,108,10,0,9,109,111,118,122,120,32,114,97,120,44,32,97,108,10,0,9,112,117,115,104,32,114,97,120,10,0,9,112,111,112,32,114,99,120,10,0,9,109,111,118,32,91,114,97,120,93,44,32,114,99,120,10,0,9,109,111,118,32,114,97,120,44,32,114,99,120,10,0,99,111,110,116,105,110,117,101,0,9,106,109,112,32,46,76,0,32,59,32,99,111,110,116,105,110,117,101,10,0,98,114,101,97,107,0,9,106,109,112,32,46,76,0,32,59,32,98,114,101,97,107,10,0,119,104,105,108,101,0,46,76,0,58,32,59,32,119,104,105,108,101,32,99,111,110,116,105,110,117,101,10,0,9,116,101,115,116,32,114,97,120,44,32,114,97,120,10,0,9,106,122,32,46,76,0,106,109,112,32,46,76,0,46,76,0,58,32,59,32,119,104,105,108,101,32,98,114,101,97,107,10,0,114,101,116,117,114,110,0,9,108,101,97,118,101,10,0,9,114,101,116,10,0,105,102,0,9,116,101,115,116,32,114,97,120,44,32,114,97,120,10,0,9,106,122,32,46,76,0,101,108,115,101,0,106,109,112,32,46,76,0,46,76,0,58,32,59,32,105,102,10,0,46,76,0,58,32,59,32,101,108,115,101,10,0,103,108,111,98,97,108,0,103,108,111,98,97,108,32,0,101,120,116,101,114,110,0,101,120,116,101,114,110,32,0,105,109,112,111,114,116,0,73,110,118,97,108,105,100,32,101,115,99,97,112,101,32,99,111,100,101,58,32,39,92,37,99,39,10,0,114,98,0,70,97,105,108,101,100,32,116,111,32,111,112,101,110,58,32,37,115,58,32,37,115,0,115,101,99,116,105,111,110,32,46,98,115,115,10,0,58,32,114,101,115,113,32,49,10,0,115,101,99,116,105,111,110,32,46,116,101,120,116,10,0,115,101,99,116,105,111,110,32,46,98,115,115,10,0,58,32,114,101,115,113,32,0,48,0,120,0,10,115,101,99,116,105,111,110,32,46,116,101,120,116,10,0,58,10,0,9,112,117,115,104,32,114,98,112,10,0,9,109,111,118,32,114,98,112,44,32,114,115,112,10,0,66,97,100,32,99,104,97,114,97,99,116,101,114,58,32,39,37,99,39,10,0,9,109,111,118,32,91,114,98,112,45,0,93,44,32,0,10,0,66,97,100,32,99,104,97,114,97,99,116,101,114,58,32,39,37,99,39,10,0,9,115,117,98,32,114,115,112,44,32,0,10,0,9,108,101,97,118,101,10,0,9,114,101,116,10,0,73,110,118,97,108,105,100,32,115,116,97,116,101,109,101,110,116,58,32,39,37,99,39,10,0,85,115,97,103,101,58,32,37,115,32,91,45,112,112,93,32,91,45,103,93,32,105,110,112,117,116,45,99,111,100,101,32,111,117,116,112,117,116,45,102,105,108,101,32,91,108,105,110,107,101,114,32,102,108,97,103,115,93,10,0,114,100,105,0,114,115,105,0,114,100,120,0,114,99,120,0,114,56,0,114,57,0,45,112,112,0,45,103,0,114,98,0,70,97,105,108,101,100,32,116,111,32,111,112,101,110,58,32,37,115,58,32,37,115,0,111,117,116,46,115,0,119,98,0,70,97,105,108,101,100,32,116,111,32,111,112,101,110,58,32,111,117,116,46,115,58,32,37,115,0,101,120,116,101,114,110,32,95,95,101,114,114,110,111,95,108,111,99,97,116,105,111,110,10,0,103,101,116,69,114,114,110,111,58,10,0,9,106,109,112,32,95,95,101,114,114,110,111,95,108,111,99,97,116,105,111,110,10,0,66,108,99,104,97,114,58,10,0,9,109,111,118,32,114,49,48,98,44,32,91,114,100,105,93,10,0,9,109,111,118,122,120,32,114,97,120,44,32,114,49,48,98,10,0,9,114,101,116,10,0,66,115,99,104,97,114,58,10,0,9,109,111,118,32,98,121,116,101,32,91,114,100,105,93,44,32,115,105,108,10,0,9,109,111,118,122,120,32,114,97,120,44,32,115,105,108,10,0,9,114,101,116,10,0,115,101,99,116,105,111,110,32,46,114,111,100,97,116,97,10,0,115,116,114,105,110,103,58,32,100,98,32,0,44,0,10,0,110,97,115,109,0,45,103,0,45,102,69,76,70,54,52,0,111,117,116,46,115,0,45,111,0,111,117,116,46,111,0,99,99,0,45,110,111,45,112,105,101,0,45,111,0,111,117,116,46,111,0,83,116,97,114,116,105,110,103,32,97,115,115,101,109,98,108,105,110,103,10,0,102,111,114,107,0,65,115,115,101,109,98,108,101,114,32,101,120,105,116,101,100,32,97,98,110,111,114,109,97,108,108,121,58,32,37,100,10,0,83,116,97,114,116,105,110,103,32,108,105,110,107,105,110,103,10,0,102,111,114,107,0,76,105,110,107,101,114,32,101,120,105,116,101,100,32,97,98,110,111,114,109,97,108,108,121,58,32,37,100,10,0
+string: db 37,99,0,37,99,0,37,115,0,37,122,117,0,69,120,112,101,99,116,101,100,32,37,99,32,98,117,116,32,103,111,116,32,37,99,10,0,9,108,101,97,32,114,97,120,44,32,91,114,98,112,45,0,93,10,0,9,109,111,118,32,114,97,120,44,32,0,10,0,73,110,118,97,108,105,100,32,108,101,102,116,32,101,120,112,114,101,115,115,105,111,110,58,32,39,37,99,39,10,0,9,109,111,118,32,114,97,120,44,32,91,114,97,120,93,10,0,9,112,117,115,104,32,114,97,120,10,0,9,112,111,112,32,114,99,120,10,0,9,108,101,97,32,114,97,120,44,32,91,114,99,120,43,114,97,120,42,56,93,10,0,73,110,118,97,108,105,100,32,104,101,120,97,100,101,99,105,109,97,108,32,100,105,103,105,116,58,32,39,92,37,99,39,10,0,73,110,118,97,108,105,100,32,104,101,120,97,100,101,99,105,109,97,108,32,100,105,103,105,116,58,32,39,92,37,99,39,10,0,73,110,118,97,108,105,100,32,101,115,99,97,112,101,32,99,111,100,101,58,32,39,92,37,99,39,10,0,9,109,111,118,32,114,97,120,44,32,0,48,0,120,0,10,0,9,109,111,118,32,114,97,120,44,32,91,114,98,112,45,0,93,10,0,9,109,111,118,32,114,97,120,44,32,0,10,0,9,109,111,118,32,114,97,120,44,32,91,114,97,120,93,10,0,9,110,111,116,32,114,97,120,10,0,9,109,111,118,32,114,97,120,44,32,0,10,0,9,108,101,97,32,114,97,120,44,32,91,97,98,115,32,115,116,114,105,110,103,43,0,93,10,0,9,110,101,103,32,114,97,120,10,0,9,116,101,115,116,32,114,97,120,44,32,114,97,120,10,0,9,115,101,116,122,32,97,108,10,0,9,109,111,118,122,120,32,114,97,120,44,32,97,108,10,0,73,110,118,97,108,105,100,32,112,114,105,109,97,114,121,32,101,120,112,114,101,115,115,105,111,110,58,32,39,37,99,39,10,0,9,112,117,115,104,32,114,49,51,10,0,9,109,111,118,32,114,49,51,44,32,114,97,120,10,0,9,112,117,115,104,32,0,10,9,109,111,118,32,0,44,32,114,97,120,10,0,9,112,117,115,104,32,48,10,0,9,120,111,114,32,114,97,120,44,32,114,97,120,10,0,9,99,97,108,108,32,114,49,51,10,0,9,97,100,100,32,114,115,112,44,32,56,10,0,9,112,111,112,32,0,10,0,9,112,111,112,32,114,49,51,10,0,9,112,117,115,104,32,114,97,120,10,0,9,112,111,112,32,114,99,120,10,0,9,109,111,118,32,114,97,120,44,32,91,114,99,120,43,114,97,120,42,56,93,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,97,100,100,32,114,97,120,44,32,114,99,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,115,117,98,32,114,97,120,44,32,114,99,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,97,110,100,32,114,97,120,44,32,114,99,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,111,114,32,114,97,120,44,32,114,99,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,120,111,114,32,114,97,120,44,32,114,99,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,109,117,108,32,114,99,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,120,111,114,32,114,100,120,44,32,114,100,120,10,0,9,100,105,118,32,114,99,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,120,111,114,32,114,100,120,44,32,114,100,120,10,0,9,100,105,118,32,114,99,120,10,0,9,109,111,118,32,114,97,120,44,32,114,100,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,99,109,112,32,114,97,120,44,32,114,99,120,10,0,9,115,101,116,101,32,97,108,10,0,9,109,111,118,122,120,32,114,97,120,44,32,97,108,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,99,109,112,32,114,97,120,44,32,114,99,120,10,0,9,115,101,116,110,101,32,97,108,10,0,9,109,111,118,122,120,32,114,97,120,44,32,97,108,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,115,104,108,32,114,97,120,44,32,99,108,10,0,9,99,109,112,32,114,97,120,44,32,114,99,120,10,0,9,115,101,116,98,101,32,97,108,10,0,9,115,101,116,98,32,97,108,10,0,9,109,111,118,122,120,32,114,97,120,44,32,97,108,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,115,104,114,32,114,97,120,44,32,99,108,10,0,9,99,109,112,32,114,97,120,44,32,114,99,120,10,0,9,115,101,116,97,101,32,97,108,10,0,9,115,101,116,97,32,97,108,10,0,9,109,111,118,122,120,32,114,97,120,44,32,97,108,10,0,9,112,117,115,104,32,114,97,120,10,0,9,112,111,112,32,114,99,120,10,0,9,109,111,118,32,91,114,97,120,93,44,32,114,99,120,10,0,9,109,111,118,32,114,97,120,44,32,114,99,120,10,0,99,111,110,116,105,110,117,101,0,9,106,109,112,32,46,76,0,32,59,32,99,111,110,116,105,110,117,101,10,0,98,114,101,97,107,0,9,106,109,112,32,46,76,0,32,59,32,98,114,101,97,107,10,0,119,104,105,108,101,0,46,76,0,58,32,59,32,119,104,105,108,101,32,99,111,110,116,105,110,117,101,10,0,9,116,101,115,116,32,114,97,120,44,32,114,97,120,10,0,9,106,122,32,46,76,0,106,109,112,32,46,76,0,46,76,0,58,32,59,32,119,104,105,108,101,32,98,114,101,97,107,10,0,114,101,116,117,114,110,0,9,108,101,97,118,101,10,0,9,114,101,116,10,0,105,102,0,9,116,101,115,116,32,114,97,120,44,32,114,97,120,10,0,9,106,122,32,46,76,0,101,108,115,101,0,106,109,112,32,46,76,0,46,76,0,58,32,59,32,105,102,10,0,46,76,0,58,32,59,32,101,108,115,101,10,0,103,108,111,98,97,108,0,103,108,111,98,97,108,32,0,101,120,116,101,114,110,0,101,120,116,101,114,110,32,0,105,109,112,111,114,116,0,105,109,112,111,114,116,105,110,103,32,115,116,117,102,102,32,105,115,32,110,111,116,32,105,109,112,108,101,109,101,110,116,101,100,32,121,101,116,46,10,0,115,101,99,116,105,111,110,32,46,98,115,115,10,0,58,32,114,101,115,113,32,49,10,0,115,101,99,116,105,111,110,32,46,116,101,120,116,10,0,115,101,99,116,105,111,110,32,46,98,115,115,10,0,58,32,114,101,115,113,32,0,48,0,120,0,10,115,101,99,116,105,111,110,32,46,116,101,120,116,10,0,58,10,0,9,112,117,115,104,32,114,98,112,10,0,9,109,111,118,32,114,98,112,44,32,114,115,112,10,0,66,97,100,32,99,104,97,114,97,99,116,101,114,58,32,39,37,99,39,10,0,9,109,111,118,32,91,114,98,112,45,0,93,44,32,0,10,0,66,97,100,32,99,104,97,114,97,99,116,101,114,58,32,39,37,99,39,10,0,9,115,117,98,32,114,115,112,44,32,0,10,0,9,108,101,97,118,101,10,0,9,114,101,116,10,0,73,110,118,97,108,105,100,32,115,116,97,116,101,109,101,110,116,58,32,39,37,99,39,10,0,85,115,97,103,101,58,32,37,115,32,91,45,112,112,93,32,91,45,103,93,32,105,110,112,117,116,45,99,111,100,101,32,111,117,116,112,117,116,45,102,105,108,101,32,91,108,105,110,107,101,114,32,102,108,97,103,115,93,10,0,114,100,105,0,114,115,105,0,114,100,120,0,114,99,120,0,114,56,0,114,57,0,45,112,112,0,45,103,0,114,98,0,70,97,105,108,101,100,32,116,111,32,111,112,101,110,58,32,37,115,58,32,37,115,0,111,117,116,46,115,0,119,98,0,70,97,105,108,101,100,32,116,111,32,111,112,101,110,58,32,111,117,116,46,115,58,32,37,115,0,101,120,116,101,114,110,32,95,95,101,114,114,110,111,95,108,111,99,97,116,105,111,110,10,0,103,101,116,69,114,114,110,111,58,10,0,9,106,109,112,32,95,95,101,114,114,110,111,95,108,111,99,97,116,105,111,110,10,0,66,108,99,104,97,114,58,10,0,9,109,111,118,32,114,49,48,98,44,32,91,114,100,105,93,10,0,9,109,111,118,122,120,32,114,97,120,44,32,114,49,48,98,10,0,9,114,101,116,10,0,66,115,99,104,97,114,58,10,0,9,109,111,118,32,98,121,116,101,32,91,114,100,105,93,44,32,115,105,108,10,0,9,109,111,118,122,120,32,114,97,120,44,32,115,105,108,10,0,9,114,101,116,10,0,115,101,99,116,105,111,110,32,46,114,111,100,97,116,97,10,0,115,116,114,105,110,103,58,32,100,98,32,0,44,0,10,0,110,97,115,109,0,45,103,0,45,102,69,76,70,54,52,0,111,117,116,46,115,0,45,111,0,111,117,116,46,111,0,99,99,0,45,110,111,45,112,105,101,0,45,111,0,111,117,116,46,111,0,83,116,97,114,116,105,110,103,32,97,115,115,101,109,98,108,105,110,103,10,0,102,111,114,107,0,65,115,115,101,109,98,108,101,114,32,101,120,105,116,101,100,32,97,98,110,111,114,109,97,108,108,121,58,32,37,100,10,0,83,116,97,114,116,105,110,103,32,108,105,110,107,105,110,103,10,0,102,111,114,107,0,76,105,110,107,101,114,32,101,120,105,116,101,100,32,97,98,110,111,114,109,97,108,108,121,58,32,37,100,10,0

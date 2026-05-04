@@ -9,9 +9,8 @@ fact(n)!
     else
         n*fact(n-1);
 
-usage(prog)! {
+usage(prog)!
     fprintf(*stderr, "Usage: %s fibonacci-seq-limit\n", prog);
-}
 
 global main
 main(argc, argv) max, x, y, z {
@@ -32,10 +31,12 @@ main(argc, argv) max, x, y, z {
     0 : x;
     while 1 {
         printf("%d\n", x);
-        if x >= 3 {
-            break;
-        }
+        if x >= 3 break;
         x + 1 : x;
     }
+    printf("Hexadecimal escape sequence: \x48\x61\x79\x6F!\x0A");
+    printf("2<<60=0x%zx\n", 2<<60);
+    printf("0x2000000000000000>>60=%zu\n", 0x2000000000000000>>60);
+    printf("The compiler doesn't support operator precendence so 2+2*2 should be equal to 8. If we compute it, we'd have the same result: %zu\n", 2+2*2);
     0;
 }

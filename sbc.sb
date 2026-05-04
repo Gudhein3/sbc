@@ -158,6 +158,41 @@ lexpr() c, i, found {
     }
 }
 
+parseEscapeCode() c, n {
+    next() : c;
+    return {
+        if c == 'n' '\n';
+        else if c == 't' '\t';
+        else if c == '\\' '\\';
+        else if c == '\'' '\'';
+        else if c == 'x' {
+            next() : c;
+            if !isxdigit(c) {
+                fprintf(*stderr, "Invalid hexadecimal digit: '\\%c'\n", c);
+                exit(1);
+            }
+            if c <= '9' c - '0' : n;
+            else if c <= 'F' c - 'A' + 10 : n;
+            else if c <= 'f' c - 'a' + 10 : n;
+            next() : c;
+            if !isxdigit(c) {
+                fprintf(*stderr, "Invalid hexadecimal digit: '\\%c'\n", c);
+                exit(1);
+            }
+            n * 16 : n;
+            if c <= '9' n + c - '0' : n;
+            else if c <= 'F' n + c - 'A' + 10 : n;
+            else if c <= 'f' n + c - 'a' + 10 : n;
+            printf("Escaped: %d\n", n);
+            n;
+        }
+        else {
+            fprintf(*stderr, "Invalid escape code: '\\%c'\n", c);
+            exit(1);
+        }
+    };
+}
+
 primary() c, si, i, argc, found {
     whitespace();
     peek() : c;
@@ -234,21 +269,8 @@ primary() c, si, i, argc, found {
         emits("\tnot rax\n");
     } else if c == '\'' {
         next() : c;
-        if c == '\\' {
-            next() : c;
-            if c == 'n'
-                '\n' : c;
-            else if c == 't'
-                '\t' : c;
-            else if c == '\\'
-                '\\' : c;
-            else if c == '\''
-                '\'' : c;
-            else {
-                fprintf(*stderr, "Invalid escape code: '\\%c'\n", c);
-                exit(1);
-            }
-        }
+        if c == '\\'
+            parseEscapeCode() : c;
         next();
         expect('\'');
         emits("\tmov rax, ");
@@ -259,23 +281,9 @@ primary() c, si, i, argc, found {
         *strbufsz : si;
         while (peek() : c) != '"' {
             peek() : c;
-            if c == '\\' {
-                next() : c;
-                if c == 'n'
-                    Bschar(strbuf+*strbufsz, 10);
-                else if c == 't'
-                    Bschar(strbuf+*strbufsz, '\t');
-                else if c == '\\'
-                    Bschar(strbuf+*strbufsz, '\\');
-                else if c == '"'
-                    Bschar(strbuf+*strbufsz, '"');
-                else {
-                    fprintf(*stderr, "Invalid escape code: '\\%c'\n", c);
-                    exit(1);
-                }
-            }
-            else
-                Bschar(strbuf+*strbufsz, c);
+            if c == '\\'
+                parseEscapeCode() : c;
+            Bschar(strbuf+*strbufsz, c);
             *strbufsz + 1 : strbufsz;
             nextr();
         }
@@ -471,8 +479,8 @@ expr() c, mode {
                     emits("\tsetbe al\n");
                 else
                     emits("\tsetb al\n");
+                emits("\tmovzx rax, al\n");
             }
-            emits("\tmovzx rax, al\n");
         } else if c == '>' {
             next();
             0 : mode;
@@ -496,8 +504,8 @@ expr() c, mode {
                     emits("\tsetae al\n");
                 else
                     emits("\tseta al\n");
+                emits("\tmovzx rax, al\n");
             }
-            emits("\tmovzx rax, al\n");
         } else
             break;
     }
