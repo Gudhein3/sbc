@@ -209,6 +209,14 @@ primary() c, si, i, argc, found {
             emits(namebuffer);
             emits("\n");
         }
+    } else if c == '{' {
+        next();
+        whitespace();
+        while peek() != '}' {
+            stmt();
+            whitespace();
+        }
+        next();
     } else if c == '(' {
         next();
         expr();
@@ -220,6 +228,10 @@ primary() c, si, i, argc, found {
         next();
         primary();
         emits("\tmov rax, [rax]\n");
+    } else if c == '~' {
+        next();
+        primary();
+        emits("\tnot rax\n");
     } else if c == '\'' {
         next() : c;
         if c == '\\' {
