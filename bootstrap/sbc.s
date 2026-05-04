@@ -1261,7 +1261,7 @@ jmp .L53
 	mov rcx, rax
 	pop rax
 	cmp rax, rcx
-	setb al
+	setbe al
 	movzx rax, al
 	test rax, rax
 	jz .L57
@@ -1280,17 +1280,17 @@ jmp .L58
 .L57: ; if
 	mov rax, [rbp-8]
 	push rax
-	mov rax, 102
+	mov rax, 70
 	mov rcx, rax
 	pop rax
 	cmp rax, rcx
-	setb al
+	setbe al
 	movzx rax, al
 	test rax, rax
 	jz .L59
 	mov rax, [rbp-8]
 	push rax
-	mov rax, 97
+	mov rax, 65
 	mov rcx, rax
 	pop rax
 	sub rax, rcx
@@ -1308,17 +1308,17 @@ jmp .L60
 .L59: ; if
 	mov rax, [rbp-8]
 	push rax
-	mov rax, 70
+	mov rax, 102
 	mov rcx, rax
 	pop rax
 	cmp rax, rcx
-	setb al
+	setbe al
 	movzx rax, al
 	test rax, rax
 	jz .L61
 	mov rax, [rbp-8]
 	push rax
-	mov rax, 65
+	mov rax, 97
 	mov rcx, rax
 	pop rax
 	sub rax, rcx
@@ -1393,22 +1393,28 @@ jmp .L60
 	pop rdi
 	pop r13
 .L63: ; if
-	mov rax, [rbp-8]
-	push rax
-	mov rax, 57
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	setb al
-	movzx rax, al
-	test rax, rax
-	jz .L65
 	mov rax, [rbp-16]
 	push rax
 	mov rax, 16
 	mov rcx, rax
 	pop rax
 	mul rcx
+	push rax
+	lea rax, [rbp-16]
+	pop rcx
+	mov [rax], rcx
+	mov rax, rcx
+	mov rax, [rbp-8]
+	push rax
+	mov rax, 57
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	setbe al
+	movzx rax, al
+	test rax, rax
+	jz .L65
+	mov rax, [rbp-16]
 	push rax
 	mov rax, [rbp-8]
 	mov rcx, rax
@@ -1428,27 +1434,22 @@ jmp .L66
 .L65: ; if
 	mov rax, [rbp-8]
 	push rax
-	mov rax, 102
+	mov rax, 70
 	mov rcx, rax
 	pop rax
 	cmp rax, rcx
-	setb al
+	setbe al
 	movzx rax, al
 	test rax, rax
 	jz .L67
 	mov rax, [rbp-16]
-	push rax
-	mov rax, 16
-	mov rcx, rax
-	pop rax
-	mul rcx
 	push rax
 	mov rax, [rbp-8]
 	mov rcx, rax
 	pop rax
 	add rax, rcx
 	push rax
-	mov rax, 97
+	mov rax, 65
 	mov rcx, rax
 	pop rax
 	sub rax, rcx
@@ -1466,27 +1467,22 @@ jmp .L68
 .L67: ; if
 	mov rax, [rbp-8]
 	push rax
-	mov rax, 70
+	mov rax, 102
 	mov rcx, rax
 	pop rax
 	cmp rax, rcx
-	setb al
+	setbe al
 	movzx rax, al
 	test rax, rax
 	jz .L69
 	mov rax, [rbp-16]
-	push rax
-	mov rax, 16
-	mov rcx, rax
-	pop rax
-	mul rcx
 	push rax
 	mov rax, [rbp-8]
 	mov rcx, rax
 	pop rax
 	add rax, rcx
 	push rax
-	mov rax, 65
+	mov rax, 97
 	mov rcx, rax
 	pop rax
 	sub rax, rcx

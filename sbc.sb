@@ -183,7 +183,6 @@ parseEscapeCode() c, n {
             if c <= '9' n + c - '0' : n;
             else if c <= 'F' n + c - 'A' + 10 : n;
             else if c <= 'f' n + c - 'a' + 10 : n;
-            printf("Escaped: %d\n", n);
             n;
         }
         else {
