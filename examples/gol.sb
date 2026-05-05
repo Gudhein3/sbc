@@ -1,0 +1,72 @@
+extern printf
+extern nanosleep
+
+bufa[64]; // 64words and 64coloumns per each row(word)
+bufb[64];
+
+countNbrs(buf, row, col) l, r, u, d {
+    //printf("%02d/%02d \n", row, col);
+    col - 1 + 64 % 64 : l;
+    col + 1 + 64 % 64 : r;
+    row - 1 + 64 % 64 : u;
+    row + 1 + 64 % 64 : d;
+    (buf[u]>>(63-l)&1)     + // Top-Left
+    (buf[u]>>(63-col)&1)   + // Top
+    (buf[u]>>(63-r)&1)     + // Top-Right
+    (buf[row]>>(63-l)&1)   + // Left
+    (buf[row]>>(63-r)&1)   + // Right
+    (buf[d]>>(63-l)&1)     + // Bottom-Left
+    (buf[d]>>(63-col)&1)   + // Bottom
+    (buf[d]>>(63-r)&1)     + // Bottom-Right
+    0;
+}
+
+sleepy[2];
+
+global main
+main() actbuf, pasbuf, xbuf, row, col, nbors {
+    bufa : actbuf;
+    bufb : pasbuf;
+    0x4000400000000000 : actbuf[0];
+    0x2000200000000000 : actbuf[1];
+    0xE000E00000000000 : actbuf[2];
+    0         : sleepy[0];
+    25000000  : sleepy[1];
+
+    while 1 {
+        0 : row;
+        while row < 64 {
+            0 : col;
+            actbuf[row] : pasbuf[row];
+            while col < 64 {
+                countNbrs(actbuf, row,col) : nbors;
+                if nbors == 3 {
+                    pasbuf[row]|(1<<(63-col)) : pasbuf[row];
+                } else if (nbors < 2) | (nbors > 3) {
+                    pasbuf[row]&~(1<<(63-col)) : pasbuf[row];
+                }
+                col + 1 : col;
+            }
+            row + 1 : row;
+        }
+
+        0 : row;
+        while row < 64 {
+            0 : col;
+            while col < 64 {
+                if pasbuf[row]>>(63-col)&1
+                    printf("#");
+                else
+                    printf(" ");
+                col + 1 : col;
+            }
+            printf("\n");
+            row + 1 : row;
+        }
+        printf("\x1b[64A\x1b[64D");
+        nanosleep(sleepy, 0);
+        actbuf : xbuf;
+        pasbuf : actbuf;
+        xbuf : pasbuf;
+    }
+}
