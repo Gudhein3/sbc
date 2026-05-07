@@ -10,10 +10,11 @@ fact(n)!
         n*fact(n-1);
 
 usage(prog)!
-    fprintf(*stderr, "Usage: %s fibonacci-seq-limit\n", prog);
+    fprintf(stderr, "Usage: %s fibonacci-seq-limit\n", prog);
 
 global main
 main(argc, argv) max, x, y, z {
+    fprintf(stderr, "Aboba\n");
     1 : x;
     2 : y;
     if argc != 2 {
@@ -34,6 +35,7 @@ main(argc, argv) max, x, y, z {
         if x >= 3 break;
         x + 1 : x;
     }
+    printf("Normal assignment operator: x=5 == %d, now x == %d\n", x=5, x);
     printf("Hexadecimal escape sequence: \x48\x61\x79\x6F!\x0A");
     printf("2<<60=0x%zx\n", 2<<60);
     printf("0x2000000000000000>>60=%zu\n", 0x2000000000000000>>60);
