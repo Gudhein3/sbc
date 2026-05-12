@@ -1,0 +1,6 @@
+Turn if/while into expressions becausse functiononalism is popular again;
+"for" loops;
+clojures;
+optimizations (of course);
+modules;
+simple typing;

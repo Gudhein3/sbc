@@ -60,14 +60,17 @@ push:
 	sub rsp, 32
 ; lexpr()
 	lea rax, Bschar
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 ; lexpr()
 	lea rax, stream
 	push rax
 ; lexpr()
 	lea rax, streamsize
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	mov rcx, rax
 	pop rax
@@ -76,6 +79,7 @@ push:
 	mov rdi, rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rsi
 	mov rsi, rax
@@ -88,19 +92,23 @@ push:
 	pop r13
 ; lexpr()
 	lea rax, streamsize
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, streamsize
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, streamsize
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 	leave
 	ret
 next:
@@ -109,14 +117,22 @@ next:
 	sub rsp, 16
 ; lexpr()
 	lea rax, streamsize
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	test rax, rax
 	jz .L0
 ; lexpr()
+	lea rax, activecharacter
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
 	lea rax, Blchar
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 ; lexpr()
 	lea rax, stream
 	push rdi
@@ -125,26 +141,27 @@ next:
 	call r13
 	pop rdi
 	pop r13
-	push rax
-; lexpr()
-	lea rax, activecharacter
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, memmove
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 ; lexpr()
 	lea rax, stream
 	push rdi
 	mov rdi, rax
 ; lexpr()
+; primary(); after a non lexpr
 ; lexpr()
 	lea rax, stream
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
@@ -153,6 +170,7 @@ next:
 	mov rsi, rax
 ; lexpr()
 	lea rax, streamsize
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdx
 	mov rdx, rax
@@ -164,23 +182,28 @@ next:
 	pop r13
 ; lexpr()
 	lea rax, streamsize
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, streamsize
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	sub rax, rcx
-	push rax
-; lexpr()
-	lea rax, streamsize
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 jmp .L1
 .L0: ; if
 ; lexpr()
 	lea rax, nextr
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -190,9 +213,11 @@ jmp .L1
 	pop r13
 ; lexpr()
 	lea rax, activecharacter
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 47
 	mov rcx, rax
 	pop rax
@@ -203,6 +228,7 @@ jmp .L1
 	jz .L2
 ; lexpr()
 	lea rax, nextr
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -212,9 +238,11 @@ jmp .L1
 	pop r13
 ; lexpr()
 	lea rax, activecharacter
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 42
 	mov rcx, rax
 	pop rax
@@ -225,11 +253,13 @@ jmp .L1
 	jz .L3
 .L4: ; while continue
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	test rax, rax
 	jz .L5
 ; lexpr()
 	lea rax, nextr
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -239,9 +269,11 @@ jmp .L1
 	pop r13
 ; lexpr()
 	lea rax, activecharacter
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 42
 	mov rcx, rax
 	pop rax
@@ -252,6 +284,7 @@ jmp .L1
 	jz .L6
 ; lexpr()
 	lea rax, nextr
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -261,9 +294,11 @@ jmp .L1
 	pop r13
 ; lexpr()
 	lea rax, activecharacter
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 47
 	mov rcx, rax
 	pop rax
@@ -279,6 +314,7 @@ jmp .L4
 .L5: ; while break
 ; lexpr()
 	lea rax, nextr
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -290,9 +326,11 @@ jmp .L10
 .L3: ; if
 ; lexpr()
 	lea rax, activecharacter
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 47
 	mov rcx, rax
 	pop rax
@@ -303,11 +341,13 @@ jmp .L10
 	jz .L11
 .L12: ; while continue
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	test rax, rax
 	jz .L13
 ; lexpr()
 	lea rax, nextr
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -317,9 +357,11 @@ jmp .L10
 	pop r13
 ; lexpr()
 	lea rax, activecharacter
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 10
 	mov rcx, rax
 	pop rax
@@ -334,6 +376,7 @@ jmp .L12
 .L13: ; while break
 ; lexpr()
 	lea rax, nextr
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -345,10 +388,12 @@ jmp .L16
 .L11: ; if
 ; lexpr()
 	lea rax, push
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, activecharacter
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -357,19 +402,23 @@ jmp .L16
 	pop rdi
 	pop r13
 ; lexpr()
-	mov rax, 47
-	push rax
-; lexpr()
 	lea rax, activecharacter
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 47
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 .L16: ; else
 .L10: ; else
 .L2: ; if
 .L1: ; else
 ; lexpr()
 	lea rax, activecharacter
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	leave
 	ret
@@ -379,23 +428,28 @@ nextr:
 	sub rsp, 16
 ; lexpr()
 	lea rax, fread
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 ; lexpr()
 	lea rax, activecharacter
 	push rdi
 	mov rdi, rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	push rsi
 	mov rsi, rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	push rdx
 	mov rdx, rax
 ; lexpr()
 	lea rax, inputfile
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rcx
 	mov rcx, rax
@@ -410,6 +464,7 @@ nextr:
 	pop r13
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	mov rcx, rax
 	pop rax
@@ -419,34 +474,42 @@ nextr:
 	test rax, rax
 	jz .L18
 ; lexpr()
-	mov rax, 0xFF
-	push rax
-; lexpr()
 	lea rax, activecharacter
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0xFF
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 .L18: ; if
 ; lexpr()
 	lea rax, dooutputparse
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	test rax, rax
 	jz .L20
 ; lexpr()
 	lea rax, fprintf
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, stderr
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 ; lexpr()
+; primary(); after a non lexpr
 	lea rax, [abs string+0]
 	push rsi
 	mov rsi, rax
 ; lexpr()
 	lea rax, activecharacter
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdx
 	mov rdx, rax
@@ -459,6 +522,7 @@ nextr:
 .L20: ; if
 ; lexpr()
 	lea rax, activecharacter
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	leave
 	ret
@@ -468,9 +532,11 @@ peek:
 	sub rsp, 16
 ; lexpr()
 	lea rax, activecharacter
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	mov rcx, rax
 	pop rax
@@ -481,6 +547,7 @@ peek:
 	jz .L22
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -492,6 +559,7 @@ jmp .L23
 .L22: ; if
 ; lexpr()
 	lea rax, activecharacter
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 .L23: ; else
 	leave
@@ -503,19 +571,23 @@ emit:
 	sub rsp, 32
 ; lexpr()
 	lea rax, fprintf
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, outputfile
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 ; lexpr()
+; primary(); after a non lexpr
 	lea rax, [abs string+3]
 	push rsi
 	mov rsi, rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdx
 	mov rdx, rax
@@ -534,19 +606,23 @@ emits:
 	sub rsp, 32
 ; lexpr()
 	lea rax, fprintf
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, outputfile
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 ; lexpr()
+; primary(); after a non lexpr
 	lea rax, [abs string+6]
 	push rsi
 	mov rsi, rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdx
 	mov rdx, rax
@@ -565,19 +641,23 @@ emitd:
 	sub rsp, 32
 ; lexpr()
 	lea rax, fprintf
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, outputfile
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 ; lexpr()
+; primary(); after a non lexpr
 	lea rax, [abs string+9]
 	push rsi
 	mov rsi, rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdx
 	mov rdx, rax
@@ -617,10 +697,12 @@ whitespace:
 .L24: ; while continue
 ; lexpr()
 	lea rax, isspace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, peek
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -638,6 +720,7 @@ whitespace:
 	jz .L25
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -655,8 +738,15 @@ expect:
 	mov [rbp-8], rdi
 	sub rsp, 32
 ; lexpr()
+; primary(); after a non lexpr
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
 ; lexpr()
 	lea rax, peek
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -664,15 +754,13 @@ expect:
 	call r13
 	add rsp, 8
 	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-16]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 	push rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	mov rcx, rax
 	pop rax
@@ -683,6 +771,7 @@ expect:
 	jz .L26
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -693,35 +782,50 @@ expect:
 jmp .L27
 .L26: ; if
 ; lexpr()
-	lea rax, printf
+	lea rax, fprintf
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+13]
+	lea rax, stderr
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 ; lexpr()
-	lea rax, [rbp-8]
-	mov rax, [rax] ; Lexpr deref
+; primary(); after a non lexpr
+	lea rax, [abs string+13]
 	push rsi
 	mov rsi, rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdx
 	mov rdx, rax
 ; lexpr()
-	lea rax, [rbp-16]
+	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rcx
 	mov rcx, rax
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push r8
 	mov r8, rax
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push r9
+	mov r9, rax
+	push 0
 	xor rax, rax
 	call r13
+	add rsp, 8
+	pop r9
 	pop r8
 	pop rcx
 	pop rdx
@@ -730,9 +834,11 @@ jmp .L27
 	pop r13
 ; lexpr()
 	lea rax, exit
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	push rdi
 	mov rdi, rax
@@ -748,7 +854,13 @@ parseEscapeCode:
 	mov rbp, rsp
 	sub rsp, 32
 ; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -756,18 +868,18 @@ parseEscapeCode:
 	call r13
 	add rsp, 8
 	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
+; primary(); after a non lexpr
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 110
 	mov rcx, rax
 	pop rax
@@ -777,14 +889,17 @@ parseEscapeCode:
 	test rax, rax
 	jz .L28
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 10
 jmp .L29
 .L28: ; if
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 116
 	mov rcx, rax
 	pop rax
@@ -794,14 +909,17 @@ jmp .L29
 	test rax, rax
 	jz .L30
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 9
 jmp .L31
 .L30: ; if
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 92
 	mov rcx, rax
 	pop rax
@@ -811,14 +929,17 @@ jmp .L31
 	test rax, rax
 	jz .L32
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 92
 jmp .L33
 .L32: ; if
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 39
 	mov rcx, rax
 	pop rax
@@ -828,14 +949,17 @@ jmp .L33
 	test rax, rax
 	jz .L34
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 39
 jmp .L35
 .L34: ; if
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 120
 	mov rcx, rax
 	pop rax
@@ -845,7 +969,13 @@ jmp .L35
 	test rax, rax
 	jz .L36
 ; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -853,19 +983,17 @@ jmp .L35
 	call r13
 	add rsp, 8
 	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
+	mov [rcx], rax
 ; lexpr()
 	lea rax, isxdigit
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -880,19 +1008,23 @@ jmp .L35
 	jz .L37
 ; lexpr()
 	lea rax, fprintf
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, stderr
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 ; lexpr()
+; primary(); after a non lexpr
 	lea rax, [abs string+49]
 	push rsi
 	mov rsi, rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdx
 	mov rdx, rax
@@ -904,9 +1036,11 @@ jmp .L35
 	pop r13
 ; lexpr()
 	lea rax, exit
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	push rdi
 	mov rdi, rax
@@ -917,9 +1051,11 @@ jmp .L35
 .L37: ; if
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 57
 	mov rcx, rax
 	pop rax
@@ -929,27 +1065,33 @@ jmp .L35
 	test rax, rax
 	jz .L39
 ; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 48
 	mov rcx, rax
 	pop rax
 	sub rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-16]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 jmp .L40
 .L39: ; if
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 70
 	mov rcx, rax
 	pop rax
@@ -959,33 +1101,40 @@ jmp .L40
 	test rax, rax
 	jz .L41
 ; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 65
 	mov rcx, rax
 	pop rax
 	sub rax, rcx
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 10
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-16]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 jmp .L42
 .L41: ; if
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 102
 	mov rcx, rax
 	pop rax
@@ -995,31 +1144,42 @@ jmp .L42
 	test rax, rax
 	jz .L43
 ; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 97
 	mov rcx, rax
 	pop rax
 	sub rax, rcx
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 10
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-16]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 .L43: ; if
 .L42: ; else
 .L40: ; else
 ; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -1027,19 +1187,17 @@ jmp .L42
 	call r13
 	add rsp, 8
 	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
+	mov [rcx], rax
 ; lexpr()
 	lea rax, isxdigit
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -1054,19 +1212,23 @@ jmp .L42
 	jz .L45
 ; lexpr()
 	lea rax, fprintf
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, stderr
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 ; lexpr()
+; primary(); after a non lexpr
 	lea rax, [abs string+83]
 	push rsi
 	mov rsi, rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdx
 	mov rdx, rax
@@ -1078,9 +1240,11 @@ jmp .L42
 	pop r13
 ; lexpr()
 	lea rax, exit
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	push rdi
 	mov rdi, rax
@@ -1091,24 +1255,30 @@ jmp .L42
 .L45: ; if
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 16
 	mov rcx, rax
 	pop rax
 	mul rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-16]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 57
 	mov rcx, rax
 	pop rax
@@ -1119,33 +1289,40 @@ jmp .L42
 	jz .L47
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	mov rcx, rax
 	pop rax
 	add rax, rcx
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 48
 	mov rcx, rax
 	pop rax
 	sub rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-16]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 jmp .L48
 .L47: ; if
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 70
 	mov rcx, rax
 	pop rax
@@ -1156,39 +1333,47 @@ jmp .L48
 	jz .L49
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	mov rcx, rax
 	pop rax
 	add rax, rcx
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 65
 	mov rcx, rax
 	pop rax
 	sub rax, rcx
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 10
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-16]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 jmp .L50
 .L49: ; if
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 102
 	mov rcx, rax
 	pop rax
@@ -1199,55 +1384,66 @@ jmp .L50
 	jz .L51
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	mov rcx, rax
 	pop rax
 	add rax, rcx
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 97
 	mov rcx, rax
 	pop rax
 	sub rax, rcx
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 10
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-16]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 .L51: ; if
 .L50: ; else
 .L48: ; else
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 jmp .L53
 .L36: ; if
 ; lexpr()
 	lea rax, fprintf
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, stderr
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 ; lexpr()
+; primary(); after a non lexpr
 	lea rax, [abs string+117]
 	push rsi
 	mov rsi, rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdx
 	mov rdx, rax
@@ -1259,9 +1455,11 @@ jmp .L53
 	pop r13
 ; lexpr()
 	lea rax, exit
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	push rdi
 	mov rdi, rax
@@ -1284,6 +1482,7 @@ lprimary:
 	sub rsp, 48
 ; lexpr()
 	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -1291,26 +1490,31 @@ lprimary:
 	call r13
 	add rsp, 8
 	pop r13
-; lexpr()
-	lea rax, peek
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, peek
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 	lea rax, [abs string+145]
 	push rdi
 	mov rdi, rax
@@ -1320,10 +1524,12 @@ lprimary:
 	pop r13
 ; lexpr()
 	lea rax, isalpha
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -1334,20 +1540,25 @@ lprimary:
 	test rax, rax
 	jz .L54
 ; lexpr()
-	mov rax, 0
-	push rax
-; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 .L55: ; while continue
 ; lexpr()
 	lea rax, isalnum
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -1359,14 +1570,17 @@ lprimary:
 	jz .L56
 ; lexpr()
 	lea rax, Bschar
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 ; lexpr()
 	lea rax, namebuffer
 	push rax
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	mov rcx, rax
 	pop rax
@@ -1375,6 +1589,7 @@ lprimary:
 	mov rdi, rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rsi
 	mov rsi, rax
@@ -1386,7 +1601,13 @@ lprimary:
 	pop rdi
 	pop r13
 ; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -1394,39 +1615,43 @@ lprimary:
 	call r13
 	add rsp, 8
 	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-16]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 jmp .L55
 .L56: ; while break
 ; lexpr()
 	lea rax, Bschar
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 ; lexpr()
 	lea rax, namebuffer
 	push rax
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	mov rcx, rax
 	pop rax
@@ -1434,6 +1659,7 @@ jmp .L55
 	push rdi
 	mov rdi, rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	push rsi
 	mov rsi, rax
@@ -1445,28 +1671,36 @@ jmp .L55
 	pop rdi
 	pop r13
 ; lexpr()
-	mov rax, 0
-	push rax
-; lexpr()
 	lea rax, [rbp-16]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	mov rax, 0
+; primary(); after a lexpr
 	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, [rbp-24]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 .L57: ; while continue
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
 	lea rax, varcnt
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	mov rcx, rax
 	pop rax
@@ -1477,29 +1711,36 @@ jmp .L55
 	jz .L58
 ; lexpr()
 	lea rax, strcmp
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 ; lexpr()
 	lea rax, namebuffer
 	push rdi
 	mov rdi, rax
 ; lexpr()
+; primary(); after a non lexpr
 ; lexpr()
 	lea rax, variables
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 5
 	mov rcx, rax
 	pop rax
 	mul rcx
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 8
 	mov rcx, rax
 	pop rax
@@ -1509,6 +1750,7 @@ jmp .L55
 	add rax, rcx
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 8
 	mov rcx, rax
 	pop rax
@@ -1524,6 +1766,7 @@ jmp .L55
 	pop r13
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	mov rcx, rax
 	pop rax
@@ -1534,9 +1777,11 @@ jmp .L55
 	jz .L59
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 	lea rax, [abs string+156]
 	push rdi
 	mov rdi, rax
@@ -1546,22 +1791,27 @@ jmp .L55
 	pop r13
 ; lexpr()
 	lea rax, emitd
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, variables
-	push rax
+	push rax ; lexpr index
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 5
 	mov rcx, rax
 	pop rax
 	mul rcx
 	pop rcx
-	mov rax, [rcx+rax*8]
+	lea rax, [rcx+rax*8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -1570,9 +1820,11 @@ jmp .L55
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 	lea rax, [abs string+172]
 	push rdi
 	mov rdi, rax
@@ -1581,34 +1833,42 @@ jmp .L55
 	pop rdi
 	pop r13
 ; lexpr()
-	mov rax, 1
-	push rax
-; lexpr()
 	lea rax, [rbp-24]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 1
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
+	jmp .L58 ; break
 .L59: ; if
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-16]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 jmp .L57
 .L58: ; while break
 ; lexpr()
-; lexpr()
 	lea rax, [rbp-24]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	test rax, rax
 	setz al
@@ -1617,9 +1877,11 @@ jmp .L57
 	jz .L61
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 	lea rax, [abs string+175]
 	push rdi
 	mov rdi, rax
@@ -1629,9 +1891,11 @@ jmp .L57
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 ; lexpr()
 	lea rax, namebuffer
 	push rdi
@@ -1642,9 +1906,11 @@ jmp .L57
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 	lea rax, [abs string+186]
 	push rdi
 	mov rdi, rax
@@ -1653,13 +1919,32 @@ jmp .L57
 	pop rdi
 	pop r13
 .L61: ; if
-jmp .L63
+; lexpr()
+	lea rax, [rbp-24]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	test rax, rax
+	jz .L63
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 2
+	leave
+	ret
+.L63: ; if
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 1
+	leave
+	ret
+jmp .L65
 .L54: ; if
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 42
 	mov rcx, rax
 	pop rax
@@ -1667,47 +1952,45 @@ jmp .L63
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L64
-; lexpr()
-	lea rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, primary
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-jmp .L65
-.L64: ; if
-; lexpr()
-	mov rax, 0
-	leave
-	ret
-.L65: ; else
-.L63: ; else
-; lexpr()
-	lea rax, [rbp-24]
-	mov rax, [rax] ; Lexpr deref
-	test rax, rax
 	jz .L66
 ; lexpr()
-	mov rax, 2
-	leave
-	ret
-.L66: ; if
+	lea rax, next
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
 ; lexpr()
+	lea rax, p6
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 1
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	leave
 	ret
+jmp .L67
+.L66: ; if
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	leave
+	ret
+.L67: ; else
+.L65: ; else
 	leave
 	ret
 lexpr:
@@ -1716,6 +1999,7 @@ lexpr:
 	sub rsp, 32
 ; lexpr()
 	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -1723,25 +2007,29 @@ lexpr:
 	call r13
 	add rsp, 8
 	pop r13
-; lexpr()
-	lea rax, lprimary
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, lprimary
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 	test rax, rax
 	jz .L68
 ; lexpr()
 	lea rax, peek
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -1751,6 +2039,7 @@ lexpr:
 	pop r13
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 91
 	mov rcx, rax
 	pop rax
@@ -1760,11 +2049,43 @@ lexpr:
 	test rax, rax
 	jz .L69
 ; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 2
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L70
+; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 	lea rax, [abs string+188]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+.L70: ; if
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+252]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -1773,6 +2094,7 @@ lexpr:
 	pop r13
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -1782,6 +2104,7 @@ lexpr:
 	pop r13
 ; lexpr()
 	lea rax, expr
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -1791,9 +2114,11 @@ lexpr:
 	pop r13
 ; lexpr()
 	lea rax, expect
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 93
 	push rdi
 	mov rdi, rax
@@ -1803,10 +2128,12 @@ lexpr:
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+213]
+; primary(); after a non lexpr
+	lea rax, [abs string+277]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -1815,10 +2142,12 @@ lexpr:
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+223]
+; primary(); after a non lexpr
+	lea rax, [abs string+287]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -1829,17 +2158,38 @@ lexpr:
 .L68: ; if
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	leave
 	ret
 	leave
 	ret
-primary:
+p6:
 	push rbp
 	mov rbp, rsp
-	sub rsp, 64
+	mov [rbp-8], rdi
+	sub rsp, 80
+; lexpr()
+	lea rax, [rbp-56]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, lexpr
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -1847,8 +2197,14 @@ primary:
 	call r13
 	add rsp, 8
 	pop r13
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
 ; lexpr()
 	lea rax, peek
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -1856,14 +2212,70 @@ primary:
 	call r13
 	add rsp, 8
 	pop r13
-	push rax
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, [rbp-56]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	test rax, rax
+	jz .L74
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+310]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+jmp .L75
+.L74: ; if
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+338]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+.L75: ; else
+; lexpr()
+	lea rax, [rbp-56]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	test rax, rax
+	jz .L76
 ; lexpr()
 	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rax
 ; lexpr()
-	lea rax, lprimary
+; primary(); after a non lexpr
+	mov rax, 0
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L77
+; lexpr()
+	lea rax, peek
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -1873,33 +2285,89 @@ primary:
 	pop r13
 	push rax
 ; lexpr()
-	lea rax, [rbp-48]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+; primary(); after a non lexpr
+	mov rax, 61
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L78
 ; lexpr()
+	lea rax, next
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	push rax
 ; lexpr()
-	lea rax, [rbp-48]
+; primary(); after a non lexpr
+	mov rax, 61
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	setne al
+	movzx rax, al
+	test rax, rax
+	jz .L79
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 1
+	leave
+	ret
+jmp .L80
+.L79: ; if
+; lexpr()
+	lea rax, push
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 61
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+.L80: ; else
+.L78: ; if
+.L77: ; if
+.L76: ; if
+; lexpr()
+	lea rax, [rbp-56]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	test rax, rax
 	setz al
 	movzx rax, al
 	test rax, rax
-	jz .L72
+	jz .L84
 ; lexpr()
-	mov rax, 0
+	lea rax, [rbp-48]
+; primary(); after a lexpr
 	push rax
+	push 0
 ; lexpr()
-	lea rax, [rbp-40]
+; primary(); after a non lexpr
+	mov rax, 0
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, isdigit
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [rbp-8]
+	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -1908,13 +2376,15 @@ primary:
 	pop rdi
 	pop r13
 	test rax, rax
-	jz .L73
+	jz .L85
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+246]
+; primary(); after a non lexpr
+	lea rax, [abs string+370]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -1922,10 +2392,12 @@ primary:
 	pop rdi
 	pop r13
 ; lexpr()
-	lea rax, [rbp-8]
+	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 48
 	mov rcx, rax
 	pop rax
@@ -1933,9 +2405,15 @@ primary:
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L74
+	jz .L86
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -1943,18 +2421,17 @@ primary:
 	call r13
 	add rsp, 8
 	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+257]
+; primary(); after a non lexpr
+	lea rax, [abs string+381]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -1962,252 +2439,13 @@ primary:
 	pop rdi
 	pop r13
 ; lexpr()
-	lea rax, [rbp-8]
+	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 120
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L75
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+259]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-.L76: ; while continue
-; lexpr()
-	lea rax, isxdigit
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [rbp-8]
-	mov rax, [rax] ; Lexpr deref
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	test rax, rax
-	jz .L77
-; lexpr()
-	lea rax, emit
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [rbp-8]
-	mov rax, [rax] ; Lexpr deref
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, peek
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-jmp .L76
-.L77: ; while break
-.L75: ; if
-jmp .L79
-.L74: ; if
-.L80: ; while continue
-; lexpr()
-	lea rax, isdigit
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [rbp-8]
-	mov rax, [rax] ; Lexpr deref
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	test rax, rax
-	jz .L81
-; lexpr()
-	lea rax, emit
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [rbp-8]
-	mov rax, [rax] ; Lexpr deref
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-jmp .L80
-.L81: ; while break
-.L79: ; else
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+261]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-jmp .L82
-.L73: ; if
-; lexpr()
-	lea rax, [rbp-8]
-	mov rax, [rax] ; Lexpr deref
-	push rax
-; lexpr()
-	mov rax, 123
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L83
-; lexpr()
-	lea rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, whitespace
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-.L84: ; while continue
-; lexpr()
-	lea rax, peek
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-; lexpr()
-	mov rax, 125
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	setne al
-	movzx rax, al
-	test rax, rax
-	jz .L85
-; lexpr()
-	lea rax, stmt
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, whitespace
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-jmp .L84
-.L85: ; while break
-; lexpr()
-	lea rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-jmp .L86
-.L83: ; if
-; lexpr()
-	lea rax, [rbp-8]
-	mov rax, [rax] ; Lexpr deref
-	push rax
-; lexpr()
-	mov rax, 40
 	mov rcx, rax
 	pop rax
 	cmp rax, rcx
@@ -2216,7 +2454,282 @@ jmp .L86
 	test rax, rax
 	jz .L87
 ; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+383]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
 	lea rax, next
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+.L88: ; while continue
+; lexpr()
+	lea rax, isxdigit
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	test rax, rax
+	jz .L89
+; lexpr()
+	lea rax, emit
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, next
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, peek
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+jmp .L88
+.L89: ; while break
+.L87: ; if
+jmp .L91
+.L86: ; if
+.L92: ; while continue
+; lexpr()
+	lea rax, isdigit
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	test rax, rax
+	jz .L93
+; lexpr()
+	lea rax, emit
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, next
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+jmp .L92
+.L93: ; while break
+.L91: ; else
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+385]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+jmp .L94
+.L85: ; if
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 123
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L95
+; lexpr()
+	lea rax, next
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+; lexpr()
+	lea rax, whitespace
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+.L96: ; while continue
+; lexpr()
+	lea rax, peek
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	push rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 125
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	setne al
+	movzx rax, al
+	test rax, rax
+	jz .L97
+; lexpr()
+	lea rax, stmt
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+; lexpr()
+	lea rax, whitespace
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+jmp .L96
+.L97: ; while break
+; lexpr()
+	lea rax, next
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+jmp .L98
+.L95: ; if
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 40
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L99
+; lexpr()
+	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -2226,6 +2739,7 @@ jmp .L86
 	pop r13
 ; lexpr()
 	lea rax, expr
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -2235,9 +2749,11 @@ jmp .L86
 	pop r13
 ; lexpr()
 	lea rax, expect
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 41
 	push rdi
 	mov rdi, rax
@@ -2245,13 +2761,15 @@ jmp .L86
 	call r13
 	pop rdi
 	pop r13
-jmp .L88
-.L87: ; if
+jmp .L100
+.L99: ; if
 ; lexpr()
-	lea rax, [rbp-8]
+	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 38
 	mov rcx, rax
 	pop rax
@@ -2259,9 +2777,10 @@ jmp .L88
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L89
+	jz .L101
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -2271,6 +2790,7 @@ jmp .L88
 	pop r13
 ; lexpr()
 	lea rax, lexpr
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -2278,58 +2798,15 @@ jmp .L88
 	call r13
 	add rsp, 8
 	pop r13
-jmp .L90
-.L89: ; if
+jmp .L102
+.L101: ; if
 ; lexpr()
-	lea rax, [rbp-8]
+	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
-	mov rax, 126
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L91
-; lexpr()
-	lea rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, primary
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+263]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-jmp .L92
-.L91: ; if
-; lexpr()
-	lea rax, [rbp-8]
-	mov rax, [rax] ; Lexpr deref
-	push rax
-; lexpr()
+; primary(); after a non lexpr
 	mov rax, 39
 	mov rcx, rax
 	pop rax
@@ -2337,9 +2814,15 @@ jmp .L92
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L93
+	jz .L103
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -2347,17 +2830,16 @@ jmp .L92
 	call r13
 	add rsp, 8
 	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
-	lea rax, [rbp-8]
+	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 92
 	mov rcx, rax
 	pop rax
@@ -2365,9 +2847,15 @@ jmp .L92
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L94
+	jz .L104
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
 ; lexpr()
 	lea rax, parseEscapeCode
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -2375,15 +2863,13 @@ jmp .L92
 	call r13
 	add rsp, 8
 	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-.L94: ; if
+	mov [rcx], rax
+.L104: ; if
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -2393,9 +2879,11 @@ jmp .L92
 	pop r13
 ; lexpr()
 	lea rax, expect
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 39
 	push rdi
 	mov rdi, rax
@@ -2405,10 +2893,12 @@ jmp .L92
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+273]
+; primary(); after a non lexpr
+	lea rax, [abs string+387]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -2417,10 +2907,12 @@ jmp .L92
 	pop r13
 ; lexpr()
 	lea rax, emitd
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [rbp-8]
+	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -2430,23 +2922,27 @@ jmp .L92
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+284]
+; primary(); after a non lexpr
+	lea rax, [abs string+398]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
-jmp .L96
-.L93: ; if
+jmp .L106
+.L103: ; if
 ; lexpr()
-	lea rax, [rbp-8]
+	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 34
 	mov rcx, rax
 	pop rax
@@ -2454,35 +2950,15 @@ jmp .L96
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L97
-; lexpr()
-	lea rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, strbufsz
-	mov rax, [rax] ; Lexpr deref
-	push rax
+	jz .L107
 ; lexpr()
 	lea rax, [rbp-16]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-.L98: ; while continue
+; primary(); after a lexpr
+	push rax
+	push 0
 ; lexpr()
-; lexpr()
-	lea rax, peek
+	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -2490,14 +2966,45 @@ jmp .L96
 	call r13
 	add rsp, 8
 	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, [rbp-24]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, strbufsz
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+.L108: ; while continue
+; lexpr()
+; primary(); after a non lexpr
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, peek
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 34
 	mov rcx, rax
 	pop rax
@@ -2505,9 +3012,15 @@ jmp .L96
 	setne al
 	movzx rax, al
 	test rax, rax
-	jz .L99
+	jz .L109
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
 ; lexpr()
 	lea rax, peek
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -2515,17 +3028,16 @@ jmp .L96
 	call r13
 	add rsp, 8
 	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
-	lea rax, [rbp-8]
+	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 92
 	mov rcx, rax
 	pop rax
@@ -2533,9 +3045,15 @@ jmp .L96
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L100
+	jz .L110
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
 ; lexpr()
 	lea rax, parseEscapeCode
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -2543,23 +3061,23 @@ jmp .L96
 	call r13
 	add rsp, 8
 	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-.L100: ; if
+	mov [rcx], rax
+.L110: ; if
 ; lexpr()
 	lea rax, Bschar
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 ; lexpr()
 	lea rax, strbuf
 	push rax
 ; lexpr()
 	lea rax, strbufsz
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	mov rcx, rax
 	pop rax
@@ -2567,7 +3085,8 @@ jmp .L96
 	push rdi
 	mov rdi, rax
 ; lexpr()
-	lea rax, [rbp-8]
+	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rsi
 	mov rsi, rax
@@ -2580,21 +3099,26 @@ jmp .L96
 	pop r13
 ; lexpr()
 	lea rax, strbufsz
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, strbufsz
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, strbufsz
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, nextr
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -2602,10 +3126,11 @@ jmp .L96
 	call r13
 	add rsp, 8
 	pop r13
-jmp .L98
-.L99: ; while break
+jmp .L108
+.L109: ; while break
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -2615,14 +3140,17 @@ jmp .L98
 	pop r13
 ; lexpr()
 	lea rax, Bschar
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 ; lexpr()
 	lea rax, strbuf
 	push rax
 ; lexpr()
 	lea rax, strbufsz
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	mov rcx, rax
 	pop rax
@@ -2630,6 +3158,7 @@ jmp .L98
 	push rdi
 	mov rdi, rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	push rsi
 	mov rsi, rax
@@ -2642,25 +3171,31 @@ jmp .L98
 	pop r13
 ; lexpr()
 	lea rax, strbufsz
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, strbufsz
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, strbufsz
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+286]
+; primary(); after a non lexpr
+	lea rax, [abs string+400]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -2669,10 +3204,12 @@ jmp .L98
 	pop r13
 ; lexpr()
 	lea rax, emitd
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [rbp-16]
+	lea rax, [rbp-24]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -2682,147 +3219,39 @@ jmp .L98
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+309]
+; primary(); after a non lexpr
+	lea rax, [abs string+423]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
-jmp .L102
-.L97: ; if
-; lexpr()
-	lea rax, [rbp-8]
-	mov rax, [rax] ; Lexpr deref
-	push rax
-; lexpr()
-	mov rax, 45
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L103
-; lexpr()
-	lea rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, primary
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+312]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-jmp .L104
-.L103: ; if
-; lexpr()
-	lea rax, [rbp-8]
-	mov rax, [rax] ; Lexpr deref
-	push rax
-; lexpr()
-	mov rax, 33
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L105
-; lexpr()
-	lea rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, primary
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+322]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+338]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+348]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-jmp .L106
-.L105: ; if
+jmp .L112
+.L107: ; if
 ; lexpr()
 	lea rax, fprintf
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, stderr
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 ; lexpr()
-	lea rax, [abs string+364]
+; primary(); after a non lexpr
+	lea rax, [abs string+426]
 	push rsi
 	mov rsi, rax
 ; lexpr()
-	lea rax, [rbp-8]
+	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdx
 	mov rdx, rax
@@ -2834,190 +3263,12 @@ jmp .L106
 	pop r13
 ; lexpr()
 	lea rax, exit
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-.L106: ; else
-.L104: ; else
-.L102: ; else
-.L96: ; else
-.L92: ; else
-.L90: ; else
-.L88: ; else
-.L86: ; else
-.L82: ; else
-.L72: ; if
-; lexpr()
-	lea rax, whitespace
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, peek
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, [rbp-8]
-	mov rax, [rax] ; Lexpr deref
-	push rax
-; lexpr()
-	mov rax, 61
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L108
-; lexpr()
-	lea rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, [rbp-8]
-	mov rax, [rax] ; Lexpr deref
-	push rax
-; lexpr()
-	mov rax, 61
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	setne al
-	movzx rax, al
-	test rax, rax
-	jz .L109
-; lexpr()
-; lexpr()
-	lea rax, [rbp-48]
-	mov rax, [rax] ; Lexpr deref
-	test rax, rax
-	setz al
-	movzx rax, al
-	test rax, rax
-	jz .L110
-; lexpr()
-	lea rax, fprintf
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, stderr
-	mov rax, [rax] ; Lexpr deref
-	push rdi
-	mov rdi, rax
-; lexpr()
-	lea rax, [abs string+398]
-	push rsi
-	mov rsi, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop rsi
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, exit
-	push r13
-	mov r13, rax
-; lexpr()
-	mov rax, 1
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-.L110: ; if
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+450]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, expr
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+461]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+471]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	mov rax, 0
-	leave
-	ret
-jmp .L112
-.L109: ; if
-; lexpr()
-	lea rax, push
-	push r13
-	mov r13, rax
-; lexpr()
-	mov rax, 61
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3025,12 +3276,47 @@ jmp .L112
 	pop rdi
 	pop r13
 .L112: ; else
-.L108: ; if
+.L106: ; else
+.L102: ; else
+.L100: ; else
+.L98: ; else
+.L94: ; else
+.L84: ; if
 ; lexpr()
-	lea rax, [rbp-8]
+	lea rax, whitespace
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, peek
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 40
 	mov rcx, rax
 	pop rax
@@ -3041,6 +3327,7 @@ jmp .L112
 	jz .L114
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -3050,10 +3337,12 @@ jmp .L112
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+488]
+; primary(); after a non lexpr
+	lea rax, [abs string+460]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3062,10 +3351,12 @@ jmp .L112
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+499]
+; primary(); after a non lexpr
+	lea rax, [abs string+471]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3074,6 +3365,7 @@ jmp .L112
 	pop r13
 ; lexpr()
 	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -3082,15 +3374,19 @@ jmp .L112
 	add rsp, 8
 	pop r13
 ; lexpr()
-	mov rax, 0
+	lea rax, [rbp-40]
+; primary(); after a lexpr
 	push rax
+	push 0
 ; lexpr()
-	lea rax, [rbp-32]
+; primary(); after a non lexpr
+	mov rax, 0
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, peek
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -3100,6 +3396,7 @@ jmp .L112
 	pop r13
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 41
 	mov rcx, rax
 	pop rax
@@ -3109,19 +3406,24 @@ jmp .L112
 	test rax, rax
 	jz .L115
 ; lexpr()
-	mov rax, 0
+	lea rax, [rbp-32]
+; primary(); after a lexpr
 	push rax
+	push 0
 ; lexpr()
-	lea rax, [rbp-24]
+; primary(); after a non lexpr
+	mov rax, 0
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 .L116: ; while continue
 ; lexpr()
-	lea rax, [rbp-24]
+	lea rax, [rbp-32]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 6
 	mov rcx, rax
 	pop rax
@@ -3131,22 +3433,27 @@ jmp .L112
 	test rax, rax
 	jz .L117
 ; lexpr()
-	lea rax, [rbp-32]
+	lea rax, [rbp-40]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-40]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-32]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, expr
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -3156,10 +3463,12 @@ jmp .L112
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+514]
+; primary(); after a non lexpr
+	lea rax, [abs string+486]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3168,16 +3477,20 @@ jmp .L112
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, ra
-	push rax
+	push rax ; lexpr index
 ; lexpr()
-	lea rax, [rbp-24]
+	lea rax, [rbp-32]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	pop rcx
-	mov rax, [rcx+rax*8]
+	lea rax, [rcx+rax*8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3186,10 +3499,12 @@ jmp .L112
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+521]
+; primary(); after a non lexpr
+	lea rax, [abs string+493]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3198,16 +3513,20 @@ jmp .L112
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, ra
-	push rax
+	push rax ; lexpr index
 ; lexpr()
-	lea rax, [rbp-24]
+	lea rax, [rbp-32]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	pop rcx
-	mov rax, [rcx+rax*8]
+	lea rax, [rcx+rax*8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3216,10 +3535,12 @@ jmp .L112
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+528]
+; primary(); after a non lexpr
+	lea rax, [abs string+500]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3228,6 +3549,7 @@ jmp .L112
 	pop r13
 ; lexpr()
 	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -3235,8 +3557,14 @@ jmp .L112
 	call r13
 	add rsp, 8
 	pop r13
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
 ; lexpr()
 	lea rax, peek
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -3244,17 +3572,16 @@ jmp .L112
 	call r13
 	add rsp, 8
 	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
-	lea rax, [rbp-8]
+	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 44
 	mov rcx, rax
 	pop rax
@@ -3265,6 +3592,7 @@ jmp .L112
 	jz .L118
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -3275,10 +3603,12 @@ jmp .L112
 jmp .L119
 .L118: ; if
 ; lexpr()
-	lea rax, [rbp-8]
+	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 41
 	mov rcx, rax
 	pop rax
@@ -3291,28 +3621,34 @@ jmp .L119
 .L120: ; if
 .L119: ; else
 ; lexpr()
-	lea rax, [rbp-24]
+	lea rax, [rbp-32]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-32]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-24]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 jmp .L116
 .L117: ; while break
 .L115: ; if
 ; lexpr()
 	lea rax, expect
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 41
 	push rdi
 	mov rdi, rax
@@ -3321,12 +3657,14 @@ jmp .L116
 	pop rdi
 	pop r13
 ; lexpr()
+; primary(); after a non lexpr
 ; lexpr()
-; lexpr()
-	lea rax, [rbp-32]
+	lea rax, [rbp-40]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
@@ -3338,10 +3676,12 @@ jmp .L116
 	jz .L123
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+535]
+; primary(); after a non lexpr
+	lea rax, [abs string+507]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3351,10 +3691,12 @@ jmp .L116
 .L123: ; if
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+544]
+; primary(); after a non lexpr
+	lea rax, [abs string+516]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3363,10 +3705,12 @@ jmp .L116
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+559]
+; primary(); after a non lexpr
+	lea rax, [abs string+531]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3374,12 +3718,14 @@ jmp .L116
 	pop rdi
 	pop r13
 ; lexpr()
+; primary(); after a non lexpr
 ; lexpr()
-; lexpr()
-	lea rax, [rbp-32]
+	lea rax, [rbp-40]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
@@ -3391,10 +3737,12 @@ jmp .L116
 	jz .L125
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+570]
+; primary(); after a non lexpr
+	lea rax, [abs string+542]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3403,20 +3751,25 @@ jmp .L116
 	pop r13
 .L125: ; if
 ; lexpr()
-	mov rax, 0
+	lea rax, [rbp-32]
+; primary(); after a lexpr
 	push rax
+	push 0
 ; lexpr()
-	lea rax, [rbp-24]
+; primary(); after a non lexpr
+	mov rax, 0
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 .L127: ; while continue
 ; lexpr()
-	lea rax, [rbp-24]
+	lea rax, [rbp-32]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
-	lea rax, [rbp-32]
+	lea rax, [rbp-40]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	mov rcx, rax
 	pop rax
@@ -3427,10 +3780,12 @@ jmp .L116
 	jz .L128
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+583]
+; primary(); after a non lexpr
+	lea rax, [abs string+555]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3439,29 +3794,35 @@ jmp .L116
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, ra
-	push rax
+	push rax ; lexpr index
 ; lexpr()
-	lea rax, [rbp-32]
+	lea rax, [rbp-40]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
-	lea rax, [rbp-24]
+	lea rax, [rbp-32]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	mov rcx, rax
 	pop rax
 	sub rax, rcx
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	sub rax, rcx
 	pop rcx
-	mov rax, [rcx+rax*8]
+	lea rax, [rcx+rax*8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3470,10 +3831,12 @@ jmp .L116
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+589]
+; primary(); after a non lexpr
+	lea rax, [abs string+561]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3481,28 +3844,34 @@ jmp .L116
 	pop rdi
 	pop r13
 ; lexpr()
-	lea rax, [rbp-24]
+	lea rax, [rbp-32]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-32]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-24]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 jmp .L127
 .L128: ; while break
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+591]
+; primary(); after a non lexpr
+	lea rax, [abs string+563]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3510,16 +3879,20 @@ jmp .L127
 	pop rdi
 	pop r13
 ; lexpr()
-	mov rax, 0
+	lea rax, [rbp-56]
+; primary(); after a lexpr
 	push rax
+	push 0
 ; lexpr()
-	lea rax, [rbp-48]
+; primary(); after a non lexpr
+	mov rax, 0
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 .L114: ; if
 ; lexpr()
 	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -3527,8 +3900,14 @@ jmp .L127
 	call r13
 	add rsp, 8
 	pop r13
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
 ; lexpr()
 	lea rax, peek
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -3536,65 +3915,96 @@ jmp .L127
 	call r13
 	add rsp, 8
 	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
-	lea rax, [rbp-8]
+	lea rax, [rbp-56]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
-	push rax
-; lexpr()
-	mov rax, 91
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
 	test rax, rax
 	jz .L130
 ; lexpr()
-	lea rax, [rbp-48]
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+573]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+.L130: ; if
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	leave
+	ret
+p5:
+	push rbp
+	mov rbp, rsp
+	sub rsp, 64
+; lexpr()
+	lea rax, whitespace
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, peek
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, [rbp-40]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
-	mov rax, 2
+; primary(); after a non lexpr
+	mov rax, 126
 	mov rcx, rax
 	pop rax
 	cmp rax, rcx
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L131
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+601]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-.L131: ; if
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+641]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
+	jz .L132
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -3603,20 +4013,13 @@ jmp .L127
 	add rsp, 8
 	pop r13
 ; lexpr()
-	lea rax, expr
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, expect
+	lea rax, p6
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	mov rax, 93
+; primary(); after a non lexpr
+	mov rax, 0
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3625,22 +4028,12 @@ jmp .L127
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+652]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+662]
+; primary(); after a non lexpr
+	lea rax, [abs string+604]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3648,81 +4041,111 @@ jmp .L127
 	pop rdi
 	pop r13
 jmp .L133
-.L130: ; if
+.L132: ; if
 ; lexpr()
-	lea rax, [rbp-48]
+	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
+	push rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 45
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
 	test rax, rax
 	jz .L134
 ; lexpr()
-	lea rax, emits
+	lea rax, next
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+; lexpr()
+	lea rax, p6
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+685]
+; primary(); after a non lexpr
+	mov rax, 0
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+614]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+jmp .L135
 .L134: ; if
-.L133: ; else
-; lexpr()
-	lea rax, [rbp-48]
-	mov rax, [rax] ; Lexpr deref
-	leave
-	ret
-	leave
-	ret
-expr:
-	push rbp
-	mov rbp, rsp
-	sub rsp, 32
-; lexpr()
-	lea rax, primary
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, whitespace
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-.L136: ; while continue
-; lexpr()
-	mov rax, 1
-	test rax, rax
-	jz .L137
-; lexpr()
-	lea rax, peek
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
 ; lexpr()
 	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 43
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L136
+; lexpr()
+	lea rax, next
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+; lexpr()
+	lea rax, p6
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+jmp .L137
+.L136: ; if
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 33
 	mov rcx, rax
 	pop rax
 	cmp rax, rcx
@@ -3732,6 +4155,7 @@ expr:
 	jz .L138
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -3740,41 +4164,13 @@ expr:
 	add rsp, 8
 	pop r13
 ; lexpr()
-	lea rax, emits
+	lea rax, p6
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+716]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, primary
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, whitespace
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+727]
+; primary(); after a non lexpr
+	mov rax, 0
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3783,10 +4179,12 @@ expr:
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+742]
+; primary(); after a non lexpr
+	lea rax, [abs string+624]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3795,10 +4193,26 @@ expr:
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+752]
+; primary(); after a non lexpr
+	lea rax, [abs string+640]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+650]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -3808,11 +4222,50 @@ expr:
 jmp .L139
 .L138: ; if
 ; lexpr()
-	lea rax, [rbp-8]
-	mov rax, [rax] ; Lexpr deref
+	lea rax, p6
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	leave
+	ret
+.L139: ; else
+.L137: ; else
+.L135: ; else
+.L133: ; else
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	leave
+	ret
+	leave
+	ret
+p4:
+	push rbp
+	mov rbp, rsp
+	sub rsp, 32
+; lexpr()
+	lea rax, p5
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
 	push rax
 ; lexpr()
-	mov rax, 45
+; primary(); after a non lexpr
+	mov rax, 1
 	mov rcx, rax
 	pop rax
 	cmp rax, rcx
@@ -3821,127 +4274,14 @@ jmp .L139
 	test rax, rax
 	jz .L140
 ; lexpr()
-	lea rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+767]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, primary
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, whitespace
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+778]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+793]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+803]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-jmp .L141
+; primary(); after a non lexpr
+	mov rax, 1
+	leave
+	ret
 .L140: ; if
 ; lexpr()
-	lea rax, [rbp-8]
-	mov rax, [rax] ; Lexpr deref
-	push rax
-; lexpr()
-	mov rax, 38
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L142
-; lexpr()
-	lea rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+818]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, primary
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
 	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -3949,50 +4289,38 @@ jmp .L141
 	call r13
 	add rsp, 8
 	pop r13
+.L142: ; while continue
 ; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+829]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+844]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+854]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-jmp .L143
-.L142: ; if
+; primary(); after a non lexpr
+	mov rax, 1
+	test rax, rax
+	jz .L143
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, peek
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
-	mov rax, 124
+; primary(); after a non lexpr
+	mov rax, 38
 	mov rcx, rax
 	pop rax
 	cmp rax, rcx
@@ -4002,6 +4330,7 @@ jmp .L143
 	jz .L144
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -4011,10 +4340,12 @@ jmp .L143
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+869]
+; primary(); after a non lexpr
+	lea rax, [abs string+666]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4022,7 +4353,8 @@ jmp .L143
 	pop rdi
 	pop r13
 ; lexpr()
-	lea rax, primary
+	lea rax, p5
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -4032,6 +4364,7 @@ jmp .L143
 	pop r13
 ; lexpr()
 	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -4041,10 +4374,12 @@ jmp .L143
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+880]
+; primary(); after a non lexpr
+	lea rax, [abs string+677]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4053,10 +4388,12 @@ jmp .L143
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+895]
+; primary(); after a non lexpr
+	lea rax, [abs string+692]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4065,10 +4402,12 @@ jmp .L143
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+905]
+; primary(); after a non lexpr
+	lea rax, [abs string+702]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4079,10 +4418,12 @@ jmp .L145
 .L144: ; if
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
-	mov rax, 94
+; primary(); after a non lexpr
+	mov rax, 124
 	mov rcx, rax
 	pop rax
 	cmp rax, rcx
@@ -4092,6 +4433,7 @@ jmp .L145
 	jz .L146
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -4101,10 +4443,12 @@ jmp .L145
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+919]
+; primary(); after a non lexpr
+	lea rax, [abs string+717]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4112,7 +4456,8 @@ jmp .L145
 	pop rdi
 	pop r13
 ; lexpr()
-	lea rax, primary
+	lea rax, p5
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -4122,6 +4467,7 @@ jmp .L145
 	pop r13
 ; lexpr()
 	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -4131,10 +4477,12 @@ jmp .L145
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+930]
+; primary(); after a non lexpr
+	lea rax, [abs string+728]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4143,10 +4491,12 @@ jmp .L145
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+945]
+; primary(); after a non lexpr
+	lea rax, [abs string+743]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4155,10 +4505,12 @@ jmp .L145
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+955]
+; primary(); after a non lexpr
+	lea rax, [abs string+753]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4169,10 +4521,12 @@ jmp .L147
 .L146: ; if
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
-	mov rax, 42
+; primary(); after a non lexpr
+	mov rax, 94
 	mov rcx, rax
 	pop rax
 	cmp rax, rcx
@@ -4182,6 +4536,7 @@ jmp .L147
 	jz .L148
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -4191,10 +4546,12 @@ jmp .L147
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+970]
+; primary(); after a non lexpr
+	lea rax, [abs string+767]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4202,7 +4559,8 @@ jmp .L147
 	pop rdi
 	pop r13
 ; lexpr()
-	lea rax, primary
+	lea rax, p5
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -4212,6 +4570,7 @@ jmp .L147
 	pop r13
 ; lexpr()
 	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -4221,10 +4580,12 @@ jmp .L147
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+981]
+; primary(); after a non lexpr
+	lea rax, [abs string+778]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4233,10 +4594,12 @@ jmp .L147
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+996]
+; primary(); after a non lexpr
+	lea rax, [abs string+793]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4245,10 +4608,12 @@ jmp .L147
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1006]
+; primary(); after a non lexpr
+	lea rax, [abs string+803]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4259,10 +4624,12 @@ jmp .L149
 .L148: ; if
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
-	mov rax, 47
+; primary(); after a non lexpr
+	mov rax, 42
 	mov rcx, rax
 	pop rax
 	cmp rax, rcx
@@ -4272,6 +4639,7 @@ jmp .L149
 	jz .L150
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -4281,10 +4649,12 @@ jmp .L149
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1016]
+; primary(); after a non lexpr
+	lea rax, [abs string+818]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4292,7 +4662,8 @@ jmp .L149
 	pop rdi
 	pop r13
 ; lexpr()
-	lea rax, primary
+	lea rax, p5
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -4302,6 +4673,7 @@ jmp .L149
 	pop r13
 ; lexpr()
 	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -4311,10 +4683,12 @@ jmp .L149
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1027]
+; primary(); after a non lexpr
+	lea rax, [abs string+829]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4323,10 +4697,12 @@ jmp .L149
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1042]
+; primary(); after a non lexpr
+	lea rax, [abs string+844]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4335,22 +4711,12 @@ jmp .L149
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1052]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1067]
+; primary(); after a non lexpr
+	lea rax, [abs string+854]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4361,10 +4727,12 @@ jmp .L151
 .L150: ; if
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
-	mov rax, 37
+; primary(); after a non lexpr
+	mov rax, 47
 	mov rcx, rax
 	pop rax
 	cmp rax, rcx
@@ -4374,6 +4742,7 @@ jmp .L151
 	jz .L152
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -4383,10 +4752,12 @@ jmp .L151
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1077]
+; primary(); after a non lexpr
+	lea rax, [abs string+864]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4394,7 +4765,8 @@ jmp .L151
 	pop rdi
 	pop r13
 ; lexpr()
-	lea rax, primary
+	lea rax, p5
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -4404,6 +4776,7 @@ jmp .L151
 	pop r13
 ; lexpr()
 	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -4413,10 +4786,12 @@ jmp .L151
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1088]
+; primary(); after a non lexpr
+	lea rax, [abs string+875]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4425,10 +4800,12 @@ jmp .L151
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1103]
+; primary(); after a non lexpr
+	lea rax, [abs string+890]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4437,10 +4814,12 @@ jmp .L151
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1113]
+; primary(); after a non lexpr
+	lea rax, [abs string+900]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4449,22 +4828,12 @@ jmp .L151
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1128]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1138]
+; primary(); after a non lexpr
+	lea rax, [abs string+915]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4475,10 +4844,12 @@ jmp .L153
 .L152: ; if
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
-	mov rax, 61
+; primary(); after a non lexpr
+	mov rax, 37
 	mov rcx, rax
 	pop rax
 	cmp rax, rcx
@@ -4488,6 +4859,7 @@ jmp .L153
 	jz .L154
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -4496,23 +4868,13 @@ jmp .L153
 	add rsp, 8
 	pop r13
 ; lexpr()
-	lea rax, expect
-	push r13
-	mov r13, rax
-; lexpr()
-	mov rax, 61
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1153]
+; primary(); after a non lexpr
+	lea rax, [abs string+925]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4520,7 +4882,8 @@ jmp .L153
 	pop rdi
 	pop r13
 ; lexpr()
-	lea rax, primary
+	lea rax, p5
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -4530,6 +4893,7 @@ jmp .L153
 	pop r13
 ; lexpr()
 	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -4539,10 +4903,12 @@ jmp .L153
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1164]
+; primary(); after a non lexpr
+	lea rax, [abs string+936]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4551,10 +4917,12 @@ jmp .L153
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1179]
+; primary(); after a non lexpr
+	lea rax, [abs string+951]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4563,10 +4931,12 @@ jmp .L153
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1189]
+; primary(); after a non lexpr
+	lea rax, [abs string+961]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4575,10 +4945,12 @@ jmp .L153
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1204]
+; primary(); after a non lexpr
+	lea rax, [abs string+976]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4587,10 +4959,12 @@ jmp .L153
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1214]
+; primary(); after a non lexpr
+	lea rax, [abs string+986]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4599,12 +4973,40 @@ jmp .L153
 	pop r13
 jmp .L155
 .L154: ; if
+	jmp .L143 ; break
+.L155: ; else
+.L153: ; else
+.L151: ; else
+.L149: ; else
+.L147: ; else
+.L145: ; else
+jmp .L142
+.L143: ; while break
 ; lexpr()
-	lea rax, [rbp-8]
-	mov rax, [rax] ; Lexpr deref
+; primary(); after a non lexpr
+	mov rax, 0
+	leave
+	ret
+	leave
+	ret
+p3:
+	push rbp
+	mov rbp, rsp
+	sub rsp, 32
+; lexpr()
+	lea rax, p4
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
 	push rax
 ; lexpr()
-	mov rax, 33
+; primary(); after a non lexpr
+	mov rax, 1
 	mov rcx, rax
 	pop rax
 	cmp rax, rcx
@@ -4613,133 +5015,14 @@ jmp .L155
 	test rax, rax
 	jz .L156
 ; lexpr()
-	lea rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, expect
-	push r13
-	mov r13, rax
-; lexpr()
-	mov rax, 61
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1230]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, primary
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, whitespace
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1241]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1256]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1266]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1281]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1292]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-jmp .L157
+; primary(); after a non lexpr
+	mov rax, 1
+	leave
+	ret
 .L156: ; if
 ; lexpr()
-	lea rax, [rbp-8]
-	mov rax, [rax] ; Lexpr deref
-	push rax
-; lexpr()
-	mov rax, 60
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L158
-; lexpr()
-	lea rax, next
+	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -4747,54 +5030,20 @@ jmp .L157
 	call r13
 	add rsp, 8
 	pop r13
+.L158: ; while continue
 ; lexpr()
-	mov rax, 0
-	push rax
-; lexpr()
-	lea rax, [rbp-16]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, peek
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-; lexpr()
-	mov rax, 61
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
+; primary(); after a non lexpr
+	mov rax, 1
 	test rax, rax
 	jz .L159
 ; lexpr()
-	mov rax, 1
+	lea rax, [rbp-8]
+; primary(); after a lexpr
 	push rax
-; lexpr()
-	lea rax, [rbp-16]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, next
-	push r13
-	mov r13, rax
 	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-jmp .L160
-.L159: ; if
 ; lexpr()
 	lea rax, peek
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -4802,26 +5051,27 @@ jmp .L160
 	call r13
 	add rsp, 8
 	pop r13
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
-	mov rax, 60
+; primary(); after a non lexpr
+	mov rax, 43
 	mov rcx, rax
 	pop rax
 	cmp rax, rcx
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L161
-; lexpr()
-	mov rax, 2
-	push rax
-; lexpr()
-	lea rax, [rbp-16]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	jz .L160
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -4829,14 +5079,14 @@ jmp .L160
 	call r13
 	add rsp, 8
 	pop r13
-.L161: ; if
-.L160: ; else
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1308]
+; primary(); after a non lexpr
+	lea rax, [abs string+1001]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4844,7 +5094,8 @@ jmp .L160
 	pop rdi
 	pop r13
 ; lexpr()
-	lea rax, primary
+	lea rax, p4
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -4854,6 +5105,7 @@ jmp .L160
 	pop r13
 ; lexpr()
 	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -4863,10 +5115,12 @@ jmp .L160
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1319]
+; primary(); after a non lexpr
+	lea rax, [abs string+1012]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4875,10 +5129,12 @@ jmp .L160
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1334]
+; primary(); after a non lexpr
+	lea rax, [abs string+1027]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4886,38 +5142,88 @@ jmp .L160
 	pop rdi
 	pop r13
 ; lexpr()
-	lea rax, [rbp-16]
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1037]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+jmp .L161
+.L160: ; if
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
-	mov rax, 2
+; primary(); after a non lexpr
+	mov rax, 45
 	mov rcx, rax
 	pop rax
 	cmp rax, rcx
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L163
+	jz .L162
+; lexpr()
+	lea rax, next
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1344]
+; primary(); after a non lexpr
+	lea rax, [abs string+1052]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
-jmp .L164
-.L163: ; if
+; lexpr()
+	lea rax, p4
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+; lexpr()
+	lea rax, whitespace
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1358]
+; primary(); after a non lexpr
+	lea rax, [abs string+1063]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -4925,10 +5231,64 @@ jmp .L164
 	pop rdi
 	pop r13
 ; lexpr()
-	lea rax, [rbp-16]
-	mov rax, [rax] ; Lexpr deref
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1078]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1088]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+jmp .L163
+.L162: ; if
+	jmp .L159 ; break
+.L163: ; else
+.L161: ; else
+jmp .L158
+.L159: ; while break
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	leave
+	ret
+	leave
+	ret
+p2:
+	push rbp
+	mov rbp, rsp
+	sub rsp, 32
+; lexpr()
+	lea rax, p3
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
@@ -4936,55 +5296,55 @@ jmp .L164
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L165
+	jz .L164
 ; lexpr()
-	lea rax, emits
+; primary(); after a non lexpr
+	mov rax, 1
+	leave
+	ret
+.L164: ; if
+; lexpr()
+	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1373]
-	push rdi
-	mov rdi, rax
+	push 0
 	xor rax, rax
 	call r13
-	pop rdi
+	add rsp, 8
 	pop r13
-jmp .L166
-.L165: ; if
+.L166: ; while continue
 ; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1384]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-.L166: ; else
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1394]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-.L164: ; else
-jmp .L167
-.L158: ; if
+; primary(); after a non lexpr
+	mov rax, 1
+	test rax, rax
+	jz .L167
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, peek
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
-	mov rax, 62
+; primary(); after a non lexpr
+	mov rax, 61
 	mov rcx, rax
 	pop rax
 	cmp rax, rcx
@@ -4994,6 +5354,7 @@ jmp .L167
 	jz .L168
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -5002,95 +5363,13 @@ jmp .L167
 	add rsp, 8
 	pop r13
 ; lexpr()
-	mov rax, 0
-	push rax
-; lexpr()
-	lea rax, [rbp-16]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, peek
+	lea rax, expect
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 61
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L169
-; lexpr()
-	mov rax, 1
-	push rax
-; lexpr()
-	lea rax, [rbp-16]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-jmp .L170
-.L169: ; if
-; lexpr()
-	lea rax, peek
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-; lexpr()
-	mov rax, 62
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L171
-; lexpr()
-	mov rax, 2
-	push rax
-; lexpr()
-	lea rax, [rbp-16]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-.L171: ; if
-.L170: ; else
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1410]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -5098,7 +5377,22 @@ jmp .L170
 	pop rdi
 	pop r13
 ; lexpr()
-	lea rax, primary
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1103]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, p3
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -5108,6 +5402,7 @@ jmp .L170
 	pop r13
 ; lexpr()
 	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -5117,10 +5412,12 @@ jmp .L170
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1421]
+; primary(); after a non lexpr
+	lea rax, [abs string+1114]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -5129,10 +5426,12 @@ jmp .L170
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1436]
+; primary(); after a non lexpr
+	lea rax, [abs string+1129]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -5140,11 +5439,244 @@ jmp .L170
 	pop rdi
 	pop r13
 ; lexpr()
-	lea rax, [rbp-16]
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1139]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1154]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1164]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+jmp .L169
+.L168: ; if
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
-	mov rax, 2
+; primary(); after a non lexpr
+	mov rax, 33
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L170
+; lexpr()
+	lea rax, next
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+; lexpr()
+	lea rax, expect
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 61
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1180]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, p3
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+; lexpr()
+	lea rax, whitespace
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1191]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1206]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1216]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1231]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1242]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+jmp .L171
+.L170: ; if
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 60
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L172
+; lexpr()
+	lea rax, next
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, peek
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	push rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 61
 	mov rcx, rax
 	pop rax
 	cmp rax, rcx
@@ -5153,37 +5685,42 @@ jmp .L170
 	test rax, rax
 	jz .L173
 ; lexpr()
-	lea rax, emits
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 1
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1446]
-	push rdi
-	mov rdi, rax
+	push 0
 	xor rax, rax
 	call r13
-	pop rdi
+	add rsp, 8
 	pop r13
 jmp .L174
 .L173: ; if
 ; lexpr()
-	lea rax, emits
+	lea rax, peek
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1460]
-	push rdi
-	mov rdi, rax
+	push 0
 	xor rax, rax
 	call r13
-	pop rdi
+	add rsp, 8
 	pop r13
-; lexpr()
-	lea rax, [rbp-16]
-	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
-	mov rax, 1
+; primary(); after a non lexpr
+	mov rax, 60
 	mov rcx, rax
 	pop rax
 	cmp rax, rcx
@@ -5192,64 +5729,55 @@ jmp .L174
 	test rax, rax
 	jz .L175
 ; lexpr()
-	lea rax, emits
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 2
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1475]
-	push rdi
-	mov rdi, rax
+	push 0
 	xor rax, rax
 	call r13
-	pop rdi
+	add rsp, 8
 	pop r13
-jmp .L176
 .L175: ; if
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1486]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-.L176: ; else
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1496]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
 .L174: ; else
-jmp .L177
-.L168: ; if
-	jmp .L137 ; break
-.L177: ; else
-.L167: ; else
-.L157: ; else
-.L155: ; else
-.L153: ; else
-.L151: ; else
-.L149: ; else
-.L147: ; else
-.L145: ; else
-.L143: ; else
-.L141: ; else
-.L139: ; else
-jmp .L136
-.L137: ; while break
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1258]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, p3
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
 ; lexpr()
 	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -5258,25 +5786,601 @@ jmp .L136
 	add rsp, 8
 	pop r13
 ; lexpr()
-	lea rax, peek
+	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
-	push 0
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1269]
+	push rdi
+	mov rdi, rax
 	xor rax, rax
 	call r13
-	add rsp, 8
+	pop rdi
 	pop r13
-	push rax
 ; lexpr()
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
 ; lexpr()
-	lea rax, [rbp-8]
+; primary(); after a non lexpr
+	lea rax, [abs string+1284]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
+	mov rax, 2
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L177
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1294]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+jmp .L178
+.L177: ; if
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1308]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 1
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L179
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1323]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+jmp .L180
+.L179: ; if
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1334]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+.L180: ; else
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1344]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+.L178: ; else
+jmp .L181
+.L172: ; if
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 62
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L182
+; lexpr()
+	lea rax, next
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, peek
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	push rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 61
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L183
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 1
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, next
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+jmp .L184
+.L183: ; if
+; lexpr()
+	lea rax, peek
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	push rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 62
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L185
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 2
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, next
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+.L185: ; if
+.L184: ; else
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1360]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, p3
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+; lexpr()
+	lea rax, whitespace
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1371]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1386]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 2
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L187
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1396]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+jmp .L188
+.L187: ; if
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1410]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 1
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L189
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1425]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+jmp .L190
+.L189: ; if
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1436]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+.L190: ; else
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1446]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+.L188: ; else
+jmp .L191
+.L182: ; if
+	jmp .L167 ; break
+.L191: ; else
+.L181: ; else
+.L171: ; else
+.L169: ; else
+jmp .L166
+.L167: ; while break
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	leave
+	ret
+	leave
+	ret
+p1:
+	push rbp
+	mov rbp, rsp
+	sub rsp, 32
+; lexpr()
+	lea rax, p2
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	push rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 1
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L192
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1462]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1473]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, p1
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1482]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1495]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1505]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	leave
+	ret
+.L192: ; if
+; lexpr()
+	lea rax, whitespace
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+.L194: ; while continue
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 1
+	test rax, rax
+	jz .L195
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, peek
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rax
+; lexpr()
+; primary(); after a non lexpr
 	mov rax, 58
 	mov rcx, rax
 	pop rax
@@ -5284,9 +6388,10 @@ jmp .L136
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L178
+	jz .L196
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -5296,10 +6401,12 @@ jmp .L136
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1512]
+; primary(); after a non lexpr
+	lea rax, [abs string+1522]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -5307,8 +6414,8 @@ jmp .L136
 	pop rdi
 	pop r13
 ; lexpr()
-; lexpr()
 	lea rax, lexpr
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -5320,20 +6427,21 @@ jmp .L136
 	setz al
 	movzx rax, al
 	test rax, rax
-	jz .L179
+	jz .L197
 ; lexpr()
 	lea rax, fprintf
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-; lexpr()
 	lea rax, stderr
-	mov rax, [rax] ; Lexpr deref
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 ; lexpr()
-	lea rax, [abs string+1523]
+; primary(); after a non lexpr
+	lea rax, [abs string+1571]
 	push rsi
 	mov rsi, rax
 	push 0
@@ -5345,9 +6453,11 @@ jmp .L136
 	pop r13
 ; lexpr()
 	lea rax, exit
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	push rdi
 	mov rdi, rax
@@ -5355,13 +6465,15 @@ jmp .L136
 	call r13
 	pop rdi
 	pop r13
-.L179: ; if
+.L197: ; if
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1584]
+; primary(); after a non lexpr
+	lea rax, [abs string+1693]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -5370,10 +6482,12 @@ jmp .L136
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1594]
+; primary(); after a non lexpr
+	lea rax, [abs string+1703]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -5382,17 +6496,40 @@ jmp .L136
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1611]
+; primary(); after a non lexpr
+	lea rax, [abs string+1720]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
-.L178: ; if
+jmp .L199
+.L196: ; if
+	jmp .L195 ; break
+.L199: ; else
+jmp .L194
+.L195: ; while break
+	leave
+	ret
+expr:
+	push rbp
+	mov rbp, rsp
+	sub rsp, 16
+; lexpr()
+	lea rax, p1
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
 	leave
 	ret
 section .bss
@@ -5404,16 +6541,25 @@ tryword:
 	mov [rbp-8], rdi
 	sub rsp, 48
 ; lexpr()
-	lea rax, [rbp-8]
-	mov rax, [rax] ; Lexpr deref
-	push rax
-; lexpr()
 	lea rax, [rbp-24]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
 ; lexpr()
 	lea rax, peek
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -5421,22 +6567,22 @@ tryword:
 	call r13
 	add rsp, 8
 	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-16]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
 	lea rax, Blchar
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -5450,29 +6596,35 @@ tryword:
 	setne al
 	movzx rax, al
 	test rax, rax
-	jz .L182
+	jz .L200
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	leave
 	ret
-.L182: ; if
+.L200: ; if
 ; lexpr()
 	lea rax, [rbp-24]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-24]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-24]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -5480,13 +6632,15 @@ tryword:
 	call r13
 	add rsp, 8
 	pop r13
-.L184: ; while continue
+.L202: ; while continue
 ; lexpr()
 	lea rax, Blchar
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-24]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -5495,9 +6649,15 @@ tryword:
 	pop rdi
 	pop r13
 	test rax, rax
-	jz .L185
+	jz .L203
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
 ; lexpr()
 	lea rax, peek
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -5505,22 +6665,22 @@ tryword:
 	call r13
 	add rsp, 8
 	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-16]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
 	lea rax, Blchar
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-24]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -5534,23 +6694,28 @@ tryword:
 	setne al
 	movzx rax, al
 	test rax, rax
-	jz .L186
+	jz .L204
+; lexpr()
+	lea rax, [rbp-32]
+; primary(); after a lexpr
+	push rax
+	push 0
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
-	push rax
-; lexpr()
-	lea rax, [rbp-32]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-.L187: ; while continue
+	mov [rcx], rax
+.L205: ; while continue
 ; lexpr()
 	lea rax, [rbp-32]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
 	lea rax, [rbp-24]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	mov rcx, rax
 	pop rax
@@ -5558,15 +6723,18 @@ tryword:
 	setb al
 	movzx rax, al
 	test rax, rax
-	jz .L188
+	jz .L206
 ; lexpr()
 	lea rax, push
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 ; lexpr()
 	lea rax, [rbp-32]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -5576,27 +6744,33 @@ tryword:
 	pop r13
 ; lexpr()
 	lea rax, [rbp-32]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-32]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-32]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-jmp .L187
-.L188: ; while break
+	mov [rcx], rax
+jmp .L205
+.L206: ; while break
 ; lexpr()
 	lea rax, push
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -5606,6 +6780,7 @@ jmp .L187
 	pop r13
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -5614,27 +6789,33 @@ jmp .L187
 	add rsp, 8
 	pop r13
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	leave
 	ret
-.L186: ; if
+.L204: ; if
 ; lexpr()
 	lea rax, [rbp-24]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-24]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-24]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -5642,29 +6823,34 @@ jmp .L187
 	call r13
 	add rsp, 8
 	pop r13
-jmp .L184
-.L185: ; while break
-; lexpr()
-	lea rax, peek
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
+jmp .L202
+.L203: ; while break
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, peek
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, isalnum
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -5673,23 +6859,28 @@ jmp .L184
 	pop rdi
 	pop r13
 	test rax, rax
-	jz .L190
+	jz .L208
+; lexpr()
+	lea rax, [rbp-32]
+; primary(); after a lexpr
+	push rax
+	push 0
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
-	push rax
-; lexpr()
-	lea rax, [rbp-32]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-.L191: ; while continue
+	mov [rcx], rax
+.L209: ; while continue
 ; lexpr()
 	lea rax, [rbp-32]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
 	lea rax, [rbp-24]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	mov rcx, rax
 	pop rax
@@ -5697,15 +6888,18 @@ jmp .L184
 	setb al
 	movzx rax, al
 	test rax, rax
-	jz .L192
+	jz .L210
 ; lexpr()
 	lea rax, push
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 ; lexpr()
 	lea rax, [rbp-32]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -5715,27 +6909,33 @@ jmp .L184
 	pop r13
 ; lexpr()
 	lea rax, [rbp-32]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-32]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-32]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-jmp .L191
-.L192: ; while break
+	mov [rcx], rax
+jmp .L209
+.L210: ; while break
 ; lexpr()
 	lea rax, push
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -5745,6 +6945,7 @@ jmp .L191
 	pop r13
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -5753,12 +6954,14 @@ jmp .L191
 	add rsp, 8
 	pop r13
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	leave
 	ret
-.L190: ; if
+.L208: ; if
 ; lexpr()
 	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -5767,6 +6970,7 @@ jmp .L191
 	add rsp, 8
 	pop r13
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	leave
 	ret
@@ -5778,6 +6982,7 @@ stmt:
 	sub rsp, 64
 ; lexpr()
 	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -5785,8 +6990,14 @@ stmt:
 	call r13
 	add rsp, 8
 	pop r13
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
 ; lexpr()
 	lea rax, peek
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -5794,17 +7005,16 @@ stmt:
 	call r13
 	add rsp, 8
 	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 123
 	mov rcx, rax
 	pop rax
@@ -5812,9 +7022,10 @@ stmt:
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L194
+	jz .L212
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -5824,6 +7035,7 @@ stmt:
 	pop r13
 ; lexpr()
 	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -5831,9 +7043,10 @@ stmt:
 	call r13
 	add rsp, 8
 	pop r13
-.L195: ; while continue
+.L213: ; while continue
 ; lexpr()
 	lea rax, peek
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -5843,6 +7056,7 @@ stmt:
 	pop r13
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 125
 	mov rcx, rax
 	pop rax
@@ -5850,9 +7064,10 @@ stmt:
 	setne al
 	movzx rax, al
 	test rax, rax
-	jz .L196
+	jz .L214
 ; lexpr()
 	lea rax, stmt
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -5862,6 +7077,7 @@ stmt:
 	pop r13
 ; lexpr()
 	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -5869,10 +7085,11 @@ stmt:
 	call r13
 	add rsp, 8
 	pop r13
-jmp .L195
-.L196: ; while break
+jmp .L213
+.L214: ; while break
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -5881,17 +7098,20 @@ jmp .L195
 	add rsp, 8
 	pop r13
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	leave
 	ret
-jmp .L197
-.L194: ; if
+jmp .L215
+.L212: ; if
 ; lexpr()
 	lea rax, tryword
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1626]
+; primary(); after a non lexpr
+	lea rax, [abs string+1735]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -5899,13 +7119,15 @@ jmp .L197
 	pop rdi
 	pop r13
 	test rax, rax
-	jz .L198
+	jz .L216
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1635]
+; primary(); after a non lexpr
+	lea rax, [abs string+1744]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -5914,10 +7136,12 @@ jmp .L197
 	pop r13
 ; lexpr()
 	lea rax, emitd
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, continueaddress
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -5927,10 +7151,12 @@ jmp .L197
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1643]
+; primary(); after a non lexpr
+	lea rax, [abs string+1752]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -5939,9 +7165,11 @@ jmp .L197
 	pop r13
 ; lexpr()
 	lea rax, expect
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 59
 	push rdi
 	mov rdi, rax
@@ -5950,17 +7178,20 @@ jmp .L197
 	pop rdi
 	pop r13
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	leave
 	ret
-jmp .L199
-.L198: ; if
+jmp .L217
+.L216: ; if
 ; lexpr()
 	lea rax, tryword
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1656]
+; primary(); after a non lexpr
+	lea rax, [abs string+1765]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -5968,13 +7199,15 @@ jmp .L199
 	pop rdi
 	pop r13
 	test rax, rax
-	jz .L200
+	jz .L218
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1662]
+; primary(); after a non lexpr
+	lea rax, [abs string+1771]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -5983,10 +7216,12 @@ jmp .L199
 	pop r13
 ; lexpr()
 	lea rax, emitd
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, breakaddress
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -5996,10 +7231,12 @@ jmp .L199
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1670]
+; primary(); after a non lexpr
+	lea rax, [abs string+1779]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -6008,9 +7245,11 @@ jmp .L199
 	pop r13
 ; lexpr()
 	lea rax, expect
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 59
 	push rdi
 	mov rdi, rax
@@ -6019,17 +7258,20 @@ jmp .L199
 	pop rdi
 	pop r13
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	leave
 	ret
-jmp .L201
-.L200: ; if
+jmp .L219
+.L218: ; if
 ; lexpr()
 	lea rax, tryword
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1680]
+; primary(); after a non lexpr
+	lea rax, [abs string+1789]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -6037,88 +7279,105 @@ jmp .L201
 	pop rdi
 	pop r13
 	test rax, rax
-	jz .L202
-; lexpr()
-	lea rax, continueaddress
-	mov rax, [rax] ; Lexpr deref
-	push rax
+	jz .L220
 ; lexpr()
 	lea rax, [rbp-40]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, breakaddress
-	mov rax, [rax] ; Lexpr deref
+; primary(); after a lexpr
 	push rax
+	push 0
+; lexpr()
+	lea rax, continueaddress
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, [rbp-48]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, addrcounter
-	mov rax, [rax] ; Lexpr deref
+; primary(); after a lexpr
 	push rax
+	push 0
+; lexpr()
+	lea rax, breakaddress
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, continueaddress
+; primary(); after a lexpr
+	push rax
+	push 0
 ; lexpr()
 	lea rax, [rbp-16]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+; primary(); after a lexpr
+	push rax
+	push 0
 ; lexpr()
 	lea rax, addrcounter
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, breakaddress
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-24]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, addrcounter
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-24]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, [rbp-16]
-	mov rax, [rax] ; Lexpr deref
-	push rax
-; lexpr()
-	lea rax, continueaddress
+	mov [rcx], rax
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, [rbp-24]
-	mov rax, [rax] ; Lexpr deref
-	push rax
-; lexpr()
-	lea rax, breakaddress
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, addrcounter
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, addrcounter
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 2
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, addrcounter
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1686]
+; primary(); after a non lexpr
+	lea rax, [abs string+1795]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -6127,10 +7386,12 @@ jmp .L201
 	pop r13
 ; lexpr()
 	lea rax, emitd
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -6140,10 +7401,12 @@ jmp .L201
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1689]
+; primary(); after a non lexpr
+	lea rax, [abs string+1798]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -6152,6 +7415,7 @@ jmp .L201
 	pop r13
 ; lexpr()
 	lea rax, expr
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -6161,453 +7425,11 @@ jmp .L201
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1709]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1725]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emitd
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [rbp-24]
-	mov rax, [rax] ; Lexpr deref
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emit
-	push r13
-	mov r13, rax
-; lexpr()
-	mov rax, 10
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, stmt
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1732]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emitd
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [rbp-16]
-	mov rax, [rax] ; Lexpr deref
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emit
-	push r13
-	mov r13, rax
-; lexpr()
-	mov rax, 10
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1739]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emitd
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [rbp-24]
-	mov rax, [rax] ; Lexpr deref
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1742]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, [rbp-40]
-	mov rax, [rax] ; Lexpr deref
-	push rax
-; lexpr()
-	lea rax, continueaddress
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, [rbp-48]
-	mov rax, [rax] ; Lexpr deref
-	push rax
-; lexpr()
-	lea rax, breakaddress
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	mov rax, 0
-	leave
-	ret
-jmp .L203
-.L202: ; if
-; lexpr()
-	lea rax, tryword
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1759]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	test rax, rax
-	jz .L204
-; lexpr()
-	lea rax, expr
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1766]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1774]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, whitespace
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, expect
-	push r13
-	mov r13, rax
-; lexpr()
-	mov rax, 59
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	mov rax, 0
-	leave
-	ret
-jmp .L205
-.L204: ; if
-; lexpr()
-	lea rax, tryword
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1780]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	test rax, rax
-	jz .L206
-; lexpr()
-	lea rax, addrcounter
-	mov rax, [rax] ; Lexpr deref
-	push rax
-; lexpr()
-	lea rax, [rbp-16]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, addrcounter
-	mov rax, [rax] ; Lexpr deref
-	push rax
-; lexpr()
-	mov rax, 1
-	mov rcx, rax
-	pop rax
-	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, addrcounter
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, expr
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1783]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1799]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emitd
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [rbp-16]
-	mov rax, [rax] ; Lexpr deref
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emit
-	push r13
-	mov r13, rax
-; lexpr()
-	mov rax, 10
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, stmt
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, whitespace
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, peek
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, tryword
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1806]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-32]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, addrcounter
-	mov rax, [rax] ; Lexpr deref
-	push rax
-; lexpr()
-	lea rax, [rbp-24]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, addrcounter
-	mov rax, [rax] ; Lexpr deref
-	push rax
-; lexpr()
-	mov rax, 1
-	mov rcx, rax
-	pop rax
-	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, addrcounter
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, [rbp-32]
-	mov rax, [rax] ; Lexpr deref
-	test rax, rax
-	jz .L207
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1811]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emitd
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [rbp-24]
-	mov rax, [rax] ; Lexpr deref
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emit
-	push r13
-	mov r13, rax
-; lexpr()
-	mov rax, 10
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-.L207: ; if
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
+; primary(); after a non lexpr
 	lea rax, [abs string+1818]
 	push rdi
 	mov rdi, rax
@@ -6616,50 +7438,13 @@ jmp .L205
 	pop rdi
 	pop r13
 ; lexpr()
-	lea rax, emitd
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [rbp-16]
-	mov rax, [rax] ; Lexpr deref
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1821]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, [rbp-32]
-	mov rax, [rax] ; Lexpr deref
-	test rax, rax
-	jz .L209
-; lexpr()
-	lea rax, stmt
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1829]
+; primary(); after a non lexpr
+	lea rax, [abs string+1834]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -6668,10 +7453,108 @@ jmp .L205
 	pop r13
 ; lexpr()
 	lea rax, emitd
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-24]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emit
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 10
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, stmt
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1841]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emitd
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emit
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 10
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1848]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emitd
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+	lea rax, [rbp-24]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -6681,29 +7564,68 @@ jmp .L205
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1832]
+; primary(); after a non lexpr
+	lea rax, [abs string+1851]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
-.L209: ; if
 ; lexpr()
+	lea rax, continueaddress
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-40]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, breakaddress
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-48]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	leave
 	ret
-.L206: ; if
-.L205: ; else
-.L203: ; else
-.L201: ; else
-.L199: ; else
-.L197: ; else
+jmp .L221
+.L220: ; if
+; lexpr()
+	lea rax, tryword
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1868]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	test rax, rax
+	jz .L222
 ; lexpr()
 	lea rax, expr
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -6712,7 +7634,36 @@ jmp .L205
 	add rsp, 8
 	pop r13
 ; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1875]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1883]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
 	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -6722,9 +7673,421 @@ jmp .L205
 	pop r13
 ; lexpr()
 	lea rax, expect
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
+	mov rax, 59
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	leave
+	ret
+jmp .L223
+.L222: ; if
+; lexpr()
+	lea rax, tryword
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1889]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	test rax, rax
+	jz .L224
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, addrcounter
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, addrcounter
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, addrcounter
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 1
+	mov rcx, rax
+	pop rax
+	add rax, rcx
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, expr
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1892]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1908]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emitd
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emit
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 10
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, stmt
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+; lexpr()
+	lea rax, whitespace
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, peek
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, [rbp-32]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, tryword
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1915]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, [rbp-24]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, addrcounter
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, addrcounter
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, addrcounter
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 1
+	mov rcx, rax
+	pop rax
+	add rax, rcx
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, [rbp-32]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	test rax, rax
+	jz .L225
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1920]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emitd
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+	lea rax, [rbp-24]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emit
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 10
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+.L225: ; if
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1927]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emitd
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1930]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, [rbp-32]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	test rax, rax
+	jz .L227
+; lexpr()
+	lea rax, stmt
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1938]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emitd
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+	lea rax, [rbp-24]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1941]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+.L227: ; if
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	leave
+	ret
+.L224: ; if
+.L223: ; else
+.L221: ; else
+.L219: ; else
+.L217: ; else
+.L215: ; else
+; lexpr()
+	lea rax, expr
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+; lexpr()
+	lea rax, whitespace
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+; lexpr()
+	lea rax, expect
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
 	mov rax, 59
 	push rdi
 	mov rdi, rax
@@ -6738,694 +8101,15 @@ top:
 	push rbp
 	mov rbp, rsp
 	sub rsp, 64
-.L212: ; while continue
+.L230: ; while continue
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
-	test rax, rax
-	jz .L213
-; lexpr()
-	lea rax, whitespace
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, peek
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, isalpha
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [rbp-8]
-	mov rax, [rax] ; Lexpr deref
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	test rax, rax
-	jz .L214
-; lexpr()
-	mov rax, 0
-	push rax
-; lexpr()
-	lea rax, [rbp-16]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-.L215: ; while continue
-; lexpr()
-	lea rax, isalnum
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [rbp-8]
-	mov rax, [rax] ; Lexpr deref
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	test rax, rax
-	jz .L216
-; lexpr()
-	lea rax, Bschar
-	push r13
-	mov r13, rax
-; lexpr()
-; lexpr()
-	lea rax, namebuffer
-	push rax
-; lexpr()
-	lea rax, [rbp-16]
-	mov rax, [rax] ; Lexpr deref
-	mov rcx, rax
-	pop rax
-	add rax, rcx
-	push rdi
-	mov rdi, rax
-; lexpr()
-	lea rax, [rbp-8]
-	mov rax, [rax] ; Lexpr deref
-	push rsi
-	mov rsi, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop rsi
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, [rbp-16]
-	mov rax, [rax] ; Lexpr deref
-	push rax
-; lexpr()
-	mov rax, 1
-	mov rcx, rax
-	pop rax
-	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-16]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-jmp .L215
-.L216: ; while break
-; lexpr()
-	lea rax, Bschar
-	push r13
-	mov r13, rax
-; lexpr()
-; lexpr()
-	lea rax, namebuffer
-	push rax
-; lexpr()
-	lea rax, [rbp-16]
-	mov rax, [rax] ; Lexpr deref
-	mov rcx, rax
-	pop rax
-	add rax, rcx
-	push rdi
-	mov rdi, rax
-; lexpr()
-	mov rax, 0
-	push rsi
-	mov rsi, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop rsi
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, strcmp
-	push r13
-	mov r13, rax
-; lexpr()
-; lexpr()
-	lea rax, namebuffer
-	push rdi
-	mov rdi, rax
-; lexpr()
-	lea rax, [abs string+1842]
-	push rsi
-	mov rsi, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop rsi
-	pop rdi
-	pop r13
-	push rax
-; lexpr()
-	mov rax, 0
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L217
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1849]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, whitespace
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, peek
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-.L218: ; while continue
-; lexpr()
-	lea rax, isalnum
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [rbp-8]
-	mov rax, [rax] ; Lexpr deref
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	test rax, rax
-	jz .L219
-; lexpr()
-	lea rax, emit
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [rbp-8]
-	mov rax, [rax] ; Lexpr deref
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-jmp .L218
-.L219: ; while break
-; lexpr()
-	lea rax, emit
-	push r13
-	mov r13, rax
-; lexpr()
-	mov rax, 10
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-jmp .L220
-.L217: ; if
-; lexpr()
-	lea rax, strcmp
-	push r13
-	mov r13, rax
-; lexpr()
-; lexpr()
-	lea rax, namebuffer
-	push rdi
-	mov rdi, rax
-; lexpr()
-	lea rax, [abs string+1857]
-	push rsi
-	mov rsi, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop rsi
-	pop rdi
-	pop r13
-	push rax
-; lexpr()
-	mov rax, 0
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L221
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1864]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, whitespace
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, peek
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-.L222: ; while continue
-; lexpr()
-	lea rax, isalnum
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [rbp-8]
-	mov rax, [rax] ; Lexpr deref
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	test rax, rax
-	jz .L223
-; lexpr()
-	lea rax, emit
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [rbp-8]
-	mov rax, [rax] ; Lexpr deref
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-jmp .L222
-.L223: ; while break
-; lexpr()
-	lea rax, emit
-	push r13
-	mov r13, rax
-; lexpr()
-	mov rax, 10
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-jmp .L224
-.L221: ; if
-; lexpr()
-	lea rax, strcmp
-	push r13
-	mov r13, rax
-; lexpr()
-; lexpr()
-	lea rax, namebuffer
-	push rdi
-	mov rdi, rax
-; lexpr()
-	lea rax, [abs string+1872]
-	push rsi
-	mov rsi, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop rsi
-	pop rdi
-	pop r13
-	push rax
-; lexpr()
-	mov rax, 0
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L225
-; lexpr()
-	lea rax, fprintf
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, stderr
-	mov rax, [rax] ; Lexpr deref
-	push rdi
-	mov rdi, rax
-; lexpr()
-	lea rax, [abs string+1879]
-	push rsi
-	mov rsi, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop rsi
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, exit
-	push r13
-	mov r13, rax
-; lexpr()
-	mov rax, 1
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-jmp .L226
-.L225: ; if
-; lexpr()
-	lea rax, peek
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-; lexpr()
-	mov rax, 59
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L227
-; lexpr()
-	lea rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1920]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-; lexpr()
-	lea rax, namebuffer
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1934]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1944]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-jmp .L228
-.L227: ; if
-; lexpr()
-	lea rax, peek
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-; lexpr()
-	mov rax, 91
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L229
-; lexpr()
-	lea rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1959]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-; lexpr()
-	lea rax, namebuffer
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1973]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, [rbp-8]
-	mov rax, [rax] ; Lexpr deref
-	push rax
-; lexpr()
-	mov rax, 48
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
-	test rax, rax
-	jz .L230
-; lexpr()
-	lea rax, next
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1981]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, [rbp-8]
-	mov rax, [rax] ; Lexpr deref
-	push rax
-; lexpr()
-	mov rax, 120
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	sete al
-	movzx rax, al
 	test rax, rax
 	jz .L231
 ; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+1983]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, next
+	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -7433,19 +8117,32 @@ jmp .L228
 	call r13
 	add rsp, 8
 	pop r13
-	push rax
 ; lexpr()
 	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-.L232: ; while continue
+; primary(); after a lexpr
+	push rax
+	push 0
 ; lexpr()
-	lea rax, isxdigit
+	lea rax, peek
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, isalpha
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -7454,13 +8151,27 @@ jmp .L228
 	pop rdi
 	pop r13
 	test rax, rax
-	jz .L233
+	jz .L232
 ; lexpr()
-	lea rax, emit
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+.L233: ; while continue
+; lexpr()
+	lea rax, isalnum
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -7468,8 +8179,48 @@ jmp .L228
 	call r13
 	pop rdi
 	pop r13
+	test rax, rax
+	jz .L234
+; lexpr()
+	lea rax, Bschar
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+; lexpr()
+	lea rax, namebuffer
+	push rax
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	mov rcx, rax
+	pop rax
+	add rax, rcx
+	push rdi
+	mov rdi, rax
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rsi
+	mov rsi, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop rsi
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -7477,33 +8228,146 @@ jmp .L228
 	call r13
 	add rsp, 8
 	pop r13
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
 ; lexpr()
-	lea rax, peek
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 1
+	mov rcx, rax
+	pop rax
+	add rax, rcx
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+jmp .L233
+.L234: ; while break
+; lexpr()
+	lea rax, Bschar
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+; lexpr()
+	lea rax, namebuffer
+	push rax
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	mov rcx, rax
+	pop rax
+	add rax, rcx
+	push rdi
+	mov rdi, rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	push rsi
+	mov rsi, rax
 	push 0
 	xor rax, rax
 	call r13
 	add rsp, 8
+	pop rsi
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, strcmp
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+; lexpr()
+	lea rax, namebuffer
+	push rdi
+	mov rdi, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1951]
+	push rsi
+	mov rsi, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop rsi
+	pop rdi
 	pop r13
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L235
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1958]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, whitespace
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, peek
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-jmp .L232
-.L233: ; while break
-.L231: ; if
-jmp .L235
-.L230: ; if
+	mov [rcx], rax
 .L236: ; while continue
 ; lexpr()
-	lea rax, isdigit
+	lea rax, isalnum
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -7515,10 +8379,12 @@ jmp .L235
 	jz .L237
 ; lexpr()
 	lea rax, emit
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -7527,7 +8393,262 @@ jmp .L235
 	pop rdi
 	pop r13
 ; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
 	lea rax, next
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+jmp .L236
+.L237: ; while break
+; lexpr()
+	lea rax, emit
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 10
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+jmp .L238
+.L235: ; if
+; lexpr()
+	lea rax, strcmp
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+; lexpr()
+	lea rax, namebuffer
+	push rdi
+	mov rdi, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1966]
+	push rsi
+	mov rsi, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop rsi
+	pop rdi
+	pop r13
+	push rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L239
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1973]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, whitespace
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, peek
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+.L240: ; while continue
+; lexpr()
+	lea rax, isalnum
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	test rax, rax
+	jz .L241
+; lexpr()
+	lea rax, emit
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, next
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+jmp .L240
+.L241: ; while break
+; lexpr()
+	lea rax, emit
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 10
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+jmp .L242
+.L239: ; if
+; lexpr()
+	lea rax, strcmp
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+; lexpr()
+	lea rax, namebuffer
+	push rdi
+	mov rdi, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1981]
+	push rsi
+	mov rsi, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop rsi
+	pop rdi
+	pop r13
+	push rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L243
+; lexpr()
+	lea rax, fprintf
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+	lea rax, stderr
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rdi
+	mov rdi, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+1988]
+	push rsi
+	mov rsi, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop rsi
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, exit
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 1
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+jmp .L244
+.L243: ; if
+; lexpr()
+	lea rax, peek
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -7537,31 +8658,33 @@ jmp .L235
 	pop r13
 	push rax
 ; lexpr()
-	lea rax, [rbp-8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-jmp .L236
-.L237: ; while break
-.L235: ; else
-; lexpr()
-	lea rax, expect
-	push r13
-	mov r13, rax
-; lexpr()
-	mov rax, 93
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, expect
-	push r13
-	mov r13, rax
-; lexpr()
+; primary(); after a non lexpr
 	mov rax, 59
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L245
+; lexpr()
+	lea rax, next
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2029]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -7570,23 +8693,11 @@ jmp .L236
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+1985]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-jmp .L238
-.L229: ; if
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
+; primary(); after a non lexpr
 ; lexpr()
 	lea rax, namebuffer
 	push rdi
@@ -7597,10 +8708,397 @@ jmp .L238
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+2001]
+; primary(); after a non lexpr
+	lea rax, [abs string+2043]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2053]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+jmp .L246
+.L245: ; if
+; lexpr()
+	lea rax, peek
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	push rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 91
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L247
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, next
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2068]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+; lexpr()
+	lea rax, namebuffer
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2082]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 48
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L248
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, next
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2090]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 120
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	sete al
+	movzx rax, al
+	test rax, rax
+	jz .L249
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2092]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, next
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+.L250: ; while continue
+; lexpr()
+	lea rax, isxdigit
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	test rax, rax
+	jz .L251
+; lexpr()
+	lea rax, emit
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, next
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, peek
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+jmp .L250
+.L251: ; while break
+.L249: ; if
+jmp .L253
+.L248: ; if
+.L254: ; while continue
+; lexpr()
+	lea rax, isdigit
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	test rax, rax
+	jz .L255
+; lexpr()
+	lea rax, emit
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, next
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+jmp .L254
+.L255: ; while break
+.L253: ; else
+; lexpr()
+	lea rax, expect
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 93
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, expect
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 59
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2094]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+jmp .L256
+.L247: ; if
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+; lexpr()
+	lea rax, namebuffer
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2110]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -7609,6 +9107,7 @@ jmp .L238
 	pop r13
 ; lexpr()
 	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -7618,9 +9117,11 @@ jmp .L238
 	pop r13
 ; lexpr()
 	lea rax, expect
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 40
 	push rdi
 	mov rdi, rax
@@ -7630,6 +9131,7 @@ jmp .L238
 	pop r13
 ; lexpr()
 	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -7638,59 +9140,74 @@ jmp .L238
 	add rsp, 8
 	pop r13
 ; lexpr()
-	mov rax, 0
-	push rax
-; lexpr()
 	lea rax, [rbp-32]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	mov rax, 0
+; primary(); after a lexpr
 	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, varcnt
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+2004]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+2015]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	mov rax, 0
+; primary(); after a lexpr
 	push rax
+	push 0
 ; lexpr()
-	lea rax, [rbp-16]
+; primary(); after a non lexpr
+	mov rax, 0
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-.L239: ; while continue
+	mov [rcx], rax
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2113]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2124]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+.L257: ; while continue
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 6
 	mov rcx, rax
 	pop rax
@@ -7698,9 +9215,10 @@ jmp .L238
 	setb al
 	movzx rax, al
 	test rax, rax
-	jz .L240
+	jz .L258
 ; lexpr()
 	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -7708,8 +9226,14 @@ jmp .L238
 	call r13
 	add rsp, 8
 	pop r13
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
 ; lexpr()
 	lea rax, peek
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -7717,17 +9241,16 @@ jmp .L238
 	call r13
 	add rsp, 8
 	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 41
 	mov rcx, rax
 	pop rax
@@ -7735,16 +9258,17 @@ jmp .L238
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L241
-	jmp .L240 ; break
-.L241: ; if
-; lexpr()
+	jz .L259
+	jmp .L258 ; break
+.L259: ; if
 ; lexpr()
 	lea rax, isalpha
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -7756,22 +9280,26 @@ jmp .L238
 	setz al
 	movzx rax, al
 	test rax, rax
-	jz .L243
+	jz .L261
 ; lexpr()
 	lea rax, fprintf
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, stderr
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 ; lexpr()
-	lea rax, [abs string+2030]
+; primary(); after a non lexpr
+	lea rax, [abs string+2139]
 	push rsi
 	mov rsi, rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdx
 	mov rdx, rax
@@ -7783,9 +9311,11 @@ jmp .L238
 	pop r13
 ; lexpr()
 	lea rax, exit
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	push rdi
 	mov rdi, rax
@@ -7793,58 +9323,72 @@ jmp .L238
 	call r13
 	pop rdi
 	pop r13
-.L243: ; if
+.L261: ; if
 ; lexpr()
+	lea rax, [rbp-40]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
 ; lexpr()
 	lea rax, variables
 	push rax ; lexpr index
 ; lexpr()
 	lea rax, varcnt
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 5
 	mov rcx, rax
 	pop rax
 	mul rcx
 	pop rcx
 	lea rax, [rcx+rax*8]
-	push rax
-; lexpr()
-	lea rax, [rbp-40]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, varcnt
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, varcnt
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, varcnt
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	mov rax, 0
-	push rax
+	mov [rcx], rax
 ; lexpr()
 	lea rax, [rbp-24]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-.L245: ; while continue
+	mov [rcx], rax
+.L263: ; while continue
 ; lexpr()
 	lea rax, isalnum
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -7853,16 +9397,19 @@ jmp .L238
 	pop rdi
 	pop r13
 	test rax, rax
-	jz .L246
+	jz .L264
 ; lexpr()
 	lea rax, Bschar
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-40]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 8
 	mov rcx, rax
 	pop rax
@@ -7870,6 +9417,7 @@ jmp .L238
 	push rax
 ; lexpr()
 	lea rax, [rbp-24]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	mov rcx, rax
 	pop rax
@@ -7878,6 +9426,7 @@ jmp .L238
 	mov rdi, rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rsi
 	mov rsi, rax
@@ -7890,21 +9439,31 @@ jmp .L238
 	pop r13
 ; lexpr()
 	lea rax, [rbp-24]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-24]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-24]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -7912,23 +9471,23 @@ jmp .L238
 	call r13
 	add rsp, 8
 	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-jmp .L245
-.L246: ; while break
+	mov [rcx], rax
+jmp .L263
+.L264: ; while break
 ; lexpr()
 	lea rax, Bschar
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-40]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 8
 	mov rcx, rax
 	pop rax
@@ -7936,6 +9495,7 @@ jmp .L245
 	push rax
 ; lexpr()
 	lea rax, [rbp-24]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	mov rcx, rax
 	pop rax
@@ -7943,6 +9503,7 @@ jmp .L245
 	push rdi
 	mov rdi, rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	push rsi
 	mov rsi, rax
@@ -7955,36 +9516,46 @@ jmp .L245
 	pop r13
 ; lexpr()
 	lea rax, [rbp-32]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-32]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 8
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-32]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, [rbp-32]
-	mov rax, [rax] ; Lexpr deref
-	push rax
+	mov [rcx], rax
 ; lexpr()
 ; lexpr()
 	lea rax, [rbp-40]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-32]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+2051]
+; primary(); after a non lexpr
+	lea rax, [abs string+2160]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -7993,10 +9564,12 @@ jmp .L245
 	pop r13
 ; lexpr()
 	lea rax, emitd
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-32]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -8006,10 +9579,12 @@ jmp .L245
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+2062]
+; primary(); after a non lexpr
+	lea rax, [abs string+2171]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -8018,16 +9593,20 @@ jmp .L245
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, ra
-	push rax
+	push rax ; lexpr index
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	pop rcx
-	mov rax, [rcx+rax*8]
+	lea rax, [rcx+rax*8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -8036,10 +9615,12 @@ jmp .L245
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+2066]
+; primary(); after a non lexpr
+	lea rax, [abs string+2175]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -8048,6 +9629,7 @@ jmp .L245
 	pop r13
 ; lexpr()
 	lea rax, peek
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -8057,6 +9639,7 @@ jmp .L245
 	pop r13
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 44
 	mov rcx, rax
 	pop rax
@@ -8064,11 +9647,12 @@ jmp .L245
 	setne al
 	movzx rax, al
 	test rax, rax
-	jz .L247
-	jmp .L240 ; break
-.L247: ; if
+	jz .L265
+	jmp .L258 ; break
+.L265: ; if
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -8078,23 +9662,28 @@ jmp .L245
 	pop r13
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-16]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-jmp .L239
-.L240: ; while break
+	mov [rcx], rax
+jmp .L257
+.L258: ; while break
 ; lexpr()
 	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -8104,9 +9693,11 @@ jmp .L239
 	pop r13
 ; lexpr()
 	lea rax, expect
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 41
 	push rdi
 	mov rdi, rax
@@ -8114,13 +9705,15 @@ jmp .L239
 	call r13
 	pop rdi
 	pop r13
-.L249: ; while continue
+.L267: ; while continue
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	test rax, rax
-	jz .L250
+	jz .L268
 ; lexpr()
 	lea rax, whitespace
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -8128,8 +9721,14 @@ jmp .L239
 	call r13
 	add rsp, 8
 	pop r13
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
 ; lexpr()
 	lea rax, peek
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -8137,17 +9736,16 @@ jmp .L239
 	call r13
 	add rsp, 8
 	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 33
 	mov rcx, rax
 	pop rax
@@ -8155,9 +9753,10 @@ jmp .L239
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L251
+	jz .L269
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -8165,15 +9764,16 @@ jmp .L239
 	call r13
 	add rsp, 8
 	pop r13
-	jmp .L250 ; break
-.L251: ; if
-; lexpr()
+	jmp .L268 ; break
+.L269: ; if
 ; lexpr()
 	lea rax, isalpha
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -8185,22 +9785,26 @@ jmp .L239
 	setz al
 	movzx rax, al
 	test rax, rax
-	jz .L253
+	jz .L271
 ; lexpr()
 	lea rax, fprintf
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, stderr
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 ; lexpr()
-	lea rax, [abs string+2068]
+; primary(); after a non lexpr
+	lea rax, [abs string+2177]
 	push rsi
 	mov rsi, rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdx
 	mov rdx, rax
@@ -8212,9 +9816,11 @@ jmp .L239
 	pop r13
 ; lexpr()
 	lea rax, exit
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	push rdi
 	mov rdi, rax
@@ -8222,58 +9828,72 @@ jmp .L239
 	call r13
 	pop rdi
 	pop r13
-.L253: ; if
+.L271: ; if
 ; lexpr()
+	lea rax, [rbp-40]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
 ; lexpr()
 	lea rax, variables
 	push rax ; lexpr index
 ; lexpr()
 	lea rax, varcnt
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 5
 	mov rcx, rax
 	pop rax
 	mul rcx
 	pop rcx
 	lea rax, [rcx+rax*8]
-	push rax
-; lexpr()
-	lea rax, [rbp-40]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, varcnt
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, varcnt
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, varcnt
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	mov rax, 0
-	push rax
+	mov [rcx], rax
 ; lexpr()
 	lea rax, [rbp-24]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-.L255: ; while continue
+	mov [rcx], rax
+.L273: ; while continue
 ; lexpr()
 	lea rax, isalnum
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -8282,16 +9902,19 @@ jmp .L239
 	pop rdi
 	pop r13
 	test rax, rax
-	jz .L256
+	jz .L274
 ; lexpr()
 	lea rax, Bschar
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-40]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 8
 	mov rcx, rax
 	pop rax
@@ -8299,6 +9922,7 @@ jmp .L239
 	push rax
 ; lexpr()
 	lea rax, [rbp-24]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	mov rcx, rax
 	pop rax
@@ -8307,6 +9931,7 @@ jmp .L239
 	mov rdi, rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rsi
 	mov rsi, rax
@@ -8319,21 +9944,31 @@ jmp .L239
 	pop r13
 ; lexpr()
 	lea rax, [rbp-24]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-24]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-24]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -8341,23 +9976,23 @@ jmp .L239
 	call r13
 	add rsp, 8
 	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-jmp .L255
-.L256: ; while break
+	mov [rcx], rax
+jmp .L273
+.L274: ; while break
 ; lexpr()
 	lea rax, Bschar
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-40]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 8
 	mov rcx, rax
 	pop rax
@@ -8365,6 +10000,7 @@ jmp .L255
 	push rax
 ; lexpr()
 	lea rax, [rbp-24]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	mov rcx, rax
 	pop rax
@@ -8372,6 +10008,7 @@ jmp .L255
 	push rdi
 	mov rdi, rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	push rsi
 	mov rsi, rax
@@ -8384,32 +10021,41 @@ jmp .L255
 	pop r13
 ; lexpr()
 	lea rax, [rbp-32]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-32]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 8
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-32]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, [rbp-32]
-	mov rax, [rax] ; Lexpr deref
-	push rax
+	mov [rcx], rax
 ; lexpr()
 ; lexpr()
 	lea rax, [rbp-40]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-32]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, peek
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -8419,6 +10065,7 @@ jmp .L255
 	pop r13
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 44
 	mov rcx, rax
 	pop rax
@@ -8426,11 +10073,12 @@ jmp .L255
 	setne al
 	movzx rax, al
 	test rax, rax
-	jz .L257
-	jmp .L250 ; break
-.L257: ; if
+	jz .L275
+	jmp .L268 ; break
+.L275: ; if
 ; lexpr()
 	lea rax, next
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -8438,29 +10086,35 @@ jmp .L255
 	call r13
 	add rsp, 8
 	pop r13
-jmp .L249
-.L250: ; while break
+jmp .L267
+.L268: ; while break
 ; lexpr()
 	lea rax, [rbp-32]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-32]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 8
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-32]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+2089]
+; primary(); after a non lexpr
+	lea rax, [abs string+2198]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -8469,24 +10123,30 @@ jmp .L249
 	pop r13
 ; lexpr()
 	lea rax, emitd
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-32]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 16
 	mov rcx, rax
 	pop rax
 	add rax, rcx
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 ; lexpr()
 	lea rax, [rbp-32]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 16
 	mov rcx, rax
 	pop rax
@@ -8504,10 +10164,12 @@ jmp .L249
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+2100]
+; primary(); after a non lexpr
+	lea rax, [abs string+2209]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -8516,6 +10178,7 @@ jmp .L249
 	pop r13
 ; lexpr()
 	lea rax, stmt
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -8525,10 +10188,12 @@ jmp .L249
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+2102]
+; primary(); after a non lexpr
+	lea rax, [abs string+2211]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -8537,28 +10202,32 @@ jmp .L249
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+2110]
+; primary(); after a non lexpr
+	lea rax, [abs string+2219]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
 	call r13
 	pop rdi
 	pop r13
+.L256: ; else
+.L246: ; else
+.L244: ; else
+.L242: ; else
 .L238: ; else
-.L228: ; else
-.L226: ; else
-.L224: ; else
-.L220: ; else
-jmp .L259
-.L214: ; if
+jmp .L277
+.L232: ; if
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0xFF
 	mov rcx, rax
 	pop rax
@@ -8566,25 +10235,29 @@ jmp .L259
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L260
-	jmp .L213 ; break
-jmp .L261
-.L260: ; if
+	jz .L278
+	jmp .L231 ; break
+jmp .L279
+.L278: ; if
 ; lexpr()
 	lea rax, fprintf
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, stderr
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 ; lexpr()
-	lea rax, [abs string+2116]
+; primary(); after a non lexpr
+	lea rax, [abs string+2225]
 	push rsi
 	mov rsi, rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdx
 	mov rdx, rax
@@ -8596,9 +10269,11 @@ jmp .L261
 	pop r13
 ; lexpr()
 	lea rax, exit
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	push rdi
 	mov rdi, rax
@@ -8606,10 +10281,10 @@ jmp .L261
 	call r13
 	pop rdi
 	pop r13
-.L261: ; else
-.L259: ; else
-jmp .L212
-.L213: ; while break
+.L279: ; else
+.L277: ; else
+jmp .L230
+.L231: ; while break
 	leave
 	ret
 usage:
@@ -8619,19 +10294,23 @@ usage:
 	sub rsp, 32
 ; lexpr()
 	lea rax, fprintf
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, stderr
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 ; lexpr()
-	lea rax, [abs string+2141]
+; primary(); after a non lexpr
+	lea rax, [abs string+2250]
 	push rsi
 	mov rsi, rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdx
 	mov rdx, rax
@@ -8663,88 +10342,114 @@ main:
 	mov [rbp-16], rsi
 	sub rsp, 80
 ; lexpr()
-	lea rax, [abs string+2201]
-	push rax
-; lexpr()
 	lea rax, ra
 	push rax ; lexpr index
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	pop rcx
 	lea rax, [rcx+rax*8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, [abs string+2205]
+; primary(); after a lexpr
 	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2310]
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, ra
 	push rax ; lexpr index
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	pop rcx
 	lea rax, [rcx+rax*8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, [abs string+2209]
+; primary(); after a lexpr
 	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2314]
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, ra
 	push rax ; lexpr index
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 2
 	pop rcx
 	lea rax, [rcx+rax*8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, [abs string+2213]
+; primary(); after a lexpr
 	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2318]
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, ra
 	push rax ; lexpr index
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 3
 	pop rcx
 	lea rax, [rcx+rax*8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, [abs string+2217]
+; primary(); after a lexpr
 	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2322]
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, ra
 	push rax ; lexpr index
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 4
 	pop rcx
 	lea rax, [rcx+rax*8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, [abs string+2220]
+; primary(); after a lexpr
 	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2326]
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, ra
 	push rax ; lexpr index
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 5
 	pop rcx
 	lea rax, [rcx+rax*8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2329]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 3
 	mov rcx, rax
 	pop rax
@@ -8752,19 +10457,23 @@ main:
 	setb al
 	movzx rax, al
 	test rax, rax
-	jz .L262
+	jz .L280
 ; lexpr()
 	lea rax, usage
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-16]
-	mov rax, [rax] ; Lexpr localvar deref
-	push rax
+	mov rax, [rax] ; Lexpr localvar deref within the lexpr itself
+	push rax ; lexpr index
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	pop rcx
-	mov rax, [rcx+rax*8]
+	lea rax, [rcx+rax*8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -8772,56 +10481,70 @@ main:
 	pop rdi
 	pop r13
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 2
 	leave
 	ret
-.L262: ; if
+.L280: ; if
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	sub rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 8
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-16]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, strcmp
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-16]
-	mov rax, [rax] ; Lexpr localvar deref
-	push rax
+	mov rax, [rax] ; Lexpr localvar deref within the lexpr itself
+	push rax ; lexpr index
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	pop rcx
-	mov rax, [rcx+rax*8]
+	lea rax, [rcx+rax*8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 ; lexpr()
-	lea rax, [abs string+2223]
+; primary(); after a non lexpr
+	lea rax, [abs string+2332]
 	push rsi
 	mov rsi, rax
 	push 0
@@ -8833,6 +10556,7 @@ main:
 	pop r13
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	mov rcx, rax
 	pop rax
@@ -8840,62 +10564,78 @@ main:
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L264
+	jz .L282
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	sub rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 8
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-16]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	mov rax, 1
-	push rax
+	mov [rcx], rax
 ; lexpr()
 	lea rax, dooutputparse
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 1
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-.L264: ; if
+	mov [rcx], rax
+.L282: ; if
 ; lexpr()
 	lea rax, strcmp
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-16]
-	mov rax, [rax] ; Lexpr localvar deref
-	push rax
+	mov rax, [rax] ; Lexpr localvar deref within the lexpr itself
+	push rax ; lexpr index
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	pop rcx
-	mov rax, [rcx+rax*8]
+	lea rax, [rcx+rax*8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 ; lexpr()
-	lea rax, [abs string+2227]
+; primary(); after a non lexpr
+	lea rax, [abs string+2336]
 	push rsi
 	mov rsi, rax
 	push 0
@@ -8907,6 +10647,7 @@ main:
 	pop r13
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	mov rcx, rax
 	pop rax
@@ -8914,62 +10655,83 @@ main:
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L266
+	jz .L284
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	sub rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 8
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-16]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	mov rax, 1
-	push rax
+	mov [rcx], rax
 ; lexpr()
 	lea rax, [rbp-24]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 1
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-.L266: ; if
+	mov [rcx], rax
+.L284: ; if
+; lexpr()
+	lea rax, inputfile
+; primary(); after a lexpr
+	push rax
+	push 0
 ; lexpr()
 	lea rax, fopen
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-16]
-	mov rax, [rax] ; Lexpr localvar deref
-	push rax
+	mov rax, [rax] ; Lexpr localvar deref within the lexpr itself
+	push rax ; lexpr index
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	pop rcx
-	mov rax, [rcx+rax*8]
+	lea rax, [rcx+rax*8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 ; lexpr()
-	lea rax, [abs string+2230]
+; primary(); after a non lexpr
+	lea rax, [abs string+2339]
 	push rsi
 	mov rsi, rax
 	push 0
@@ -8979,51 +10741,56 @@ main:
 	pop rsi
 	pop rdi
 	pop r13
-	push rax
-; lexpr()
-	lea rax, inputfile
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
+	mov [rcx], rax
 ; lexpr()
 	lea rax, inputfile
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	test rax, rax
 	setz al
 	movzx rax, al
 	test rax, rax
-	jz .L268
+	jz .L286
 ; lexpr()
 	lea rax, fprintf
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, stderr
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 ; lexpr()
-	lea rax, [abs string+2233]
+; primary(); after a non lexpr
+	lea rax, [abs string+2342]
 	push rsi
 	mov rsi, rax
 ; lexpr()
 	lea rax, [rbp-16]
-	mov rax, [rax] ; Lexpr localvar deref
-	push rax
+	mov rax, [rax] ; Lexpr localvar deref within the lexpr itself
+	push rax ; lexpr index
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	pop rcx
-	mov rax, [rcx+rax*8]
+	lea rax, [rcx+rax*8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
 	push rdx
 	mov rdx, rax
 ; lexpr()
 	lea rax, strerror
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 ; lexpr()
 	lea rax, getErrno
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -9031,6 +10798,7 @@ main:
 	call r13
 	add rsp, 8
 	pop r13
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -9050,64 +10818,86 @@ main:
 	pop rdi
 	pop r13
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 2
 	leave
 	ret
-.L268: ; if
-; lexpr()
-	lea rax, [rbp-16]
-	mov rax, [rax] ; Lexpr localvar deref
-	push rax
-; lexpr()
-	mov rax, 1
-	pop rcx
-	mov rax, [rcx+rax*8]
-	push rax
+.L286: ; if
 ; lexpr()
 	lea rax, [rbp-32]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-16]
+	mov rax, [rax] ; Lexpr localvar deref within the lexpr itself
+	push rax ; lexpr index
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 1
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	lea rax, [rcx+rax*8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 2
 	mov rcx, rax
 	pop rax
 	sub rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 16
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-16]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, outputfile
+; primary(); after a lexpr
+	push rax
+	push 0
 ; lexpr()
 	lea rax, fopen
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+2257]
+; primary(); after a non lexpr
+	lea rax, [abs string+2366]
 	push rdi
 	mov rdi, rax
 ; lexpr()
-	lea rax, [abs string+2263]
+; primary(); after a non lexpr
+	lea rax, [abs string+2372]
 	push rsi
 	mov rsi, rax
 	push 0
@@ -9117,41 +10907,43 @@ main:
 	pop rsi
 	pop rdi
 	pop r13
-	push rax
-; lexpr()
-	lea rax, outputfile
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
+	mov [rcx], rax
 ; lexpr()
 	lea rax, outputfile
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	test rax, rax
 	setz al
 	movzx rax, al
 	test rax, rax
-	jz .L270
+	jz .L288
 ; lexpr()
 	lea rax, fprintf
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, stderr
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 ; lexpr()
-	lea rax, [abs string+2266]
+; primary(); after a non lexpr
+	lea rax, [abs string+2375]
 	push rsi
 	mov rsi, rax
 ; lexpr()
 	lea rax, strerror
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 ; lexpr()
 	lea rax, getErrno
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -9159,6 +10951,7 @@ main:
 	call r13
 	add rsp, 8
 	pop r13
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -9175,28 +10968,19 @@ main:
 	pop rdi
 	pop r13
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 2
 	leave
 	ret
-.L270: ; if
+.L288: ; if
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+2293]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+2318]
+; primary(); after a non lexpr
+	lea rax, [abs string+2402]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -9205,10 +10989,12 @@ main:
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+2329]
+; primary(); after a non lexpr
+	lea rax, [abs string+2427]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -9217,10 +11003,12 @@ main:
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+2352]
+; primary(); after a non lexpr
+	lea rax, [abs string+2438]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -9229,10 +11017,12 @@ main:
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+2361]
+; primary(); after a non lexpr
+	lea rax, [abs string+2461]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -9241,10 +11031,12 @@ main:
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+2379]
+; primary(); after a non lexpr
+	lea rax, [abs string+2470]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -9253,213 +11045,11 @@ main:
 	pop r13
 ; lexpr()
 	lea rax, emits
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+2397]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+2403]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+2412]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+2434]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+2451]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, top
-	push r13
-	mov r13, rax
-	push 0
-	xor rax, rax
-	call r13
-	add rsp, 8
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+2457]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+2474]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emitd
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, Blchar
-	push r13
-	mov r13, rax
-; lexpr()
-; lexpr()
-	lea rax, strbuf
-	push rax
-; lexpr()
-	mov rax, 0
-	mov rcx, rax
-	pop rax
-	add rax, rcx
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	mov rax, 1
-	push rax
-; lexpr()
-	lea rax, [rbp-40]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-.L272: ; while continue
-; lexpr()
-	lea rax, [rbp-40]
-	mov rax, [rax] ; Lexpr deref
-	push rax
-; lexpr()
-	lea rax, strbufsz
-	mov rax, [rax] ; Lexpr deref
-	mov rcx, rax
-	pop rax
-	cmp rax, rcx
-	setb al
-	movzx rax, al
-	test rax, rax
-	jz .L273
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, [abs string+2486]
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, emitd
-	push r13
-	mov r13, rax
-; lexpr()
-	lea rax, Blchar
-	push r13
-	mov r13, rax
-; lexpr()
-; lexpr()
-	lea rax, strbuf
-	push rax
-; lexpr()
-	lea rax, [rbp-40]
-	mov rax, [rax] ; Lexpr deref
-	mov rcx, rax
-	pop rax
-	add rax, rcx
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-	push rdi
-	mov rdi, rax
-	xor rax, rax
-	call r13
-	pop rdi
-	pop r13
-; lexpr()
-	lea rax, [rbp-40]
-	mov rax, [rax] ; Lexpr deref
-	push rax
-; lexpr()
-	mov rax, 1
-	mov rcx, rax
-	pop rax
-	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-40]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-jmp .L272
-.L273: ; while break
-; lexpr()
-	lea rax, emits
-	push r13
-	mov r13, rax
-; lexpr()
+; primary(); after a non lexpr
 	lea rax, [abs string+2488]
 	push rdi
 	mov rdi, rax
@@ -9468,11 +11058,265 @@ jmp .L272
 	pop rdi
 	pop r13
 ; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2506]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2512]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2521]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2543]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2560]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, top
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+	push 0
+	xor rax, rax
+	call r13
+	add rsp, 8
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2566]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2583]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emitd
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+	lea rax, Blchar
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+; lexpr()
+	lea rax, strbuf
+	push rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	mov rcx, rax
+	pop rax
+	add rax, rcx
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, [rbp-40]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 1
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+.L290: ; while continue
+; lexpr()
+	lea rax, [rbp-40]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rax
+; lexpr()
+	lea rax, strbufsz
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	mov rcx, rax
+	pop rax
+	cmp rax, rcx
+	setb al
+	movzx rax, al
+	test rax, rax
+	jz .L291
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2595]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, emitd
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+	lea rax, Blchar
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+; lexpr()
+	lea rax, strbuf
+	push rax
+; lexpr()
+	lea rax, [rbp-40]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	mov rcx, rax
+	pop rax
+	add rax, rcx
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
+	lea rax, [rbp-40]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-40]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 1
+	mov rcx, rax
+	pop rax
+	add rax, rcx
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
+jmp .L290
+.L291: ; while break
+; lexpr()
+	lea rax, emits
+; primary(); after a lexpr
+	push r13
+	mov r13, rax
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2597]
+	push rdi
+	mov rdi, rax
+	xor rax, rax
+	call r13
+	pop rdi
+	pop r13
+; lexpr()
 	lea rax, fclose
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, inputfile
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -9482,10 +11326,12 @@ jmp .L272
 	pop r13
 ; lexpr()
 	lea rax, fclose
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, outputfile
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
@@ -9494,362 +11340,460 @@ jmp .L272
 	pop rdi
 	pop r13
 ; lexpr()
-	lea rax, [abs string+2490]
-	push rax
-; lexpr()
 	lea rax, assemblerargv
 	push rax ; lexpr index
 ; lexpr()
 	lea rax, assemblerargc
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	pop rcx
 	lea rax, [rcx+rax*8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2599]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, assemblerargc
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, assemblerargc
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, assemblerargc
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, [rbp-24]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	test rax, rax
-	jz .L274
-; lexpr()
-	lea rax, [abs string+2495]
-	push rax
+	jz .L292
 ; lexpr()
 	lea rax, assemblerargv
 	push rax ; lexpr index
 ; lexpr()
 	lea rax, assemblerargc
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	pop rcx
 	lea rax, [rcx+rax*8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2604]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, assemblerargc
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, assemblerargc
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, assemblerargc
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-.L274: ; if
-; lexpr()
-	lea rax, [abs string+2498]
-	push rax
+	mov [rcx], rax
+.L292: ; if
 ; lexpr()
 	lea rax, assemblerargv
 	push rax ; lexpr index
 ; lexpr()
 	lea rax, assemblerargc
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	pop rcx
 	lea rax, [rcx+rax*8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, [abs string+2506]
+; primary(); after a lexpr
 	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2607]
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, assemblerargv
 	push rax ; lexpr index
 ; lexpr()
 	lea rax, assemblerargc
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	add rax, rcx
 	pop rcx
 	lea rax, [rcx+rax*8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, [abs string+2512]
+; primary(); after a lexpr
 	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2615]
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, assemblerargv
 	push rax ; lexpr index
 ; lexpr()
 	lea rax, assemblerargc
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 2
 	mov rcx, rax
 	pop rax
 	add rax, rcx
 	pop rcx
 	lea rax, [rcx+rax*8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, [abs string+2515]
+; primary(); after a lexpr
 	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2621]
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, assemblerargv
 	push rax ; lexpr index
 ; lexpr()
 	lea rax, assemblerargc
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 3
 	mov rcx, rax
 	pop rax
 	add rax, rcx
 	pop rcx
 	lea rax, [rcx+rax*8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	mov rax, 0
+; primary(); after a lexpr
 	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2624]
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, assemblerargv
 	push rax ; lexpr index
 ; lexpr()
 	lea rax, assemblerargc
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 4
 	mov rcx, rax
 	pop rax
 	add rax, rcx
 	pop rcx
 	lea rax, [rcx+rax*8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, [abs string+2521]
+; primary(); after a lexpr
 	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, linkerargv
 	push rax ; lexpr index
 ; lexpr()
 	lea rax, linkerargc
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	pop rcx
 	lea rax, [rcx+rax*8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, [abs string+2524]
+; primary(); after a lexpr
 	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2630]
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, linkerargv
 	push rax ; lexpr index
 ; lexpr()
 	lea rax, linkerargc
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	add rax, rcx
 	pop rcx
 	lea rax, [rcx+rax*8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, [abs string+2532]
+; primary(); after a lexpr
 	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2633]
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, linkerargv
 	push rax ; lexpr index
 ; lexpr()
 	lea rax, linkerargc
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 2
 	mov rcx, rax
 	pop rax
 	add rax, rcx
 	pop rcx
 	lea rax, [rcx+rax*8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2641]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, linkerargv
+	push rax ; lexpr index
+; lexpr()
+	lea rax, linkerargc
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	push rax
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 3
+	mov rcx, rax
+	pop rax
+	add rax, rcx
+	pop rcx
+	lea rax, [rcx+rax*8]
+; primary(); after a lexpr
+	push rax
+	push 0
 ; lexpr()
 	lea rax, [rbp-32]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
-	push rax
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, linkerargv
 	push rax ; lexpr index
 ; lexpr()
 	lea rax, linkerargc
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
-	mov rax, 3
-	mov rcx, rax
-	pop rax
-	add rax, rcx
-	pop rcx
-	lea rax, [rcx+rax*8]
-	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-; lexpr()
-	lea rax, [abs string+2535]
-	push rax
-; lexpr()
-	lea rax, linkerargv
-	push rax ; lexpr index
-; lexpr()
-	lea rax, linkerargc
-	mov rax, [rax] ; Lexpr deref
-	push rax
-; lexpr()
+; primary(); after a non lexpr
 	mov rax, 4
 	mov rcx, rax
 	pop rax
 	add rax, rcx
 	pop rcx
 	lea rax, [rcx+rax*8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	lea rax, [abs string+2644]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, linkerargc
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, linkerargc
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 5
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, linkerargc
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-.L276: ; while continue
+	mov [rcx], rax
+.L294: ; while continue
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	test rax, rax
-	jz .L277
-; lexpr()
-	lea rax, [rbp-16]
-	mov rax, [rax] ; Lexpr localvar deref
-	push rax
-; lexpr()
-	mov rax, 0
-	pop rcx
-	mov rax, [rcx+rax*8]
-	push rax
+	jz .L295
 ; lexpr()
 	lea rax, linkerargv
 	push rax ; lexpr index
 ; lexpr()
 	lea rax, linkerargc
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	pop rcx
 	lea rax, [rcx+rax*8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-16]
+	mov rax, [rax] ; Lexpr localvar deref within the lexpr itself
+	push rax ; lexpr index
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	lea rax, [rcx+rax*8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
+	add rsp, 8
+	pop rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, linkerargc
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, linkerargc
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, linkerargc
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, [rbp-8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-8]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	mov rcx, rax
 	pop rax
 	sub rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-8]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, [rbp-16]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+	lea rax, [rbp-16]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 8
 	mov rcx, rax
 	pop rax
 	add rax, rcx
-	push rax
-; lexpr()
-	lea rax, [rbp-16]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
-jmp .L276
-.L277: ; while break
-; lexpr()
-	mov rax, 0
-	push rax
+	mov [rcx], rax
+jmp .L294
+.L295: ; while break
 ; lexpr()
 	lea rax, linkerargv
 	push rax ; lexpr index
 ; lexpr()
 	lea rax, linkerargc
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	pop rcx
 	lea rax, [rcx+rax*8]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
+; lexpr()
+	lea rax, [rbp-48]
+; primary(); after a lexpr
+	push rax
+	push 0
 ; lexpr()
 	lea rax, fork
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -9857,17 +11801,16 @@ jmp .L276
 	call r13
 	add rsp, 8
 	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-48]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, [rbp-48]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	mov rcx, rax
 	pop rax
@@ -9875,18 +11818,21 @@ jmp .L276
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L278
+	jz .L296
 ; lexpr()
 	lea rax, fprintf
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, stderr
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 ; lexpr()
-	lea rax, [abs string+2541]
+; primary(); after a non lexpr
+	lea rax, [abs string+2650]
 	push rsi
 	mov rsi, rax
 	push 0
@@ -9898,18 +11844,23 @@ jmp .L276
 	pop r13
 ; lexpr()
 	lea rax, execvp
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, assemblerargv
-	push rax
+	push rax ; lexpr index
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	pop rcx
-	mov rax, [rcx+rax*8]
+	lea rax, [rcx+rax*8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 ; lexpr()
+; primary(); after a non lexpr
 ; lexpr()
 	lea rax, assemblerargv
 	push rsi
@@ -9921,13 +11872,15 @@ jmp .L276
 	pop rsi
 	pop rdi
 	pop r13
-jmp .L279
-.L278: ; if
+jmp .L297
+.L296: ; if
 ; lexpr()
 	lea rax, [rbp-48]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	mov rcx, rax
 	pop rax
@@ -9935,13 +11888,15 @@ jmp .L279
 	setb al
 	movzx rax, al
 	test rax, rax
-	jz .L280
+	jz .L298
 ; lexpr()
 	lea rax, perror
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+2562]
+; primary(); after a non lexpr
+	lea rax, [abs string+2671]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -9949,34 +11904,42 @@ jmp .L279
 	pop rdi
 	pop r13
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	leave
 	ret
-.L280: ; if
-.L279: ; else
-; lexpr()
-	mov rax, 0
-	push rax
+.L298: ; if
+.L297: ; else
 ; lexpr()
 	lea rax, [rbp-56]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, waitpid
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-48]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 ; lexpr()
+; primary(); after a non lexpr
 ; lexpr()
 	lea rax, [rbp-56]
 	push rsi
 	mov rsi, rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	push rdx
 	mov rdx, rax
@@ -9987,17 +11950,21 @@ jmp .L279
 	pop rdi
 	pop r13
 ; lexpr()
+; primary(); after a non lexpr
 ; lexpr()
 	lea rax, [rbp-56]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0x7f
 	mov rcx, rax
 	pop rax
 	and rax, rcx
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	mov rcx, rax
 	pop rax
@@ -10005,32 +11972,39 @@ jmp .L279
 	setne al
 	movzx rax, al
 	test rax, rax
-	jz .L282
+	jz .L300
 ; lexpr()
 	lea rax, fprintf
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, stderr
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 ; lexpr()
-	lea rax, [abs string+2567]
+; primary(); after a non lexpr
+	lea rax, [abs string+2676]
 	push rsi
 	mov rsi, rax
 ; lexpr()
+; primary(); after a non lexpr
 ; lexpr()
 	lea rax, [rbp-56]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0xff00
 	mov rcx, rax
 	pop rax
 	and rax, rcx
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 8
 	mov rcx, rax
 	pop rax
@@ -10044,12 +12018,19 @@ jmp .L279
 	pop rdi
 	pop r13
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	leave
 	ret
-.L282: ; if
+.L300: ; if
+; lexpr()
+	lea rax, [rbp-48]
+; primary(); after a lexpr
+	push rax
+	push 0
 ; lexpr()
 	lea rax, fork
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 	push 0
@@ -10057,17 +12038,16 @@ jmp .L279
 	call r13
 	add rsp, 8
 	pop r13
-	push rax
-; lexpr()
-	lea rax, [rbp-48]
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, [rbp-48]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	mov rcx, rax
 	pop rax
@@ -10075,18 +12055,21 @@ jmp .L279
 	sete al
 	movzx rax, al
 	test rax, rax
-	jz .L284
+	jz .L302
 ; lexpr()
 	lea rax, fprintf
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, stderr
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 ; lexpr()
-	lea rax, [abs string+2600]
+; primary(); after a non lexpr
+	lea rax, [abs string+2709]
 	push rsi
 	mov rsi, rax
 	push 0
@@ -10098,18 +12081,23 @@ jmp .L279
 	pop r13
 ; lexpr()
 	lea rax, execvp
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, linkerargv
-	push rax
+	push rax ; lexpr index
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	pop rcx
-	mov rax, [rcx+rax*8]
+	lea rax, [rcx+rax*8]
+; primary(); after a lexpr
+	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 ; lexpr()
+; primary(); after a non lexpr
 ; lexpr()
 	lea rax, linkerargv
 	push rsi
@@ -10121,13 +12109,15 @@ jmp .L279
 	pop rsi
 	pop rdi
 	pop r13
-jmp .L285
-.L284: ; if
+jmp .L303
+.L302: ; if
 ; lexpr()
 	lea rax, [rbp-48]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	mov rcx, rax
 	pop rax
@@ -10135,13 +12125,15 @@ jmp .L285
 	setb al
 	movzx rax, al
 	test rax, rax
-	jz .L286
+	jz .L304
 ; lexpr()
 	lea rax, perror
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
-	lea rax, [abs string+2618]
+; primary(); after a non lexpr
+	lea rax, [abs string+2727]
 	push rdi
 	mov rdi, rax
 	xor rax, rax
@@ -10149,34 +12141,42 @@ jmp .L285
 	pop rdi
 	pop r13
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	leave
 	ret
-.L286: ; if
-.L285: ; else
-; lexpr()
-	mov rax, 0
-	push rax
+.L304: ; if
+.L303: ; else
 ; lexpr()
 	lea rax, [rbp-56]
+; primary(); after a lexpr
+	push rax
+	push 0
+; lexpr()
+; primary(); after a non lexpr
+	mov rax, 0
+	add rsp, 8
 	pop rcx
-	mov [rax], rcx
-	mov rax, rcx
+	mov [rcx], rax
 ; lexpr()
 	lea rax, waitpid
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, [rbp-48]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 ; lexpr()
+; primary(); after a non lexpr
 ; lexpr()
 	lea rax, [rbp-56]
 	push rsi
 	mov rsi, rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	push rdx
 	mov rdx, rax
@@ -10187,17 +12187,21 @@ jmp .L285
 	pop rdi
 	pop r13
 ; lexpr()
+; primary(); after a non lexpr
 ; lexpr()
 	lea rax, [rbp-56]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0x7f
 	mov rcx, rax
 	pop rax
 	and rax, rcx
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	mov rcx, rax
 	pop rax
@@ -10205,32 +12209,39 @@ jmp .L285
 	setne al
 	movzx rax, al
 	test rax, rax
-	jz .L288
+	jz .L306
 ; lexpr()
 	lea rax, fprintf
+; primary(); after a lexpr
 	push r13
 	mov r13, rax
 ; lexpr()
 	lea rax, stderr
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rdi
 	mov rdi, rax
 ; lexpr()
-	lea rax, [abs string+2623]
+; primary(); after a non lexpr
+	lea rax, [abs string+2732]
 	push rsi
 	mov rsi, rax
 ; lexpr()
+; primary(); after a non lexpr
 ; lexpr()
 	lea rax, [rbp-56]
+; primary(); after a lexpr
 	mov rax, [rax] ; Lexpr deref
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0xff00
 	mov rcx, rax
 	pop rax
 	and rax, rcx
 	push rax
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 8
 	mov rcx, rax
 	pop rax
@@ -10244,13 +12255,15 @@ jmp .L285
 	pop rdi
 	pop r13
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 1
 	leave
 	ret
-.L288: ; if
+.L306: ; if
 ; lexpr()
+; primary(); after a non lexpr
 	mov rax, 0
 	leave
 	ret
 section .rodata
-string: db 37,99,0,37,99,0,37,115,0,37,122,117,0,69,120,112,101,99,116,101,100,32,39,37,99,39,40,37,100,41,32,98,117,116,32,103,111,116,32,39,37,99,39,40,37,100,41,10,0,73,110,118,97,108,105,100,32,104,101,120,97,100,101,99,105,109,97,108,32,100,105,103,105,116,58,32,39,92,37,99,39,10,0,73,110,118,97,108,105,100,32,104,101,120,97,100,101,99,105,109,97,108,32,100,105,103,105,116,58,32,39,92,37,99,39,10,0,73,110,118,97,108,105,100,32,101,115,99,97,112,101,32,99,111,100,101,58,32,39,92,37,99,39,10,0,59,32,108,101,120,112,114,40,41,10,0,9,108,101,97,32,114,97,120,44,32,91,114,98,112,45,0,93,10,0,9,108,101,97,32,114,97,120,44,32,0,10,0,9,112,117,115,104,32,114,97,120,32,59,32,108,101,120,112,114,32,105,110,100,101,120,10,0,9,112,111,112,32,114,99,120,10,0,9,108,101,97,32,114,97,120,44,32,91,114,99,120,43,114,97,120,42,56,93,10,0,9,109,111,118,32,114,97,120,44,32,0,48,0,120,0,10,0,9,110,111,116,32,114,97,120,10,0,9,109,111,118,32,114,97,120,44,32,0,10,0,9,108,101,97,32,114,97,120,44,32,91,97,98,115,32,115,116,114,105,110,103,43,0,93,10,0,9,110,101,103,32,114,97,120,10,0,9,116,101,115,116,32,114,97,120,44,32,114,97,120,10,0,9,115,101,116,122,32,97,108,10,0,9,109,111,118,122,120,32,114,97,120,44,32,97,108,10,0,73,110,118,97,108,105,100,32,112,114,105,109,97,114,121,32,101,120,112,114,101,115,115,105,111,110,58,32,39,37,99,39,10,0,69,120,112,101,99,116,101,100,32,108,101,120,112,114,32,111,110,32,108,101,102,116,32,104,97,110,100,32,115,105,100,101,32,111,102,32,116,104,101,32,97,115,115,105,103,110,109,101,110,116,10,0,9,112,117,115,104,32,114,97,120,10,0,9,112,111,112,32,114,99,120,10,0,9,109,111,118,32,91,114,99,120,93,44,32,114,97,120,10,0,9,112,117,115,104,32,114,49,51,10,0,9,109,111,118,32,114,49,51,44,32,114,97,120,10,0,9,112,117,115,104,32,0,10,9,109,111,118,32,0,44,32,114,97,120,10,0,9,112,117,115,104,32,48,10,0,9,120,111,114,32,114,97,120,44,32,114,97,120,10,0,9,99,97,108,108,32,114,49,51,10,0,9,97,100,100,32,114,115,112,44,32,56,10,0,9,112,111,112,32,0,10,0,9,112,111,112,32,114,49,51,10,0,9,109,111,118,32,114,97,120,44,32,91,114,97,120,93,32,59,32,76,101,120,112,114,32,108,111,99,97,108,118,97,114,32,100,101,114,101,102,10,0,9,112,117,115,104,32,114,97,120,10,0,9,112,111,112,32,114,99,120,10,0,9,109,111,118,32,114,97,120,44,32,91,114,99,120,43,114,97,120,42,56,93,10,0,9,109,111,118,32,114,97,120,44,32,91,114,97,120,93,32,59,32,76,101,120,112,114,32,100,101,114,101,102,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,97,100,100,32,114,97,120,44,32,114,99,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,115,117,98,32,114,97,120,44,32,114,99,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,97,110,100,32,114,97,120,44,32,114,99,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,111,114,32,114,97,120,44,32,114,99,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,120,111,114,32,114,97,120,44,32,114,99,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,109,117,108,32,114,99,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,120,111,114,32,114,100,120,44,32,114,100,120,10,0,9,100,105,118,32,114,99,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,120,111,114,32,114,100,120,44,32,114,100,120,10,0,9,100,105,118,32,114,99,120,10,0,9,109,111,118,32,114,97,120,44,32,114,100,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,99,109,112,32,114,97,120,44,32,114,99,120,10,0,9,115,101,116,101,32,97,108,10,0,9,109,111,118,122,120,32,114,97,120,44,32,97,108,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,99,109,112,32,114,97,120,44,32,114,99,120,10,0,9,115,101,116,110,101,32,97,108,10,0,9,109,111,118,122,120,32,114,97,120,44,32,97,108,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,115,104,108,32,114,97,120,44,32,99,108,10,0,9,99,109,112,32,114,97,120,44,32,114,99,120,10,0,9,115,101,116,98,101,32,97,108,10,0,9,115,101,116,98,32,97,108,10,0,9,109,111,118,122,120,32,114,97,120,44,32,97,108,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,115,104,114,32,114,97,120,44,32,99,108,10,0,9,99,109,112,32,114,97,120,44,32,114,99,120,10,0,9,115,101,116,97,101,32,97,108,10,0,9,115,101,116,97,32,97,108,10,0,9,109,111,118,122,120,32,114,97,120,44,32,97,108,10,0,9,112,117,115,104,32,114,97,120,10,0,69,120,112,101,99,116,101,100,32,108,101,120,112,114,32,111,110,32,114,105,103,104,116,32,104,97,110,100,32,115,105,100,101,32,111,102,32,116,104,101,32,114,101,118,101,114,115,101,32,97,115,115,105,103,110,109,101,110,116,10,0,9,112,111,112,32,114,99,120,10,0,9,109,111,118,32,91,114,97,120,93,44,32,114,99,120,10,0,9,109,111,118,32,114,97,120,44,32,114,99,120,10,0,99,111,110,116,105,110,117,101,0,9,106,109,112,32,46,76,0,32,59,32,99,111,110,116,105,110,117,101,10,0,98,114,101,97,107,0,9,106,109,112,32,46,76,0,32,59,32,98,114,101,97,107,10,0,119,104,105,108,101,0,46,76,0,58,32,59,32,119,104,105,108,101,32,99,111,110,116,105,110,117,101,10,0,9,116,101,115,116,32,114,97,120,44,32,114,97,120,10,0,9,106,122,32,46,76,0,106,109,112,32,46,76,0,46,76,0,58,32,59,32,119,104,105,108,101,32,98,114,101,97,107,10,0,114,101,116,117,114,110,0,9,108,101,97,118,101,10,0,9,114,101,116,10,0,105,102,0,9,116,101,115,116,32,114,97,120,44,32,114,97,120,10,0,9,106,122,32,46,76,0,101,108,115,101,0,106,109,112,32,46,76,0,46,76,0,58,32,59,32,105,102,10,0,46,76,0,58,32,59,32,101,108,115,101,10,0,103,108,111,98,97,108,0,103,108,111,98,97,108,32,0,101,120,116,101,114,110,0,101,120,116,101,114,110,32,0,105,109,112,111,114,116,0,105,109,112,111,114,116,105,110,103,32,115,116,117,102,102,32,105,115,32,110,111,116,32,105,109,112,108,101,109,101,110,116,101,100,32,121,101,116,46,10,0,115,101,99,116,105,111,110,32,46,98,115,115,10,0,58,32,114,101,115,113,32,49,10,0,115,101,99,116,105,111,110,32,46,116,101,120,116,10,0,115,101,99,116,105,111,110,32,46,98,115,115,10,0,58,32,114,101,115,113,32,0,48,0,120,0,10,115,101,99,116,105,111,110,32,46,116,101,120,116,10,0,58,10,0,9,112,117,115,104,32,114,98,112,10,0,9,109,111,118,32,114,98,112,44,32,114,115,112,10,0,66,97,100,32,99,104,97,114,97,99,116,101,114,58,32,39,37,99,39,10,0,9,109,111,118,32,91,114,98,112,45,0,93,44,32,0,10,0,66,97,100,32,99,104,97,114,97,99,116,101,114,58,32,39,37,99,39,10,0,9,115,117,98,32,114,115,112,44,32,0,10,0,9,108,101,97,118,101,10,0,9,114,101,116,10,0,73,110,118,97,108,105,100,32,115,116,97,116,101,109,101,110,116,58,32,39,37,99,39,10,0,85,115,97,103,101,58,32,37,115,32,91,45,112,112,93,32,91,45,103,93,32,105,110,112,117,116,45,99,111,100,101,32,111,117,116,112,117,116,45,102,105,108,101,32,91,108,105,110,107,101,114,32,102,108,97,103,115,93,10,0,114,100,105,0,114,115,105,0,114,100,120,0,114,99,120,0,114,56,0,114,57,0,45,112,112,0,45,103,0,114,98,0,70,97,105,108,101,100,32,116,111,32,111,112,101,110,58,32,37,115,58,32,37,115,10,0,111,117,116,46,115,0,119,98,0,70,97,105,108,101,100,32,116,111,32,111,112,101,110,58,32,111,117,116,46,115,58,32,37,115,10,0,101,120,116,101,114,110,32,95,95,101,114,114,110,111,95,108,111,99,97,116,105,111,110,10,0,103,101,116,69,114,114,110,111,58,10,0,9,106,109,112,32,95,95,101,114,114,110,111,95,108,111,99,97,116,105,111,110,10,0,66,108,99,104,97,114,58,10,0,9,109,111,118,32,114,49,48,98,44,32,91,114,100,105,93,10,0,9,109,111,118,122,120,32,114,97,120,44,32,114,49,48,98,10,0,9,114,101,116,10,0,66,115,99,104,97,114,58,10,0,9,109,111,118,32,98,121,116,101,32,91,114,100,105,93,44,32,115,105,108,10,0,9,109,111,118,122,120,32,114,97,120,44,32,115,105,108,10,0,9,114,101,116,10,0,115,101,99,116,105,111,110,32,46,114,111,100,97,116,97,10,0,115,116,114,105,110,103,58,32,100,98,32,0,44,0,10,0,110,97,115,109,0,45,103,0,45,102,69,76,70,54,52,0,111,117,116,46,115,0,45,111,0,111,117,116,46,111,0,99,99,0,45,110,111,45,112,105,101,0,45,111,0,111,117,116,46,111,0,83,116,97,114,116,105,110,103,32,97,115,115,101,109,98,108,105,110,103,10,0,102,111,114,107,0,65,115,115,101,109,98,108,101,114,32,101,120,105,116,101,100,32,97,98,110,111,114,109,97,108,108,121,58,32,37,100,10,0,83,116,97,114,116,105,110,103,32,108,105,110,107,105,110,103,10,0,102,111,114,107,0,76,105,110,107,101,114,32,101,120,105,116,101,100,32,97,98,110,111,114,109,97,108,108,121,58,32,37,100,10,0
+string: db 37,99,0,37,99,0,37,115,0,37,122,117,0,69,120,112,101,99,116,101,100,32,39,37,99,39,40,37,100,41,32,98,117,116,32,103,111,116,32,39,37,99,39,40,37,100,41,10,0,73,110,118,97,108,105,100,32,104,101,120,97,100,101,99,105,109,97,108,32,100,105,103,105,116,58,32,39,92,37,99,39,10,0,73,110,118,97,108,105,100,32,104,101,120,97,100,101,99,105,109,97,108,32,100,105,103,105,116,58,32,39,92,37,99,39,10,0,73,110,118,97,108,105,100,32,101,115,99,97,112,101,32,99,111,100,101,58,32,39,92,37,99,39,10,0,59,32,108,101,120,112,114,40,41,10,0,9,108,101,97,32,114,97,120,44,32,91,114,98,112,45,0,93,10,0,9,108,101,97,32,114,97,120,44,32,0,10,0,9,109,111,118,32,114,97,120,44,32,91,114,97,120,93,32,59,32,76,101,120,112,114,32,108,111,99,97,108,118,97,114,32,100,101,114,101,102,32,119,105,116,104,105,110,32,116,104,101,32,108,101,120,112,114,32,105,116,115,101,108,102,10,0,9,112,117,115,104,32,114,97,120,32,59,32,108,101,120,112,114,32,105,110,100,101,120,10,0,9,112,111,112,32,114,99,120,10,0,9,108,101,97,32,114,97,120,44,32,91,114,99,120,43,114,97,120,42,56,93,10,0,59,32,112,114,105,109,97,114,121,40,41,59,32,97,102,116,101,114,32,97,32,108,101,120,112,114,10,0,59,32,112,114,105,109,97,114,121,40,41,59,32,97,102,116,101,114,32,97,32,110,111,110,32,108,101,120,112,114,10,0,9,109,111,118,32,114,97,120,44,32,0,48,0,120,0,10,0,9,109,111,118,32,114,97,120,44,32,0,10,0,9,108,101,97,32,114,97,120,44,32,91,97,98,115,32,115,116,114,105,110,103,43,0,93,10,0,73,110,118,97,108,105,100,32,112,114,105,109,97,114,121,32,101,120,112,114,101,115,115,105,111,110,58,32,39,37,99,39,10,0,9,112,117,115,104,32,114,49,51,10,0,9,109,111,118,32,114,49,51,44,32,114,97,120,10,0,9,112,117,115,104,32,0,10,9,109,111,118,32,0,44,32,114,97,120,10,0,9,112,117,115,104,32,48,10,0,9,120,111,114,32,114,97,120,44,32,114,97,120,10,0,9,99,97,108,108,32,114,49,51,10,0,9,97,100,100,32,114,115,112,44,32,56,10,0,9,112,111,112,32,0,10,0,9,112,111,112,32,114,49,51,10,0,9,109,111,118,32,114,97,120,44,32,91,114,97,120,93,32,59,32,76,101,120,112,114,32,100,101,114,101,102,10,0,9,110,111,116,32,114,97,120,10,0,9,110,101,103,32,114,97,120,10,0,9,116,101,115,116,32,114,97,120,44,32,114,97,120,10,0,9,115,101,116,122,32,97,108,10,0,9,109,111,118,122,120,32,114,97,120,44,32,97,108,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,97,110,100,32,114,97,120,44,32,114,99,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,111,114,32,114,97,120,44,32,114,99,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,120,111,114,32,114,97,120,44,32,114,99,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,109,117,108,32,114,99,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,120,111,114,32,114,100,120,44,32,114,100,120,10,0,9,100,105,118,32,114,99,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,120,111,114,32,114,100,120,44,32,114,100,120,10,0,9,100,105,118,32,114,99,120,10,0,9,109,111,118,32,114,97,120,44,32,114,100,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,97,100,100,32,114,97,120,44,32,114,99,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,115,117,98,32,114,97,120,44,32,114,99,120,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,99,109,112,32,114,97,120,44,32,114,99,120,10,0,9,115,101,116,101,32,97,108,10,0,9,109,111,118,122,120,32,114,97,120,44,32,97,108,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,99,109,112,32,114,97,120,44,32,114,99,120,10,0,9,115,101,116,110,101,32,97,108,10,0,9,109,111,118,122,120,32,114,97,120,44,32,97,108,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,115,104,108,32,114,97,120,44,32,99,108,10,0,9,99,109,112,32,114,97,120,44,32,114,99,120,10,0,9,115,101,116,98,101,32,97,108,10,0,9,115,101,116,98,32,97,108,10,0,9,109,111,118,122,120,32,114,97,120,44,32,97,108,10,0,9,112,117,115,104,32,114,97,120,10,0,9,109,111,118,32,114,99,120,44,32,114,97,120,10,0,9,112,111,112,32,114,97,120,10,0,9,115,104,114,32,114,97,120,44,32,99,108,10,0,9,99,109,112,32,114,97,120,44,32,114,99,120,10,0,9,115,101,116,97,101,32,97,108,10,0,9,115,101,116,97,32,97,108,10,0,9,109,111,118,122,120,32,114,97,120,44,32,97,108,10,0,9,112,117,115,104,32,114,97,120,10,0,9,112,117,115,104,32,48,10,0,9,97,100,100,32,114,115,112,44,32,56,10,0,9,112,111,112,32,114,99,120,10,0,9,109,111,118,32,91,114,99,120,93,44,32,114,97,120,10,0,9,112,117,115,104,32,114,97,120,32,59,59,32,68,101,112,114,101,99,97,116,101,100,32,114,101,118,101,114,115,101,32,97,115,115,105,103,110,109,101,110,116,58,32,39,58,39,10,0,69,120,112,101,99,116,101,100,32,108,101,120,112,114,32,111,110,32,114,105,103,104,116,32,104,97,110,100,32,115,105,100,101,32,111,102,32,116,104,101,32,114,101,118,101,114,115,101,32,97,115,115,105,103,110,109,101,110,116,46,10,77,97,121,98,101,32,121,111,117,32,115,104,111,117,108,100,32,99,111,110,115,105,100,101,114,32,110,111,116,32,117,115,105,110,103,32,97,32,100,101,99,114,101,99,97,116,101,100,32,102,101,97,116,117,114,101,63,33,33,10,0,9,112,111,112,32,114,99,120,10,0,9,109,111,118,32,91,114,97,120,93,44,32,114,99,120,10,0,9,109,111,118,32,114,97,120,44,32,114,99,120,10,0,99,111,110,116,105,110,117,101,0,9,106,109,112,32,46,76,0,32,59,32,99,111,110,116,105,110,117,101,10,0,98,114,101,97,107,0,9,106,109,112,32,46,76,0,32,59,32,98,114,101,97,107,10,0,119,104,105,108,101,0,46,76,0,58,32,59,32,119,104,105,108,101,32,99,111,110,116,105,110,117,101,10,0,9,116,101,115,116,32,114,97,120,44,32,114,97,120,10,0,9,106,122,32,46,76,0,106,109,112,32,46,76,0,46,76,0,58,32,59,32,119,104,105,108,101,32,98,114,101,97,107,10,0,114,101,116,117,114,110,0,9,108,101,97,118,101,10,0,9,114,101,116,10,0,105,102,0,9,116,101,115,116,32,114,97,120,44,32,114,97,120,10,0,9,106,122,32,46,76,0,101,108,115,101,0,106,109,112,32,46,76,0,46,76,0,58,32,59,32,105,102,10,0,46,76,0,58,32,59,32,101,108,115,101,10,0,103,108,111,98,97,108,0,103,108,111,98,97,108,32,0,101,120,116,101,114,110,0,101,120,116,101,114,110,32,0,105,109,112,111,114,116,0,105,109,112,111,114,116,105,110,103,32,115,116,117,102,102,32,105,115,32,110,111,116,32,105,109,112,108,101,109,101,110,116,101,100,32,121,101,116,46,10,0,115,101,99,116,105,111,110,32,46,98,115,115,10,0,58,32,114,101,115,113,32,49,10,0,115,101,99,116,105,111,110,32,46,116,101,120,116,10,0,115,101,99,116,105,111,110,32,46,98,115,115,10,0,58,32,114,101,115,113,32,0,48,0,120,0,10,115,101,99,116,105,111,110,32,46,116,101,120,116,10,0,58,10,0,9,112,117,115,104,32,114,98,112,10,0,9,109,111,118,32,114,98,112,44,32,114,115,112,10,0,66,97,100,32,99,104,97,114,97,99,116,101,114,58,32,39,37,99,39,10,0,9,109,111,118,32,91,114,98,112,45,0,93,44,32,0,10,0,66,97,100,32,99,104,97,114,97,99,116,101,114,58,32,39,37,99,39,10,0,9,115,117,98,32,114,115,112,44,32,0,10,0,9,108,101,97,118,101,10,0,9,114,101,116,10,0,73,110,118,97,108,105,100,32,115,116,97,116,101,109,101,110,116,58,32,39,37,99,39,10,0,85,115,97,103,101,58,32,37,115,32,91,45,112,112,93,32,91,45,103,93,32,105,110,112,117,116,45,99,111,100,101,32,111,117,116,112,117,116,45,102,105,108,101,32,91,108,105,110,107,101,114,32,102,108,97,103,115,93,10,0,114,100,105,0,114,115,105,0,114,100,120,0,114,99,120,0,114,56,0,114,57,0,45,112,112,0,45,103,0,114,98,0,70,97,105,108,101,100,32,116,111,32,111,112,101,110,58,32,37,115,58,32,37,115,10,0,111,117,116,46,115,0,119,98,0,70,97,105,108,101,100,32,116,111,32,111,112,101,110,58,32,111,117,116,46,115,58,32,37,115,10,0,101,120,116,101,114,110,32,95,95,101,114,114,110,111,95,108,111,99,97,116,105,111,110,10,0,103,101,116,69,114,114,110,111,58,10,0,9,106,109,112,32,95,95,101,114,114,110,111,95,108,111,99,97,116,105,111,110,10,0,66,108,99,104,97,114,58,10,0,9,109,111,118,32,114,49,48,98,44,32,91,114,100,105,93,10,0,9,109,111,118,122,120,32,114,97,120,44,32,114,49,48,98,10,0,9,114,101,116,10,0,66,115,99,104,97,114,58,10,0,9,109,111,118,32,98,121,116,101,32,91,114,100,105,93,44,32,115,105,108,10,0,9,109,111,118,122,120,32,114,97,120,44,32,115,105,108,10,0,9,114,101,116,10,0,115,101,99,116,105,111,110,32,46,114,111,100,97,116,97,10,0,115,116,114,105,110,103,58,32,100,98,32,0,44,0,10,0,110,97,115,109,0,45,103,0,45,102,69,76,70,54,52,0,111,117,116,46,115,0,45,111,0,111,117,116,46,111,0,99,99,0,45,110,111,45,112,105,101,0,45,111,0,111,117,116,46,111,0,83,116,97,114,116,105,110,103,32,97,115,115,101,109,98,108,105,110,103,10,0,102,111,114,107,0,65,115,115,101,109,98,108,101,114,32,101,120,105,116,101,100,32,97,98,110,111,114,109,97,108,108,121,58,32,37,100,10,0,83,116,97,114,116,105,110,103,32,108,105,110,107,105,110,103,10,0,102,111,114,107,0,76,105,110,107,101,114,32,101,120,105,116,101,100,32,97,98,110,111,114,109,97,108,108,121,58,32,37,100,10,0
