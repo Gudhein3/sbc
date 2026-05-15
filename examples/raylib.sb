@@ -14,14 +14,14 @@ fib(x)!
 
 global main
 main() msx, msy {
-  printf("%d\n", fib(8));
-  InitWindow(640, 480, "Hello from SB");
-  while !WindowShouldClose() {
-    BeginDrawing();
-    GetMouseX() : msx;
-    GetMouseY() : msy;
-    ClearBackground(0xFFFFFFFF);
-    DrawLine(msx, msy, 320, 240, 0xFF0000FF);
-    EndDrawing();
-  }
+    printf("%d\n", fib(8));
+    InitWindow(640, 480, "Hello from SB");
+    while !WindowShouldClose() {
+        BeginDrawing();
+        msx = GetMouseX();
+        msy = GetMouseY();
+        ClearBackground(0xFFFFFFFF);
+        DrawLine(msx, msy, 320, 240, 0xFF0000FF);
+        EndDrawing();
+    }
 }
