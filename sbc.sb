@@ -202,7 +202,8 @@ p6(fl) c, si, i, argc, found, islexpr {
     whitespace();
     c = peek();
 
-    if islexpr emits("; primary(); after a lexpr\n"); // XXX: Speghetii
+
+    if islexpr emits("; primary(); after a lexpr\n"); // XXX: Spaghetii
     else emits("; primary(); after a non lexpr\n");
     if islexpr
         if fl == 0
