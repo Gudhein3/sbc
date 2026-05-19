@@ -17,26 +17,38 @@ arr[5];
 global main
 main(argc, argv) max, x, y, z {
     fprintf(stderr, "Aboba\n");
-    1 : x;
-    2 : y;
+    x = 1;
+    y = 2;
     if argc != 2 {
         usage(argv[0]);
         return 2;
     }
-    atoi(argv[1]) : max;
+    max = atoi(argv[1]);
     while x < max {
         printf("%d\n", x);
-        y : z;
-        x + y : y;
-        z : x;
+        z = y;
+        y = x + y;
+        x = z;
     }
     printf("5! = %d\n", fact(5));
-    0 : x;
+    x = 0;
     while 1 {
         printf("%d\n", x);
         if x >= 3 break;
-        x + 1 : x;
+        x = x + 1;
     }
+    x = 5;
+    if x < 5 {
+        printf("x < 5\n");
+    } else if x < 7 {
+        printf("x < 7\n");
+    } else if x < 11 {
+        printf("x < 11\n");
+    } else {
+        printf("x >= 11\n");
+    }/* then { // Not done yet, silly me
+        printf("x < 5 && x < 7 && x < 11\n");
+    }*/
     printf("Normal assignment operator: x=5 == %d, now x == %d\n", x=5, x);
     printf("Hexadecimal escape sequence: \x48\x61\x79\x6F\x21\x0A");
     printf("2<<60=0x%zx\n", 2<<60);
