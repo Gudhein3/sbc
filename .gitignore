@@ -1,5 +1,6 @@
 *.o
 *.s
-sbcs*
+*.ir
+sbc
 test
 !bootstrap/*

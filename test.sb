@@ -57,5 +57,6 @@ main(argc, argv) max, x, y, z {
     arr[0] = 0x4847464544434241; // "ABCDEFGH"
     arr[1] = 0x0037363534333231; // "1234567\0"
     printf("%s\n", &arr);
+    printf("2 + {printf(\"Aboba\\n\"); 2 * 2;} == %d\n", 2 + {printf("Aboba\n"); 2 * 2;});
     0;
 }

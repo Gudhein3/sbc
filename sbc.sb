@@ -60,7 +60,6 @@ next()! {
                     nextr();
                     if activecharacter == '\n' break;
                 }
-                nextr();
             } else {
                 push(activecharacter);
                 activecharacter = '/';
@@ -112,6 +111,7 @@ parseEscapeCode() c, n {
         else if c == 't' '\t';
         else if c == '\\' '\\';
         else if c == '\'' '\'';
+        else if c == '"' '"';
         else if c == 'x' {
             c = next();
             if !isxdigit(c) {
@@ -142,7 +142,7 @@ parseEscapeCode() c, n {
 lprimary() c, i, found {
     whitespace();
     c = peek();
-    emits("; lexpr()\n");
+    // emits("; lexpr()\n");
     if isalpha(c) {
         i = 0;
         while isalnum(c) {
@@ -156,16 +156,16 @@ lprimary() c, i, found {
         found = 0;
         while i < varcnt {
             if strcmp(&namebuffer, &variables+(i*5*8)+8) == 0 {
-                emits("\tlea rax, [rbp-");
+                emits("\txfp");
                 emitd(variables[i*5]);
-                emits("]\n");
+                emits("\n");
                 found = 1;
                 break;
             }
             i = i + 1;
         }
         if !found {
-            emits("\tlea rax, ");
+            emits("\txst");
             emits(&namebuffer);
             emits("\n");
         }
@@ -185,14 +185,14 @@ lexpr() c, stat {
     if stat = lprimary()
         if peek() == '[' {
             if stat == 2 { // We need to get value from a localvar
-                emits("\tmov rax, [rax] ; Lexpr localvar deref within the lexpr itself\n");
+                emits("\tdrf\n"); // ; Lexpr localvar deref within the lexpr itself\n");
             }
-            emits("\tpush rax ; lexpr index\n");
+            emits("\tsv0\n"); // ; lexpr index\n");
             next();
             expr();
             expect(']');
-            emits("\tpop rcx\n");
-            emits("\tlea rax, [rcx+rax*8]\n");
+            emits("\tld1\n");
+            emits("\tdar\n");
         }
     return stat;
 }
@@ -203,8 +203,9 @@ p6(fl) c, si, i, argc, found, islexpr {
     c = peek();
 
 
-    if islexpr emits("; primary(); after a lexpr\n"); // XXX: Spaghetii
-    else emits("; primary(); after a non lexpr\n");
+//    if islexpr emits("; primary()\n"); // ; after a lexpr\n"); // XXX: Spaghetii
+
+//    else emits("; primary()\n"); // ; after a non lexpr\n");
     if islexpr
         if fl == 0
             if peek() == '='
@@ -213,7 +214,7 @@ p6(fl) c, si, i, argc, found, islexpr {
     if !islexpr {
         found = 0;
         if isdigit(c) {
-            emits("\tmov rax, ");
+            emits("\tldc");
             if c=='0' {
                 c = next();
                 emits("0");
@@ -255,7 +256,7 @@ p6(fl) c, si, i, argc, found, islexpr {
                 c = parseEscapeCode();
             next();
             expect('\'');
-            emits("\tmov rax, ");
+            emits("\tldc");
             emitd(c);
             emits("\n");
         } else if c == '"' {
@@ -272,9 +273,9 @@ p6(fl) c, si, i, argc, found, islexpr {
             next();
             Bschar(&strbuf+strbufsz, 0);
             strbufsz = strbufsz + 1;
-            emits("\tlea rax, [abs string+");
+            emits("\tlds");
             emitd(si);
-            emits("]\n");
+            emits("\n");
         } else {
             fprintf(stderr, "Invalid primary expression: '%c'\n", c);
             exit(1);
@@ -285,20 +286,16 @@ p6(fl) c, si, i, argc, found, islexpr {
 
     if c == '(' {
         next();
-        emits("\tpush r13\n");
-        emits("\tmov r13, rax\n");
+        emits("\tsv2\n");
+        emits("\tm20\n");
         whitespace();
         argc = 0;
         if peek() != ')' {
             i = 0;
-            while i < 6 {
+            while 1 {
                 argc = argc + 1;
                 expr();
-                emits("\tpush ");
-                emits(ra[i]);
-                emits("\n\tmov ");
-                emits(ra[i]);
-                emits(", rax\n");
+                emits("\tsv0\n");
                 whitespace();
                 c = peek();
                 if c == ','
@@ -309,27 +306,17 @@ p6(fl) c, si, i, argc, found, islexpr {
             }
         }
         expect(')');
-        if !(argc&1)
-            emits("\tpush 0\n");
-        emits("\txor rax, rax\n");
-        emits("\tcall r13\n");
-        if !(argc&1)
-            emits("\tadd rsp, 8\n");
-        i = 0;
-        while i < argc {
-            emits("\tpop ");
-            emits(ra[argc-i-1]);
-            emits("\n");
-            i = i + 1;
-        }
-        emits("\tpop r13\n");
+        emits("\tcal");
+        emitd(argc);
+        emit('\n');
+        emits("\tld2\n");
         islexpr = 0;
     }
 
     whitespace();
     c = peek();
     if islexpr { // We need to get value from a lexpr
-        emits("\tmov rax, [rax] ; Lexpr deref\n");
+        emits("\tdrf\n"); // ; Lexpr deref\n");
     }
     0;
 }
@@ -342,11 +329,11 @@ p5() c, si, i, argc, found {
     if c == '~' {
         next();
         p6(0);
-        emits("\tnot rax\n");
+        emits("\tnot\n");
     } else if c == '-' {
         next();
         p6(0);
-        emits("\tneg rax\n");
+        emits("\tneg\n");
     } else if c == '+' {
         next();
         p6(0);
@@ -354,9 +341,7 @@ p5() c, si, i, argc, found {
     } else if c == '!' {
         next();
         p6(0);
-        emits("\ttest rax, rax\n");
-        emits("\tsetz al\n");
-        emits("\tmovzx rax, al\n");
+        emits("\tlnt\n");
     } else {
         return p6(0);
     }
@@ -370,55 +355,52 @@ p4() c {
         c = peek();
         if c == '&' {
             next();
-            emits("\tpush rax\n");
+            emits("\tsv0\n");
             p5();
             whitespace();
-            emits("\tmov rcx, rax\n");
-            emits("\tpop rax\n");
-            emits("\tand rax, rcx\n");
+            emits("\tm10\n");
+            emits("\tld0\n");
+            emits("\tand\n");
         } else if c == '|' {
             next();
-            emits("\tpush rax\n");
+            emits("\tsv0\n");
             p5();
             whitespace();
-            emits("\tmov rcx, rax\n");
-            emits("\tpop rax\n");
-            emits("\tor rax, rcx\n");
+            emits("\tm10\n");
+            emits("\tld0\n");
+            emits("\tor\n");
         } else if c == '^' {
             next();
-            emits("\tpush rax\n");
+            emits("\tsv0\n");
             p5();
             whitespace();
-            emits("\tmov rcx, rax\n");
-            emits("\tpop rax\n");
-            emits("\txor rax, rcx\n");
+            emits("\tm10\n");
+            emits("\tld0\n");
+            emits("\txor\n");
         } else if c == '*' {
             next();
-            emits("\tpush rax\n");
+            emits("\tsv0\n");
             p5();
             whitespace();
-            emits("\tmov rcx, rax\n");
-            emits("\tpop rax\n");
-            emits("\tmul rcx\n");
+            emits("\tm10\n");
+            emits("\tld0\n");
+            emits("\tmul\n");
         } else if c == '/' {
             next();
-            emits("\tpush rax\n");
+            emits("\tsv0\n");
             p5();
             whitespace();
-            emits("\tmov rcx, rax\n");
-            emits("\tpop rax\n");
-            emits("\txor rdx, rdx\n");
-            emits("\tdiv rcx\n");
+            emits("\tm10\n");
+            emits("\tld0\n");
+            emits("\tdiv\n");
         } else if c == '%' {
             next();
-            emits("\tpush rax\n");
+            emits("\tsv0\n");
             p5();
             whitespace();
-            emits("\tmov rcx, rax\n");
-            emits("\tpop rax\n");
-            emits("\txor rdx, rdx\n");
-            emits("\tdiv rcx\n");
-            emits("\tmov rax, rdx\n");
+            emits("\tm10\n");
+            emits("\tld0\n");
+            emits("\trem\n");
         } else
             break;
     }
@@ -432,20 +414,20 @@ p3() c {
         c = peek();
         if c == '+' {
             next();
-            emits("\tpush rax\n");
+            emits("\tsv0\n");
             p4();
             whitespace();
-            emits("\tmov rcx, rax\n");
-            emits("\tpop rax\n");
-            emits("\tadd rax, rcx\n");
+            emits("\tm10\n");
+            emits("\tld0\n");
+            emits("\tadd\n");
         } else if c == '-' {
             next();
-            emits("\tpush rax\n");
+            emits("\tsv0\n");
             p4();
             whitespace();
-            emits("\tmov rcx, rax\n");
-            emits("\tpop rax\n");
-            emits("\tsub rax, rcx\n");
+            emits("\tm10\n");
+            emits("\tld0\n");
+            emits("\tsub\n");
         } else
             break;
     }
@@ -460,25 +442,21 @@ p2() c, mode {
         if c == '=' {
             next();
             expect('=');
-            emits("\tpush rax\n");
+            emits("\tsv0\n");
             p3();
             whitespace();
-            emits("\tmov rcx, rax\n");
-            emits("\tpop rax\n");
-            emits("\tcmp rax, rcx\n");
-            emits("\tsete al\n");
-            emits("\tmovzx rax, al\n");
+            emits("\tm10\n");
+            emits("\tld0\n");
+            emits("\tequ\n");
         } else if c == '!' {
             next();
             expect('=');
-            emits("\tpush rax\n");
+            emits("\tsv0\n");
             p3();
             whitespace();
-            emits("\tmov rcx, rax\n");
-            emits("\tpop rax\n");
-            emits("\tcmp rax, rcx\n");
-            emits("\tsetne al\n");
-            emits("\tmovzx rax, al\n");
+            emits("\tm10\n");
+            emits("\tld0\n");
+            emits("\tneq\n");
         } else if c == '<' {
             next();
             mode = 0;
@@ -489,20 +467,18 @@ p2() c, mode {
                 mode = 2;
                 next();
             }
-            emits("\tpush rax\n");
+            emits("\tsv0\n");
             p3();
             whitespace();
-            emits("\tmov rcx, rax\n");
-            emits("\tpop rax\n");
+            emits("\tm10\n");
+            emits("\tld0\n");
             if mode == 2
-                emits("\tshl rax, cl\n");
+                emits("\tshl\n");
             else {
-                emits("\tcmp rax, rcx\n");
                 if mode == 1
-                    emits("\tsetbe al\n");
+                    emits("\tube\n");
                 else
-                    emits("\tsetb al\n");
-                emits("\tmovzx rax, al\n");
+                    emits("\tubi\n");
             }
         } else if c == '>' {
             next();
@@ -514,20 +490,18 @@ p2() c, mode {
                 mode = 2;
                 next();
             }
-            emits("\tpush rax\n");
+            emits("\tsv0\n");
             p3();
             whitespace();
-            emits("\tmov rcx, rax\n");
-            emits("\tpop rax\n");
+            emits("\tm10\n");
+            emits("\tld0\n");
             if mode == 2
-                emits("\tshr rax, cl\n");
+                emits("\tshr\n");
             else {
-                emits("\tcmp rax, rcx\n");
                 if mode == 1
-                    emits("\tsetae al\n");
+                    emits("\tuae\n");
                 else
-                    emits("\tseta al\n");
-                emits("\tmovzx rax, al\n");
+                    emits("\tuai\n");
             }
         } else
             break;
@@ -537,12 +511,10 @@ p2() c, mode {
 
 p1() c {
     if p2() == 1 { // Assignment
-        emits("\tpush rax\n");
-        emits("\tpush 0\n");
+        emits("\tsv0\n");
         p1();
-        emits("\tadd rsp, 8\n");
-        emits("\tpop rcx\n");
-        emits("\tmov [rcx], rax\n");
+        emits("\tld1\n");
+        emits("\terf\n");
         return 0;
     }
     whitespace();
@@ -550,14 +522,14 @@ p1() c {
         c = peek();
         if c == ':' {
             next();
-            emits("\tpush rax ;; Deprecated reverse assignment: ':'\n");
+            emits("\tsv0\n"); // ;; Deprecated reverse assignment: ':'\n");
             if !lexpr() {
                 fprintf(stderr, "Expected lexpr on right hand side of the reverse assignment.\nMaybe you should consider not using a decrecated feature?!!\n");
                 exit(1);
             }
-            emits("\tpop rcx\n");
-            emits("\tmov [rax], rcx\n");
-            emits("\tmov rax, rcx\n");
+            emits("\tld1\n");
+            emits("\terf\n");
+            emits("\tm01\n");
         } else
             break;
     }
@@ -618,15 +590,17 @@ stmt() c, addr, addr1, haselse, oca, oba {
         next();
         return 0;
     } else if tryword("continue") {
-        emits("\tjmp .L");
+        emits("\tjlc");
         emitd(continueaddress);
-        emits(" ; continue\n");
+        // emits(" ; continue\n");
+        emit('\n');
         expect(';');
         return 0;
     } else if tryword("break") {
-        emits("\tjmp .L");
+        emits("\tjlc");
         emitd(breakaddress);
-        emits(" ; break\n");
+        emit('\n');
+        // emits(" ; break\n");
         expect(';');
         return 0;
     } else if tryword("while") {
@@ -635,27 +609,25 @@ stmt() c, addr, addr1, haselse, oca, oba {
         continueaddress = addr = addrcounter;
         breakaddress = addr1 = addrcounter + 1;
         addrcounter = addrcounter + 2;
-        emits(".L");
+        emits("loc");
         emitd(addr);
-        emits(": ; while continue\n");
+        emits("\n"); // ; while continue\n");
         expr();
-        emits("\ttest rax, rax\n");
-        emits("\tjz .L");
+        emits("\tljz");
         emitd(addr1);
         emit('\n');
         stmt();
-        emits("jmp .L");
+        emits("ljp");
         emitd(addr);
         emit('\n');
-        emits(".L");
+        emits("loc");
         emitd(addr1);
-        emits(": ; while break\n");
+        emits("\n"); // ; while break\n");
         continueaddress = oca;
         breakaddress = oba;
         return 0;
     } else if tryword("return") {
         expr();
-        emits("\tleave\n");
         emits("\tret\n");
         whitespace();
         expect(';');
@@ -664,8 +636,7 @@ stmt() c, addr, addr1, haselse, oca, oba {
         addr = addrcounter;
         addrcounter = addrcounter + 1;
         expr();
-        emits("\ttest rax, rax\n");
-        emits("\tjz .L");
+        emits("\tljz");
         emitd(addr);
         emit('\n');
         stmt();
@@ -675,18 +646,18 @@ stmt() c, addr, addr1, haselse, oca, oba {
         addr1 = addrcounter;
         addrcounter = addrcounter + 1;
         if haselse {
-            emits("jmp .L");
+            emits("ljp");
             emitd(addr1);
             emit('\n');
         }
-        emits(".L");
+        emits("loc");
         emitd(addr);
-        emits(": ; if\n");
+        emits("\n"); // ; if\n");
         if haselse {
             stmt();
-            emits(".L");
+            emits("loc");
             emitd(addr1);
-            emits(": ; else\n");
+            emits("\n"); // ; else\n");
         }
         return 0;
     }
@@ -709,7 +680,7 @@ top() c, i, j, frameshift, variable, cinputfile {
             }
             Bschar(&namebuffer+i, 0);
             if strcmp(&namebuffer, "global") == 0 {
-                emits("global ");
+                emits("glb");
                 whitespace();
                 c = peek();
                 while isalnum(c) {
@@ -718,7 +689,7 @@ top() c, i, j, frameshift, variable, cinputfile {
                 }
                 emit('\n');
             } else if strcmp(&namebuffer, "extern") == 0 {
-                emits("extern ");
+                emits("ext");
                 whitespace();
                 c = peek();
                 while isalnum(c) {
@@ -769,15 +740,12 @@ top() c, i, j, frameshift, variable, cinputfile {
                 */
             } else if peek() == ';' {
                 next();
-                emits("section .bss\n");
+                emits("rsw 1*");
                 emits(&namebuffer);
-                emits(": resq 1\n");
-                emits("section .text\n");
+                emits("\n");
             } else if peek() == '[' {
                 c = next();
-                emits("section .bss\n");
-                emits(&namebuffer);
-                emits(": resq ");
+                emits("rsw ");
                 if c=='0' {
                     c = next();
                     emits("0");
@@ -798,17 +766,18 @@ top() c, i, j, frameshift, variable, cinputfile {
                 }
                 expect(']');
                 expect(';');
-                emits("\nsection .text\n");
-            } else {
+                emits("*");
                 emits(&namebuffer);
-                emits(":\n");
+                emits("\n");
+            } else {
+                emits("prc");
+                emits(&namebuffer);
+                emits("\n");
                 whitespace();
                 expect('(');
                 whitespace();
                 frameshift = 0;
                 varcnt = 0;
-                emits("\tpush rbp\n");
-                emits("\tmov rbp, rsp\n");
                 i = 0;
                 while i < 6 {
                     whitespace();
@@ -832,10 +801,10 @@ top() c, i, j, frameshift, variable, cinputfile {
                     frameshift = frameshift + 8;
                     *variable = frameshift;
 
-                    emits("\tmov [rbp-");
+                    emits("\tmfs");
                     emitd(frameshift);
-                    emits("], ");
-                    emits(ra[i]);
+                    emits(":");
+                    emitd(i);
                     emits("\n");
                     if peek() != ',' {
                         break;
@@ -878,12 +847,11 @@ top() c, i, j, frameshift, variable, cinputfile {
                 }
                 frameshift = frameshift + 8;
 
-                emits("\tsub rsp, ");
+                emits("\talc");
                 emitd(frameshift+16-(frameshift%16));
                 emits("\n");
 
                 stmt();
-                emits("\tleave\n");
                 emits("\tret\n");
             }
         } else if c == 0xFF {
@@ -895,24 +863,10 @@ top() c, i, j, frameshift, variable, cinputfile {
     }
 }
 
-usage(progname)! fprintf(stderr, "Usage: %s [-pp] [-g] input-code output-file [linker flags]\n", progname);
-
-linkerargc;
-linkerargv[64];
-
-assemblerargc;
-assemblerargv[8];
+usage(progname)! fprintf(stderr, "Usage: %s [-pp] input-code output-ir\n", progname);
 
 global main
-main(argc, argv) gdb, outbin, i, pid, status {
-    /* Initialization */
-    ra[0] = "rdi";
-    ra[1] = "rsi";
-    ra[2] = "rdx";
-    ra[3] = "rcx";
-    ra[4] = "r8";
-    ra[5] = "r9";
-
+main(argc, argv) i, pid, status {
     if argc <3 {
         usage(argv[0]);
         return 2;
@@ -922,36 +876,19 @@ main(argc, argv) gdb, outbin, i, pid, status {
         argc = argc - 1;argv = argv + 8;
         dooutputparse = 1;
     }
-    if strcmp(argv[0], "-g") == 0 {
-        argc = argc - 1;argv = argv + 8;
-        gdb = 1;
-    }
     inputfile = fopen(argv[0], "rb");
     if !inputfile {
         fprintf(stderr, "Failed to open: %s: %s\n", argv[0], strerror(*getErrno()));
         return 2;
     }
-    outbin = argv[1];
-    argc = argc - 2;argv = argv + 16;
-    outputfile = fopen("out.s", "wb");
+    outputfile = fopen(argv[1], "wb");
     if !outputfile {
-        fprintf(stderr, "Failed to open: out.s: %s\n", strerror(*getErrno()));
+        fprintf(stderr, "Failed to open: %s: %s\n", argv[1], strerror(*getErrno()));
         return 2;
     }
-    emits("extern __errno_location\n");
-    emits("getErrno:\n");
-    emits("\tjmp __errno_location\n");
-    emits("Blchar:\n");
-    emits("\tmov r10b, [rdi]\n");
-    emits("\tmovzx rax, r10b\n");
-    emits("\tret\n");
-    emits("Bschar:\n");
-    emits("\tmov byte [rdi], sil\n");
-    emits("\tmovzx rax, sil\n");
-    emits("\tret\n");
+    argc = argc - 2;argv = argv + 16;
     top();
-    emits("section .rodata\n");
-    emits("string: db ");
+    emits("str");
     emitd(Blchar(&strbuf+0));
     i = 1;
     while i < strbufsz {
@@ -962,61 +899,6 @@ main(argc, argv) gdb, outbin, i, pid, status {
     emits("\n");
     fclose(inputfile);
     fclose(outputfile);
-    assemblerargv[assemblerargc] = "nasm";
-    assemblerargc = assemblerargc + 1;
-    if gdb {
-        assemblerargv[assemblerargc] = "-g";
-        assemblerargc = assemblerargc + 1;
-    }
-    assemblerargv[assemblerargc] = "-fELF64";
-    assemblerargv[assemblerargc+1] = "out.s";
-    assemblerargv[assemblerargc+2] = "-o";
-    assemblerargv[assemblerargc+3] = "out.o";
-    assemblerargv[assemblerargc+4] = 0;
-    linkerargv[linkerargc] = "cc";
-    linkerargv[linkerargc+1] = "-no-pie";
-    linkerargv[linkerargc+2] = "-o";
-    linkerargv[linkerargc+3] = outbin;
-    linkerargv[linkerargc+4] = "out.o";
-    linkerargc = linkerargc + 5;
-    while argc {
-        linkerargv[linkerargc] = argv[0];
-        linkerargc = linkerargc + 1;
-        argc = argc - 1;argv = argv + 8;
-    }
-    linkerargv[linkerargc] = 0;
-
-    pid = fork();
-    if pid == 0 {
-        fprintf(stderr, "Starting assembling\n");
-        execvp(assemblerargv[0], &assemblerargv);
-        /* No return */
-    } else if pid < 0 {
-        perror("fork");
-        return 1;
-    }
-    status = 0;
-    waitpid(pid, &status, 0);
-    if (status&0x7f) != 0 {
-        fprintf(stderr, "Assembler exited abnormally: %d\n", (status&0xff00)>>8);
-        return 1;
-    }
-
-    pid = fork();
-    if pid == 0 {
-        fprintf(stderr, "Starting linking\n");
-        execvp(linkerargv[0], &linkerargv);
-        /* No return */
-    } else if pid < 0 {
-        perror("fork");
-        return 1;
-    }
-    status = 0;
-    waitpid(pid, &status, 0);
-    if (status&0x7f) != 0 {
-        fprintf(stderr, "Linker exited abnormally: %d\n", (status&0xff00)>>8);
-        return 1;
-    }
 
     0;
 }
