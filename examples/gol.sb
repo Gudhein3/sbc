@@ -45,9 +45,9 @@ main() actbuf, pasbuf, xbuf, row, col, nbors {
                 } else if (nbors < 2) | (nbors > 3) {
                     pasbuf[row] = pasbuf[row]&~(1<<(63-col));
                 }
-                col + 1 : col;
+                col = col + 1;
             }
-            row + 1 : row;
+            row = row + 1;
         }
 
         row = 0;
@@ -65,8 +65,8 @@ main() actbuf, pasbuf, xbuf, row, col, nbors {
         }
         printf("\x1b[64A\x1b[64D");
         nanosleep(&sleepy, 0);
-        actbuf : xbuf;
-        pasbuf : actbuf;
-        xbuf : pasbuf;
+        xbuf = actbuf;
+        actbuf = pasbuf;
+        pasbuf = xbuf;
     }
 }

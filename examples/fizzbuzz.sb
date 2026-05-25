@@ -2,7 +2,7 @@ extern printf
 
 global main
 main() i {
-    1 : i;
+    i = 1;
     while i <= 100 {
         if i % 15 == 0
             printf("FizzBuzz\n");
@@ -12,7 +12,7 @@ main() i {
             printf("Buzz\n");
         else
             printf("%d\n", i);
-        i + 1 : i;
+        i = i + 1;
     }
     0;
 }
