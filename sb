@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+set -e
+./sbc $1 $2.ir
+./sba $2.ir $2 ${@:3}
