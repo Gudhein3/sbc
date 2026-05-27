@@ -1,7 +1,7 @@
 # SB programming language
 ## Syntax
 #### Expressions
-There is [./op.txt](A full documentation on the expressions) but you probably want a Fast Introduction™ so here it is \
+There is [A full documentation on the expressions](./op.txt) but you probably want a Fast Introduction™ so here it is \
 Left expressions - works kinda like in C; `*(&a+3)` \
 Precendence Parenthesis™ - works kinda like in Math; `(2 + 2) * 2 == 8` \
 Basic arithmetics - works kinda like in C; `2 + 2 * 2 == 6` \
@@ -72,7 +72,7 @@ glblInt; // Semicolon is required here; as I said above, they aren't the same as
 glblArr[69]; // 69 computer words, not bytes.
 ayota()! (glblInt = glblInt + 1) - 1;
 ```
-Continiously speaking, all global variables are allocated on the [https://it.wikipedia.org/wiki/.bss](.bss section), hence [https://en.wikipedia.org/wiki/Automat](automat)ical[https://en.wikipedia.org/wiki/-ly](ly) [https://en.wikipedia.org/wiki/Combinatorial_game_theory#Numbers](zero)-[https://dictionary.cambridge.org/dictionary/english/initialized](initialized) by [https://en.wikipedia.org/wiki/Operating_system](your OS)
+Continiously speaking, all global variables are allocated on the [.bss section](https://it.wikipedia.org/wiki/.bss), hence automatical[ly](https://en.wikipedia.org/wiki/-ly) [zero](https://en.wikipedia.org/wiki/Combinatorial_game_theory#Numbers)-[initialized](https://dictionary.cambridge.org/dictionary/english/initialized) by [your OS](https://en.wikipedia.org/wiki/Operating_system)
 ***
 ###### Externals
 ```
@@ -81,7 +81,7 @@ extern printf // Now le symbol "printf" avaliable for our object (Only if you ar
 ```
 ***
 # IR
-Currently IR is used only in the [./bootstrap/sbc.ir](Bootstrapping file) to minimize its size.
+Currently IR is used only in the [Bootstrapping file](./bootstrap/sbc.ir) to minimize its size.
 But in the future I'll add other platforms (e.g. Python)
 # Bootstrapping
 ```shell
