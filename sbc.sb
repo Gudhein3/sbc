@@ -905,6 +905,7 @@ top() tk, i, j, frameshift, variable, cinputfile {
                 emits(&tokenstring);
                 emits("\n");
                 expect(TOKLPAR);
+                addrcounter = 0;
                 frameshift = 0;
                 varcnt = 0;
                 i = 0;
