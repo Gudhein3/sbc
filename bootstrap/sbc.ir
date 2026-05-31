@@ -66,6 +66,8 @@ rsw1*TOKGRETEQU
 rsw1*TOKGRETGRET
 rsw1*TOKKWBREAK
 rsw1*TOKKWCONTINUE
+rsw1*TOKTILDA
+rsw1*TOKCAROT
 rsw1*tokenkind
 rsw1*tokenu64
 rsw128*tokenstring
@@ -1028,11 +1030,53 @@ loc74
 	xfp8
 	drf
 	sv0
-	ldc34
+	ldc126
 	m10
 	ld0
 	equ
 	ljz76
+	xsttokenkind
+	sv0
+	xstTOKTILDA
+	drf
+	ld1
+	erf
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+ljp77
+loc76
+	xfp8
+	drf
+	sv0
+	ldc94
+	m10
+	ld0
+	equ
+	ljz78
+	xsttokenkind
+	sv0
+	xstTOKCAROT
+	drf
+	ld1
+	erf
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+ljp79
+loc78
+	xfp8
+	drf
+	sv0
+	ldc34
+	m10
+	ld0
+	equ
+	ljz80
 	xsttokenkind
 	sv0
 	xstTOKSTR
@@ -1053,7 +1097,7 @@ loc74
 	ldc0
 	ld1
 	erf
-loc77
+loc81
 	xfp8
 	sv0
 	xstcpeek
@@ -1068,7 +1112,7 @@ loc77
 	m10
 	ld0
 	neq
-	ljz78
+	ljz82
 	xfp8
 	sv0
 	xstcpeek
@@ -1085,7 +1129,7 @@ loc77
 	m10
 	ld0
 	equ
-	ljz79
+	ljz83
 	xfp8
 	sv0
 	xstparseEscapeCode
@@ -1095,7 +1139,7 @@ loc77
 	ld2
 	ld1
 	erf
-loc79
+loc83
 	xstBschar
 	sv2
 	m20
@@ -1128,8 +1172,8 @@ loc79
 	add
 	ld1
 	erf
-ljp77
-loc78
+ljp81
+loc82
 	xstcnextr
 	sv2
 	m20
@@ -1161,8 +1205,8 @@ loc78
 	add
 	ld1
 	erf
-ljp81
-loc76
+ljp85
+loc80
 	xstisdigit
 	sv2
 	m20
@@ -1171,7 +1215,7 @@ loc76
 	sv0
 	cal1
 	ld2
-	ljz82
+	ljz86
 	xsttokenkind
 	sv0
 	xstTOKNUM
@@ -1183,7 +1227,7 @@ loc76
 	ldc0
 	ld1
 	erf
-loc83
+loc87
 	xstisdigit
 	sv2
 	m20
@@ -1192,7 +1236,7 @@ loc83
 	sv0
 	cal1
 	ld2
-	ljz84
+	ljz88
 	xsttokenu64
 	sv0
 	xsttokenu64
@@ -1235,10 +1279,10 @@ loc83
 	add
 	ld1
 	erf
-ljp83
-loc84
-ljp85
-loc82
+ljp87
+loc88
+ljp89
+loc86
 	xstisalpha
 	sv2
 	m20
@@ -1247,7 +1291,7 @@ loc82
 	sv0
 	cal1
 	ld2
-	ljz86
+	ljz90
 	xsttokenkind
 	sv0
 	xstTOKID
@@ -1259,7 +1303,7 @@ loc82
 	ldc0
 	ld1
 	erf
-loc87
+loc91
 	xstisalnum
 	sv2
 	m20
@@ -1268,7 +1312,7 @@ loc87
 	sv0
 	cal1
 	ld2
-	ljz88
+	ljz92
 	xfp16
 	drf
 	sv0
@@ -1276,7 +1320,7 @@ loc87
 	m10
 	ld0
 	uai
-	ljz89
+	ljz93
 	xstfprintf
 	sv2
 	m20
@@ -1310,7 +1354,7 @@ loc87
 	sv0
 	cal1
 	ld2
-loc89
+loc93
 	xstBschar
 	sv2
 	m20
@@ -1347,8 +1391,8 @@ loc89
 	add
 	ld1
 	erf
-ljp87
-loc88
+ljp91
+loc92
 	xstBschar
 	sv2
 	m20
@@ -1374,48 +1418,10 @@ loc88
 	cal2
 	ld2
 	lnt
-	ljz91
-	xsttokenkind
-	sv0
-	xstTOKKWIF
-	drf
-	ld1
-	erf
-ljp92
-loc91
-	xststrcmp
-	sv2
-	m20
-	xsttokenstring
-	sv0
-	lds91
-	sv0
-	cal2
-	ld2
-	lnt
-	ljz93
-	xsttokenkind
-	sv0
-	xstTOKKWELSE
-	drf
-	ld1
-	erf
-ljp94
-loc93
-	xststrcmp
-	sv2
-	m20
-	xsttokenstring
-	sv0
-	lds97
-	sv0
-	cal2
-	ld2
-	lnt
 	ljz95
 	xsttokenkind
 	sv0
-	xstTOKKWWHILE
+	xstTOKKWIF
 	drf
 	ld1
 	erf
@@ -1426,7 +1432,7 @@ loc95
 	m20
 	xsttokenstring
 	sv0
-	lds104
+	lds91
 	sv0
 	cal2
 	ld2
@@ -1434,7 +1440,7 @@ loc95
 	ljz97
 	xsttokenkind
 	sv0
-	xstTOKKWEXTERN
+	xstTOKKWELSE
 	drf
 	ld1
 	erf
@@ -1445,7 +1451,7 @@ loc97
 	m20
 	xsttokenstring
 	sv0
-	lds112
+	lds97
 	sv0
 	cal2
 	ld2
@@ -1453,7 +1459,7 @@ loc97
 	ljz99
 	xsttokenkind
 	sv0
-	xstTOKKWGLOBAL
+	xstTOKKWWHILE
 	drf
 	ld1
 	erf
@@ -1464,7 +1470,7 @@ loc99
 	m20
 	xsttokenstring
 	sv0
-	lds120
+	lds104
 	sv0
 	cal2
 	ld2
@@ -1472,7 +1478,7 @@ loc99
 	ljz101
 	xsttokenkind
 	sv0
-	xstTOKKWRETURN
+	xstTOKKWEXTERN
 	drf
 	ld1
 	erf
@@ -1483,7 +1489,7 @@ loc101
 	m20
 	xsttokenstring
 	sv0
-	lds128
+	lds112
 	sv0
 	cal2
 	ld2
@@ -1491,7 +1497,7 @@ loc101
 	ljz103
 	xsttokenkind
 	sv0
-	xstTOKKWBREAK
+	xstTOKKWGLOBAL
 	drf
 	ld1
 	erf
@@ -1502,7 +1508,7 @@ loc103
 	m20
 	xsttokenstring
 	sv0
-	lds135
+	lds120
 	sv0
 	cal2
 	ld2
@@ -1510,20 +1516,58 @@ loc103
 	ljz105
 	xsttokenkind
 	sv0
+	xstTOKKWRETURN
+	drf
+	ld1
+	erf
+ljp106
+loc105
+	xststrcmp
+	sv2
+	m20
+	xsttokenstring
+	sv0
+	lds128
+	sv0
+	cal2
+	ld2
+	lnt
+	ljz107
+	xsttokenkind
+	sv0
+	xstTOKKWBREAK
+	drf
+	ld1
+	erf
+ljp108
+loc107
+	xststrcmp
+	sv2
+	m20
+	xsttokenstring
+	sv0
+	lds135
+	sv0
+	cal2
+	ld2
+	lnt
+	ljz109
+	xsttokenkind
+	sv0
 	xstTOKKWCONTINUE
 	drf
 	ld1
 	erf
-loc105
+loc109
+loc108
+loc106
 loc104
 loc102
 loc100
 loc98
 loc96
-loc94
-loc92
-ljp107
-loc86
+ljp111
+loc90
 	xstfprintf
 	sv2
 	m20
@@ -1560,9 +1604,11 @@ loc86
 	sv0
 	cal1
 	ld2
-loc107
+loc111
+loc89
 loc85
-loc81
+loc79
+loc77
 loc75
 loc73
 loc71
@@ -1596,13 +1642,13 @@ prcpeek
 	m10
 	ld0
 	equ
-	ljz108
+	ljz112
 	xstlex
 	sv2
 	m20
 	cal0
 	ld2
-loc108
+loc112
 	xsttokenkind
 	drf
 	ret
@@ -1641,7 +1687,7 @@ prccnext
 	alc16
 	xststreamsize
 	drf
-	ljz110
+	ljz114
 	xstactivecharacter
 	sv0
 	xstBlchar
@@ -1681,8 +1727,8 @@ prccnext
 	sub
 	ld1
 	erf
-ljp111
-loc110
+ljp115
+loc114
 	xstcnextr
 	sv2
 	m20
@@ -1692,35 +1738,6 @@ loc110
 	drf
 	sv0
 	ldc47
-	m10
-	ld0
-	equ
-	ljz112
-	xstcnextr
-	sv2
-	m20
-	cal0
-	ld2
-	xstactivecharacter
-	drf
-	sv0
-	ldc42
-	m10
-	ld0
-	equ
-	ljz113
-loc114
-	ldc1
-	ljz115
-	xstcnextr
-	sv2
-	m20
-	cal0
-	ld2
-	xstactivecharacter
-	drf
-	sv0
-	ldc42
 	m10
 	ld0
 	equ
@@ -1733,23 +1750,32 @@ loc114
 	xstactivecharacter
 	drf
 	sv0
-	ldc47
+	ldc42
 	m10
 	ld0
 	equ
 	ljz117
-	jlc115
-loc117
-loc116
-ljp114
-loc115
+loc118
+	ldc1
+	ljz119
 	xstcnextr
 	sv2
 	m20
 	cal0
 	ld2
-ljp120
-loc113
+	xstactivecharacter
+	drf
+	sv0
+	ldc42
+	m10
+	ld0
+	equ
+	ljz120
+	xstcnextr
+	sv2
+	m20
+	cal0
+	ld2
 	xstactivecharacter
 	drf
 	sv0
@@ -1758,9 +1784,29 @@ loc113
 	ld0
 	equ
 	ljz121
-loc122
+	jlc119
+loc121
+loc120
+ljp118
+loc119
+	xstcnextr
+	sv2
+	m20
+	cal0
+	ld2
+ljp124
+loc117
+	xstactivecharacter
+	drf
+	sv0
+	ldc47
+	m10
+	ld0
+	equ
+	ljz125
+loc126
 	ldc1
-	ljz123
+	ljz127
 	xstcnextr
 	sv2
 	m20
@@ -1773,13 +1819,13 @@ loc122
 	m10
 	ld0
 	equ
-	ljz124
-	jlc123
-loc124
-ljp122
-loc123
+	ljz128
+	jlc127
+loc128
 ljp126
-loc121
+loc127
+ljp130
+loc125
 	xstcpush
 	sv2
 	m20
@@ -1793,10 +1839,10 @@ loc121
 	ldc47
 	ld1
 	erf
-loc126
-loc120
-loc112
-loc111
+loc130
+loc124
+loc116
+loc115
 	xstactivecharacter
 	drf
 	ret
@@ -1821,13 +1867,13 @@ prccnextr
 	m10
 	ld0
 	equ
-	ljz128
+	ljz132
 	xstactivecharacter
 	sv0
 	ldc255
 	ld1
 	erf
-loc128
+loc132
 	xstactivecharacter
 	drf
 	sv0
@@ -1835,7 +1881,7 @@ loc128
 	m10
 	ld0
 	equ
-	ljz130
+	ljz134
 	xstcurrentrow
 	sv0
 	xstcurrentrow
@@ -1852,8 +1898,8 @@ loc128
 	ldc0
 	ld1
 	erf
-ljp131
-loc130
+ljp135
+loc134
 	xstcurrentcol
 	sv0
 	xstcurrentcol
@@ -1865,10 +1911,10 @@ loc130
 	add
 	ld1
 	erf
-loc131
+loc135
 	xstdooutputparse
 	drf
-	ljz132
+	ljz136
 	xstfprintf
 	sv2
 	m20
@@ -1882,7 +1928,7 @@ loc131
 	sv0
 	cal3
 	ld2
-loc132
+loc136
 	xstactivecharacter
 	drf
 	ret
@@ -1895,13 +1941,13 @@ prccpeek
 	m10
 	ld0
 	equ
-	ljz134
+	ljz138
 	xstcnext
 	sv2
 	m20
 	cal0
 	ld2
-loc134
+loc138
 	xstactivecharacter
 	drf
 	ret
@@ -1976,14 +2022,14 @@ prcexpect
 	m10
 	ld0
 	equ
-	ljz136
+	ljz140
 	xstlex
 	sv2
 	m20
 	cal0
 	ld2
-ljp137
-loc136
+ljp141
+loc140
 	xstfprintf
 	sv2
 	m20
@@ -2026,7 +2072,7 @@ loc136
 	sv0
 	cal1
 	ld2
-loc137
+loc141
 	ret
 prclexpect
 	mfs8:0
@@ -2042,7 +2088,7 @@ prclexpect
 	m10
 	ld0
 	neq
-	ljz138
+	ljz142
 	xstfprintf
 	sv2
 	m20
@@ -2085,7 +2131,7 @@ prclexpect
 	sv0
 	cal1
 	ld2
-loc138
+loc142
 	ret
 prcparseEscapeCode
 	alc32
@@ -2105,10 +2151,10 @@ prcparseEscapeCode
 	m10
 	ld0
 	equ
-	ljz140
+	ljz144
 	ldc10
-ljp141
-loc140
+ljp145
+loc144
 	xfp8
 	drf
 	sv0
@@ -2116,43 +2162,43 @@ loc140
 	m10
 	ld0
 	equ
-	ljz142
-	ldc9
-ljp143
-loc142
-	xfp8
-	drf
-	sv0
-	ldc92
-	m10
-	ld0
-	equ
-	ljz144
-	ldc92
-ljp145
-loc144
-	xfp8
-	drf
-	sv0
-	ldc39
-	m10
-	ld0
-	equ
 	ljz146
-	ldc39
+	ldc9
 ljp147
 loc146
 	xfp8
 	drf
 	sv0
-	ldc34
+	ldc92
 	m10
 	ld0
 	equ
 	ljz148
-	ldc34
+	ldc92
 ljp149
 loc148
+	xfp8
+	drf
+	sv0
+	ldc39
+	m10
+	ld0
+	equ
+	ljz150
+	ldc39
+ljp151
+loc150
+	xfp8
+	drf
+	sv0
+	ldc34
+	m10
+	ld0
+	equ
+	ljz152
+	ldc34
+ljp153
+loc152
 	xfp8
 	drf
 	sv0
@@ -2160,7 +2206,7 @@ loc148
 	m10
 	ld0
 	equ
-	ljz150
+	ljz154
 	xfp8
 	sv0
 	xstcnextr
@@ -2179,7 +2225,7 @@ loc148
 	cal1
 	ld2
 	lnt
-	ljz151
+	ljz155
 	xstfprintf
 	sv2
 	m20
@@ -2216,7 +2262,7 @@ loc148
 	sv0
 	cal1
 	ld2
-loc151
+loc155
 	xfp8
 	drf
 	sv0
@@ -2224,7 +2270,7 @@ loc151
 	m10
 	ld0
 	ube
-	ljz153
+	ljz157
 	xfp16
 	sv0
 	xfp8
@@ -2236,8 +2282,8 @@ loc151
 	sub
 	ld1
 	erf
-ljp154
-loc153
+ljp158
+loc157
 	xfp8
 	drf
 	sv0
@@ -2245,7 +2291,7 @@ loc153
 	m10
 	ld0
 	ube
-	ljz155
+	ljz159
 	xfp16
 	sv0
 	xfp8
@@ -2262,8 +2308,8 @@ loc153
 	add
 	ld1
 	erf
-ljp156
-loc155
+ljp160
+loc159
 	xfp8
 	drf
 	sv0
@@ -2271,7 +2317,7 @@ loc155
 	m10
 	ld0
 	ube
-	ljz157
+	ljz161
 	xfp16
 	sv0
 	xfp8
@@ -2288,9 +2334,9 @@ loc155
 	add
 	ld1
 	erf
-loc157
-loc156
-loc154
+loc161
+loc160
+loc158
 	xfp8
 	sv0
 	xstcnextr
@@ -2309,7 +2355,7 @@ loc154
 	cal1
 	ld2
 	lnt
-	ljz159
+	ljz163
 	xstfprintf
 	sv2
 	m20
@@ -2346,7 +2392,7 @@ loc154
 	sv0
 	cal1
 	ld2
-loc159
+loc163
 	xfp16
 	sv0
 	xfp16
@@ -2365,7 +2411,7 @@ loc159
 	m10
 	ld0
 	ube
-	ljz161
+	ljz165
 	xfp16
 	sv0
 	xfp16
@@ -2383,8 +2429,8 @@ loc159
 	sub
 	ld1
 	erf
-ljp162
-loc161
+ljp166
+loc165
 	xfp8
 	drf
 	sv0
@@ -2392,7 +2438,7 @@ loc161
 	m10
 	ld0
 	ube
-	ljz163
+	ljz167
 	xfp16
 	sv0
 	xfp16
@@ -2415,8 +2461,8 @@ loc161
 	add
 	ld1
 	erf
-ljp164
-loc163
+ljp168
+loc167
 	xfp8
 	drf
 	sv0
@@ -2424,7 +2470,7 @@ loc163
 	m10
 	ld0
 	ube
-	ljz165
+	ljz169
 	xfp16
 	sv0
 	xfp16
@@ -2447,13 +2493,13 @@ loc163
 	add
 	ld1
 	erf
-loc165
-loc164
-loc162
+loc169
+loc168
+loc166
 	xfp16
 	drf
-ljp167
-loc150
+ljp171
+loc154
 	xstfprintf
 	sv2
 	m20
@@ -2490,12 +2536,12 @@ loc150
 	sv0
 	cal1
 	ld2
-loc167
+loc171
+loc153
+loc151
 loc149
 loc147
 loc145
-loc143
-loc141
 	ret
 	ret
 prclprimary
@@ -2517,7 +2563,7 @@ prclprimary
 	m10
 	ld0
 	equ
-	ljz168
+	ljz172
 	xfp16
 	sv0
 	ldc0
@@ -2528,7 +2574,7 @@ prclprimary
 	ldc0
 	ld1
 	erf
-loc169
+loc173
 	xfp16
 	drf
 	sv0
@@ -2537,7 +2583,7 @@ loc169
 	m10
 	ld0
 	ubi
-	ljz170
+	ljz174
 	xststrcmp
 	sv2
 	m20
@@ -2573,7 +2619,7 @@ loc169
 	m10
 	ld0
 	equ
-	ljz171
+	ljz175
 	xstemits
 	sv2
 	m20
@@ -2611,8 +2657,8 @@ loc169
 	ldc1
 	ld1
 	erf
-	jlc170
-loc171
+	jlc174
+loc175
 	xfp16
 	sv0
 	xfp16
@@ -2624,12 +2670,12 @@ loc171
 	add
 	ld1
 	erf
-ljp169
-loc170
+ljp173
+loc174
 	xfp24
 	drf
 	lnt
-	ljz173
+	ljz177
 	xstemits
 	sv2
 	m20
@@ -2651,7 +2697,7 @@ loc170
 	sv0
 	cal1
 	ld2
-loc173
+loc177
 	xstlex
 	sv2
 	m20
@@ -2659,14 +2705,14 @@ loc173
 	ld2
 	xfp24
 	drf
-	ljz175
+	ljz179
 	ldc2
 	ret
-loc175
+loc179
 	ldc1
 	ret
-ljp177
-loc168
+ljp181
+loc172
 	xfp8
 	drf
 	sv0
@@ -2675,7 +2721,7 @@ loc168
 	m10
 	ld0
 	equ
-	ljz178
+	ljz182
 	xstlex
 	sv2
 	m20
@@ -2690,12 +2736,12 @@ loc168
 	ld2
 	ldc1
 	ret
-ljp179
-loc178
+ljp183
+loc182
 	ldc0
 	ret
-loc179
-loc177
+loc183
+loc181
 	ret
 prclexpr
 	alc32
@@ -2708,7 +2754,7 @@ prclexpr
 	ld2
 	ld1
 	erf
-	ljz180
+	ljz184
 	xstpeek
 	sv2
 	m20
@@ -2720,7 +2766,7 @@ prclexpr
 	m10
 	ld0
 	equ
-	ljz181
+	ljz185
 	xfp8
 	drf
 	sv0
@@ -2728,7 +2774,7 @@ prclexpr
 	m10
 	ld0
 	equ
-	ljz182
+	ljz186
 	xstemits
 	sv2
 	m20
@@ -2736,7 +2782,7 @@ prclexpr
 	sv0
 	cal1
 	ld2
-loc182
+loc186
 	xstemits
 	sv2
 	m20
@@ -2776,8 +2822,8 @@ loc182
 	sv0
 	cal1
 	ld2
-loc181
-loc180
+loc185
+loc184
 	xfp8
 	drf
 	ret
@@ -2810,7 +2856,7 @@ prcp6
 	m10
 	ld0
 	neq
-	ljz186
+	ljz190
 	xfp8
 	drf
 	sv0
@@ -2818,7 +2864,7 @@ prcp6
 	m10
 	ld0
 	equ
-	ljz187
+	ljz191
 	xfp16
 	drf
 	sv0
@@ -2827,7 +2873,7 @@ prcp6
 	m10
 	ld0
 	equ
-	ljz188
+	ljz192
 	xstlex
 	sv2
 	m20
@@ -2835,10 +2881,10 @@ prcp6
 	ld2
 	ldc1
 	ret
-loc188
-loc187
-ljp191
-loc186
+loc192
+loc191
+ljp195
+loc190
 	xfp48
 	sv0
 	ldc0
@@ -2852,7 +2898,7 @@ loc186
 	m10
 	ld0
 	equ
-	ljz192
+	ljz196
 	xstemits
 	sv2
 	m20
@@ -2880,8 +2926,8 @@ loc186
 	m20
 	cal0
 	ld2
-ljp193
-loc192
+ljp197
+loc196
 	xfp16
 	drf
 	sv0
@@ -2890,13 +2936,13 @@ loc192
 	m10
 	ld0
 	equ
-	ljz194
+	ljz198
 	xstlex
 	sv2
 	m20
 	cal0
 	ld2
-loc195
+loc199
 	xstpeek
 	sv2
 	m20
@@ -2908,21 +2954,21 @@ loc195
 	m10
 	ld0
 	neq
-	ljz196
+	ljz200
 	xststmt
 	sv2
 	m20
 	cal0
 	ld2
-ljp195
-loc196
+ljp199
+loc200
 	xstlex
 	sv2
 	m20
 	cal0
 	ld2
-ljp197
-loc194
+ljp201
+loc198
 	xfp16
 	drf
 	sv0
@@ -2931,7 +2977,7 @@ loc194
 	m10
 	ld0
 	equ
-	ljz198
+	ljz202
 	xstlex
 	sv2
 	m20
@@ -2950,8 +2996,8 @@ loc194
 	sv0
 	cal1
 	ld2
-ljp199
-loc198
+ljp203
+loc202
 	xfp16
 	drf
 	sv0
@@ -2960,7 +3006,7 @@ loc198
 	m10
 	ld0
 	equ
-	ljz200
+	ljz204
 	xstlex
 	sv2
 	m20
@@ -2971,8 +3017,8 @@ loc198
 	m20
 	cal0
 	ld2
-ljp201
-loc200
+ljp205
+loc204
 	xfp16
 	drf
 	sv0
@@ -2981,7 +3027,7 @@ loc200
 	m10
 	ld0
 	equ
-	ljz202
+	ljz206
 	xstemits
 	sv2
 	m20
@@ -3009,8 +3055,8 @@ loc200
 	m20
 	cal0
 	ld2
-ljp203
-loc202
+ljp207
+loc206
 	xfp16
 	drf
 	sv0
@@ -3019,7 +3065,7 @@ loc202
 	m10
 	ld0
 	equ
-	ljz204
+	ljz208
 	xfp24
 	sv0
 	xststrbufsz
@@ -3099,8 +3145,8 @@ loc202
 	m20
 	cal0
 	ld2
-ljp205
-loc204
+ljp209
+loc208
 	xstfprintf
 	sv2
 	m20
@@ -3137,13 +3183,13 @@ loc204
 	sv0
 	cal1
 	ld2
+loc209
+loc207
 loc205
 loc203
 loc201
-loc199
 loc197
-loc193
-loc191
+loc195
 	xfp16
 	sv0
 	xstpeek
@@ -3161,7 +3207,7 @@ loc191
 	m10
 	ld0
 	equ
-	ljz206
+	ljz210
 	xstlex
 	sv2
 	m20
@@ -3197,15 +3243,15 @@ loc191
 	m10
 	ld0
 	neq
-	ljz207
+	ljz211
 	xfp32
 	sv0
 	ldc0
 	ld1
 	erf
-loc208
+loc212
 	ldc1
-	ljz209
+	ljz213
 	xfp40
 	sv0
 	xfp40
@@ -3246,14 +3292,14 @@ loc208
 	m10
 	ld0
 	equ
-	ljz210
+	ljz214
 	xstlex
 	sv2
 	m20
 	cal0
 	ld2
-ljp211
-loc210
+ljp215
+loc214
 	xfp16
 	drf
 	sv0
@@ -3262,10 +3308,10 @@ loc210
 	m10
 	ld0
 	equ
-	ljz212
-	jlc209
-loc212
-loc211
+	ljz216
+	jlc213
+loc216
+loc215
 	xfp32
 	sv0
 	xfp32
@@ -3277,9 +3323,9 @@ loc211
 	add
 	ld1
 	erf
-ljp208
-loc209
-loc207
+ljp212
+loc213
+loc211
 	xstexpect
 	sv2
 	m20
@@ -3322,7 +3368,7 @@ loc207
 	ldc0
 	ld1
 	erf
-loc206
+loc210
 	xfp16
 	sv0
 	xstpeek
@@ -3334,7 +3380,7 @@ loc206
 	erf
 	xfp56
 	drf
-	ljz216
+	ljz220
 	xstemits
 	sv2
 	m20
@@ -3342,7 +3388,7 @@ loc206
 	sv0
 	cal1
 	ld2
-loc216
+loc220
 	ldc0
 	ret
 prcp5
@@ -3364,11 +3410,12 @@ prcp5
 	xfp8
 	drf
 	sv0
-	ldc6969
+	xstTOKTILDA
+	drf
 	m10
 	ld0
 	equ
-	ljz218
+	ljz222
 	xstlex
 	sv2
 	m20
@@ -3388,65 +3435,12 @@ prcp5
 	sv0
 	cal1
 	ld2
-ljp219
-loc218
-	xfp8
-	drf
-	sv0
-	xstTOKMINUS
-	drf
-	m10
-	ld0
-	equ
-	ljz220
-	xstlex
-	sv2
-	m20
-	cal0
-	ld2
-	xstp6
-	sv2
-	m20
-	ldc0
-	sv0
-	cal1
-	ld2
-	xstemits
-	sv2
-	m20
-	lds618
-	sv0
-	cal1
-	ld2
-ljp221
-loc220
-	xfp8
-	drf
-	sv0
-	xstTOKPLUS
-	drf
-	m10
-	ld0
-	equ
-	ljz222
-	xstlex
-	sv2
-	m20
-	cal0
-	ld2
-	xstp6
-	sv2
-	m20
-	ldc0
-	sv0
-	cal1
-	ld2
 ljp223
 loc222
 	xfp8
 	drf
 	sv0
-	xstTOKEXCL
+	xstTOKMINUS
 	drf
 	m10
 	ld0
@@ -3467,12 +3461,65 @@ loc222
 	xstemits
 	sv2
 	m20
-	lds625
+	lds618
 	sv0
 	cal1
 	ld2
 ljp225
 loc224
+	xfp8
+	drf
+	sv0
+	xstTOKPLUS
+	drf
+	m10
+	ld0
+	equ
+	ljz226
+	xstlex
+	sv2
+	m20
+	cal0
+	ld2
+	xstp6
+	sv2
+	m20
+	ldc0
+	sv0
+	cal1
+	ld2
+ljp227
+loc226
+	xfp8
+	drf
+	sv0
+	xstTOKEXCL
+	drf
+	m10
+	ld0
+	equ
+	ljz228
+	xstlex
+	sv2
+	m20
+	cal0
+	ld2
+	xstp6
+	sv2
+	m20
+	ldc0
+	sv0
+	cal1
+	ld2
+	xstemits
+	sv2
+	m20
+	lds625
+	sv0
+	cal1
+	ld2
+ljp229
+loc228
 	xstp6
 	sv2
 	m20
@@ -3481,10 +3528,10 @@ loc224
 	cal1
 	ld2
 	ret
+loc229
+loc227
 loc225
 loc223
-loc221
-loc219
 	ldc0
 	ret
 	ret
@@ -3500,13 +3547,13 @@ prcp4
 	m10
 	ld0
 	equ
-	ljz226
+	ljz230
 	ldc1
 	ret
-loc226
-loc228
+loc230
+loc232
 	ldc1
-	ljz229
+	ljz233
 	xfp8
 	sv0
 	xstpeek
@@ -3524,7 +3571,7 @@ loc228
 	m10
 	ld0
 	equ
-	ljz230
+	ljz234
 	xstlex
 	sv2
 	m20
@@ -3563,8 +3610,8 @@ loc228
 	sv0
 	cal1
 	ld2
-ljp231
-loc230
+ljp235
+loc234
 	xfp8
 	drf
 	sv0
@@ -3573,7 +3620,7 @@ loc230
 	m10
 	ld0
 	equ
-	ljz232
+	ljz236
 	xstlex
 	sv2
 	m20
@@ -3612,16 +3659,17 @@ loc230
 	sv0
 	cal1
 	ld2
-ljp233
-loc232
+ljp237
+loc236
 	xfp8
 	drf
 	sv0
-	ldc6969
+	xstTOKCAROT
+	drf
 	m10
 	ld0
 	equ
-	ljz234
+	ljz238
 	xstlex
 	sv2
 	m20
@@ -3660,8 +3708,8 @@ loc232
 	sv0
 	cal1
 	ld2
-ljp235
-loc234
+ljp239
+loc238
 	xfp8
 	drf
 	sv0
@@ -3670,7 +3718,7 @@ loc234
 	m10
 	ld0
 	equ
-	ljz236
+	ljz240
 	xstlex
 	sv2
 	m20
@@ -3709,8 +3757,8 @@ loc234
 	sv0
 	cal1
 	ld2
-ljp237
-loc236
+ljp241
+loc240
 	xfp8
 	drf
 	sv0
@@ -3719,7 +3767,7 @@ loc236
 	m10
 	ld0
 	equ
-	ljz238
+	ljz242
 	xstlex
 	sv2
 	m20
@@ -3758,8 +3806,8 @@ loc236
 	sv0
 	cal1
 	ld2
-ljp239
-loc238
+ljp243
+loc242
 	xfp8
 	drf
 	sv0
@@ -3768,7 +3816,7 @@ loc238
 	m10
 	ld0
 	equ
-	ljz240
+	ljz244
 	xstlex
 	sv2
 	m20
@@ -3807,17 +3855,17 @@ loc238
 	sv0
 	cal1
 	ld2
-ljp241
-loc240
-	jlc229
+ljp245
+loc244
+	jlc233
+loc245
+loc243
 loc241
 loc239
 loc237
 loc235
+ljp232
 loc233
-loc231
-ljp228
-loc229
 	ldc0
 	ret
 	ret
@@ -3833,13 +3881,13 @@ prcp3
 	m10
 	ld0
 	equ
-	ljz242
+	ljz246
 	ldc1
 	ret
-loc242
-loc244
+loc246
+loc248
 	ldc1
-	ljz245
+	ljz249
 	xfp8
 	sv0
 	xstpeek
@@ -3857,7 +3905,7 @@ loc244
 	m10
 	ld0
 	equ
-	ljz246
+	ljz250
 	xstlex
 	sv2
 	m20
@@ -3896,8 +3944,8 @@ loc244
 	sv0
 	cal1
 	ld2
-ljp247
-loc246
+ljp251
+loc250
 	xfp8
 	drf
 	sv0
@@ -3906,7 +3954,7 @@ loc246
 	m10
 	ld0
 	equ
-	ljz248
+	ljz252
 	xstlex
 	sv2
 	m20
@@ -3945,13 +3993,13 @@ loc246
 	sv0
 	cal1
 	ld2
-ljp249
-loc248
-	jlc245
+ljp253
+loc252
+	jlc249
+loc253
+loc251
+ljp248
 loc249
-loc247
-ljp244
-loc245
 	ldc0
 	ret
 	ret
@@ -3967,13 +4015,13 @@ prcp2
 	m10
 	ld0
 	equ
-	ljz250
+	ljz254
 	ldc1
 	ret
-loc250
-loc252
+loc254
+loc256
 	ldc1
-	ljz253
+	ljz257
 	xfp8
 	sv0
 	xstpeek
@@ -3991,7 +4039,7 @@ loc252
 	m10
 	ld0
 	equ
-	ljz254
+	ljz258
 	xstlex
 	sv2
 	m20
@@ -4030,8 +4078,8 @@ loc252
 	sv0
 	cal1
 	ld2
-ljp255
-loc254
+ljp259
+loc258
 	xfp8
 	drf
 	sv0
@@ -4040,7 +4088,7 @@ loc254
 	m10
 	ld0
 	equ
-	ljz256
+	ljz260
 	xstlex
 	sv2
 	m20
@@ -4079,8 +4127,8 @@ loc254
 	sv0
 	cal1
 	ld2
-ljp257
-loc256
+ljp261
+loc260
 	xfp8
 	drf
 	sv0
@@ -4089,7 +4137,7 @@ loc256
 	m10
 	ld0
 	equ
-	ljz258
+	ljz262
 	xstlex
 	sv2
 	m20
@@ -4128,8 +4176,8 @@ loc256
 	sv0
 	cal1
 	ld2
-ljp259
-loc258
+ljp263
+loc262
 	xfp8
 	drf
 	sv0
@@ -4138,7 +4186,7 @@ loc258
 	m10
 	ld0
 	equ
-	ljz260
+	ljz264
 	xstlex
 	sv2
 	m20
@@ -4177,8 +4225,8 @@ loc258
 	sv0
 	cal1
 	ld2
-ljp261
-loc260
+ljp265
+loc264
 	xfp8
 	drf
 	sv0
@@ -4187,7 +4235,7 @@ loc260
 	m10
 	ld0
 	equ
-	ljz262
+	ljz266
 	xstlex
 	sv2
 	m20
@@ -4226,8 +4274,8 @@ loc260
 	sv0
 	cal1
 	ld2
-ljp263
-loc262
+ljp267
+loc266
 	xfp8
 	drf
 	sv0
@@ -4236,7 +4284,7 @@ loc262
 	m10
 	ld0
 	equ
-	ljz264
+	ljz268
 	xstlex
 	sv2
 	m20
@@ -4275,8 +4323,8 @@ loc262
 	sv0
 	cal1
 	ld2
-ljp265
-loc264
+ljp269
+loc268
 	xfp8
 	drf
 	sv0
@@ -4285,7 +4333,7 @@ loc264
 	m10
 	ld0
 	equ
-	ljz266
+	ljz270
 	xstlex
 	sv2
 	m20
@@ -4324,8 +4372,8 @@ loc264
 	sv0
 	cal1
 	ld2
-ljp267
-loc266
+ljp271
+loc270
 	xfp8
 	drf
 	sv0
@@ -4334,7 +4382,7 @@ loc266
 	m10
 	ld0
 	equ
-	ljz268
+	ljz272
 	xstlex
 	sv2
 	m20
@@ -4373,19 +4421,19 @@ loc266
 	sv0
 	cal1
 	ld2
-ljp269
-loc268
-	jlc253
+ljp273
+loc272
+	jlc257
+loc273
+loc271
 loc269
 loc267
 loc265
 loc263
 loc261
 loc259
+ljp256
 loc257
-loc255
-ljp252
-loc253
 	ldc0
 	ret
 	ret
@@ -4401,7 +4449,7 @@ prcp1
 	m10
 	ld0
 	equ
-	ljz270
+	ljz274
 	xstemits
 	sv2
 	m20
@@ -4430,7 +4478,7 @@ prcp1
 	ld2
 	ldc0
 	ret
-loc270
+loc274
 	ret
 prcexpr
 	alc16
@@ -4460,13 +4508,13 @@ prcstmt
 	m10
 	ld0
 	equ
-	ljz272
+	ljz276
 	xstlex
 	sv2
 	m20
 	cal0
 	ld2
-loc273
+loc277
 	xstpeek
 	sv2
 	m20
@@ -4478,14 +4526,14 @@ loc273
 	m10
 	ld0
 	neq
-	ljz274
+	ljz278
 	xststmt
 	sv2
 	m20
 	cal0
 	ld2
-ljp273
-loc274
+ljp277
+loc278
 	xstlex
 	sv2
 	m20
@@ -4493,8 +4541,8 @@ loc274
 	ld2
 	ldc0
 	ret
-ljp275
-loc272
+ljp279
+loc276
 	xfp8
 	drf
 	sv0
@@ -4503,7 +4551,7 @@ loc272
 	m10
 	ld0
 	equ
-	ljz276
+	ljz280
 	xstlex
 	sv2
 	m20
@@ -4541,8 +4589,8 @@ loc272
 	ld2
 	ldc0
 	ret
-ljp277
-loc276
+ljp281
+loc280
 	xfp8
 	drf
 	sv0
@@ -4551,7 +4599,7 @@ loc276
 	m10
 	ld0
 	equ
-	ljz278
+	ljz282
 	xstlex
 	sv2
 	m20
@@ -4589,8 +4637,8 @@ loc276
 	ld2
 	ldc0
 	ret
-ljp279
-loc278
+ljp283
+loc282
 	xfp8
 	drf
 	sv0
@@ -4599,7 +4647,7 @@ loc278
 	m10
 	ld0
 	equ
-	ljz280
+	ljz284
 	xstlex
 	sv2
 	m20
@@ -4765,8 +4813,8 @@ loc278
 	erf
 	ldc0
 	ret
-ljp281
-loc280
+ljp285
+loc284
 	xfp8
 	drf
 	sv0
@@ -4775,7 +4823,7 @@ loc280
 	m10
 	ld0
 	equ
-	ljz282
+	ljz286
 	xstlex
 	sv2
 	m20
@@ -4803,8 +4851,8 @@ loc280
 	ld2
 	ldc0
 	ret
-ljp283
-loc282
+ljp287
+loc286
 	xfp8
 	drf
 	sv0
@@ -4813,7 +4861,7 @@ loc282
 	m10
 	ld0
 	equ
-	ljz284
+	ljz288
 	xstlex
 	sv2
 	m20
@@ -4908,7 +4956,7 @@ loc282
 	erf
 	xfp32
 	drf
-	ljz285
+	ljz289
 	xstemits
 	sv2
 	m20
@@ -4931,7 +4979,7 @@ loc282
 	sv0
 	cal1
 	ld2
-loc285
+loc289
 	xstemits
 	sv2
 	m20
@@ -4956,7 +5004,7 @@ loc285
 	ld2
 	xfp32
 	drf
-	ljz287
+	ljz291
 	xstlex
 	sv2
 	m20
@@ -4989,15 +5037,15 @@ loc285
 	sv0
 	cal1
 	ld2
-loc287
+loc291
 	ldc0
 	ret
-loc284
+loc288
+loc287
+loc285
 loc283
 loc281
 loc279
-loc277
-loc275
 	xstexpr
 	sv2
 	m20
@@ -5014,9 +5062,9 @@ loc275
 	ret
 prctop
 	alc64
-loc290
+loc294
 	ldc1
-	ljz291
+	ljz295
 	xfp8
 	sv0
 	xstpeek
@@ -5034,7 +5082,7 @@ loc290
 	m10
 	ld0
 	equ
-	ljz292
+	ljz296
 	xstlex
 	sv2
 	m20
@@ -5074,8 +5122,8 @@ loc290
 	m20
 	cal0
 	ld2
-ljp293
-loc292
+ljp297
+loc296
 	xfp8
 	drf
 	sv0
@@ -5084,7 +5132,7 @@ loc292
 	m10
 	ld0
 	equ
-	ljz294
+	ljz298
 	xstlex
 	sv2
 	m20
@@ -5124,8 +5172,8 @@ loc292
 	m20
 	cal0
 	ld2
-ljp295
-loc294
+ljp299
+loc298
 	xfp8
 	drf
 	sv0
@@ -5134,7 +5182,7 @@ loc294
 	m10
 	ld0
 	equ
-	ljz296
+	ljz300
 	xstlex
 	sv2
 	m20
@@ -5157,7 +5205,7 @@ loc294
 	m10
 	ld0
 	equ
-	ljz297
+	ljz301
 	xstemits
 	sv2
 	m20
@@ -5184,8 +5232,8 @@ loc294
 	m20
 	cal0
 	ld2
-ljp298
-loc297
+ljp302
+loc301
 	xfp8
 	drf
 	sv0
@@ -5194,7 +5242,7 @@ loc297
 	m10
 	ld0
 	equ
-	ljz299
+	ljz303
 	xstlex
 	sv2
 	m20
@@ -5260,8 +5308,8 @@ loc297
 	sv0
 	cal1
 	ld2
-ljp300
-loc299
+ljp304
+loc303
 	xstemits
 	sv2
 	m20
@@ -5306,7 +5354,7 @@ loc299
 	ldc0
 	ld1
 	erf
-loc301
+loc305
 	xfp16
 	drf
 	sv0
@@ -5314,7 +5362,7 @@ loc301
 	m10
 	ld0
 	ubi
-	ljz302
+	ljz306
 	xfp8
 	sv0
 	xstpeek
@@ -5332,9 +5380,9 @@ loc301
 	m10
 	ld0
 	equ
-	ljz303
-	jlc302
-loc303
+	ljz307
+	jlc306
+loc307
 	xfp40
 	sv0
 	xstvariables
@@ -5462,9 +5510,9 @@ loc303
 	m10
 	ld0
 	neq
-	ljz305
-	jlc302
-loc305
+	ljz309
+	jlc306
+loc309
 	xstlex
 	sv2
 	m20
@@ -5481,8 +5529,8 @@ loc305
 	add
 	ld1
 	erf
-ljp301
-loc302
+ljp305
+loc306
 	xstexpect
 	sv2
 	m20
@@ -5508,17 +5556,17 @@ loc302
 	m10
 	ld0
 	equ
-	ljz307
+	ljz311
 	xstlex
 	sv2
 	m20
 	cal0
 	ld2
-ljp308
-loc307
-loc309
+ljp312
+loc311
+loc313
 	ldc1
-	ljz310
+	ljz314
 	xfp40
 	sv0
 	xstvariables
@@ -5558,7 +5606,7 @@ loc309
 	m10
 	ld0
 	neq
-	ljz311
+	ljz315
 	xstfprintf
 	sv2
 	m20
@@ -5595,7 +5643,7 @@ loc309
 	sv0
 	cal1
 	ld2
-loc311
+loc315
 	xstmemcpy
 	sv2
 	m20
@@ -5647,9 +5695,9 @@ loc311
 	m10
 	ld0
 	neq
-	ljz313
-	jlc310
-loc313
+	ljz317
+	jlc314
+loc317
 	xstlex
 	sv2
 	m20
@@ -5664,9 +5712,9 @@ loc313
 	ld2
 	ld1
 	erf
-ljp309
-loc310
-loc308
+ljp313
+loc314
+loc312
 	xfp32
 	sv0
 	xfp32
@@ -5728,10 +5776,10 @@ loc308
 	sv0
 	cal1
 	ld2
+loc304
+loc302
+ljp319
 loc300
-loc298
-ljp315
-loc296
 	xfp8
 	drf
 	sv0
@@ -5740,10 +5788,10 @@ loc296
 	m10
 	ld0
 	equ
-	ljz316
-	jlc291
-ljp317
-loc316
+	ljz320
+	jlc295
+ljp321
+loc320
 	xstfprintf
 	sv2
 	m20
@@ -5780,12 +5828,12 @@ loc316
 	sv0
 	cal1
 	ld2
-loc317
-loc315
+loc321
+loc319
+loc299
+loc297
+ljp294
 loc295
-loc293
-ljp290
-loc291
 	ret
 prcusage
 	mfs8:0
@@ -5999,6 +6047,16 @@ prcmain
 	ldc38
 	ld1
 	erf
+	xstTOKTILDA
+	sv0
+	ldc39
+	ld1
+	erf
+	xstTOKCAROT
+	sv0
+	ldc40
+	ld1
+	erf
 	xfp8
 	drf
 	sv0
@@ -6006,7 +6064,7 @@ prcmain
 	m10
 	ld0
 	ubi
-	ljz318
+	ljz322
 	xstusage
 	sv2
 	m20
@@ -6022,7 +6080,7 @@ prcmain
 	ld2
 	ldc2
 	ret
-loc318
+loc322
 	xfp8
 	sv0
 	xfp8
@@ -6065,7 +6123,7 @@ loc318
 	m10
 	ld0
 	equ
-	ljz320
+	ljz324
 	xfp8
 	sv0
 	xfp8
@@ -6093,7 +6151,7 @@ loc318
 	ldc1
 	ld1
 	erf
-loc320
+loc324
 	xstinputfile
 	sv0
 	xstfopen
@@ -6116,7 +6174,7 @@ loc320
 	xstinputfile
 	drf
 	lnt
-	ljz322
+	ljz326
 	xstfprintf
 	sv2
 	m20
@@ -6150,7 +6208,7 @@ loc320
 	ld2
 	ldc2
 	ret
-loc322
+loc326
 	xstoutputfile
 	sv0
 	xstfopen
@@ -6173,7 +6231,7 @@ loc322
 	xstoutputfile
 	drf
 	lnt
-	ljz324
+	ljz328
 	xstfprintf
 	sv2
 	m20
@@ -6207,7 +6265,7 @@ loc322
 	ld2
 	ldc2
 	ret
-loc324
+loc328
 	xfp8
 	sv0
 	xfp8
@@ -6265,7 +6323,7 @@ loc324
 	ldc1
 	ld1
 	erf
-loc326
+loc330
 	xfp24
 	drf
 	sv0
@@ -6274,7 +6332,7 @@ loc326
 	m10
 	ld0
 	ubi
-	ljz327
+	ljz331
 	xstemits
 	sv2
 	m20
@@ -6312,8 +6370,8 @@ loc326
 	add
 	ld1
 	erf
-ljp326
-loc327
+ljp330
+loc331
 	xstemits
 	sv2
 	m20

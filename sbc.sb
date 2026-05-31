@@ -74,6 +74,8 @@ TOKKWBREAK;
 TOKKWCONTINUE;
 //TOKKWBLCHAR;
 //TOKKWBSCHAR;
+TOKTILDA;
+TOKCAROT;
 
 tokenkind;
 tokenu64;
@@ -247,6 +249,14 @@ lex() c, i {
     }
     else if c == '|' {
         tokenkind = TOKVTBAR;
+        cnext();
+    }
+    else if c == '~' {
+        tokenkind = TOKTILDA;
+        cnext();
+    }
+    else if c == '^' {
+        tokenkind = TOKCAROT;
         cnext();
     }
     else if c == '"' {
@@ -579,7 +589,7 @@ p5() tk, si, i, argc, found {
     tk = peek();
 
     found = 0;
-    if tk == 6969 { // TOKXXX: '~'
+    if tk == TOKTILDA {
         lex();
         p6(0);
         emits("\tnot\n");
@@ -619,7 +629,7 @@ p4() tk {
             emits("\tm10\n");
             emits("\tld0\n");
             emits("\tor\n");
-        } else if tk == 6969 { // TOKXXX: '^'
+        } else if tk == TOKCAROT {
             lex();
             emits("\tsv0\n");
             p5();
@@ -1010,6 +1020,8 @@ main(argc, argv) i, pid, status {
     TOKGRETGRET = 36;
     TOKKWBREAK = 37;
     TOKKWCONTINUE = 38;
+    TOKTILDA = 39;
+    TOKCAROT = 40;
 
     if argc <3 {
         usage(argv[0]);
