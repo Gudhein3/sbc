@@ -140,6 +140,10 @@ int main(int argc, char **argv) {
             fprintf(fptr, "lea rax, "Fmt_SV"\n", Pass_SV(line3));
         } else if (sv_equal_cstr(line, "drf")) {
             fprintf(fptr, "mov rax, [rax]\n");
+        } else if (sv_equal_cstr(line, "8dr")) {
+            fprintf(fptr, "movzx rax, byte [rax]\n");
+        } else if (sv_equal_cstr(line, "dr1")) {
+            fprintf(fptr, "mov rcx, [rcx]\n");
         } else if (sv_equal_cstr(line, "sv0")) { ++sp;
             fprintf(fptr, "push rax\n");
         } else if (sv_equal_cstr(line, "sv1")) { ++sp;
@@ -172,6 +176,10 @@ int main(int argc, char **argv) {
             fprintf(fptr, "sub rax, rcx\n");
         } else if (sv_equal_cstr(line, "mul")) {
             fprintf(fptr, "mul rcx\n");
+        } else if (sv_equal_cstr(line, "dec")) {
+            fprintf(fptr, "dec rax\n");
+        } else if (sv_equal_cstr(line, "inc")) {
+            fprintf(fptr, "inc rax\n");
         } else if (sv_equal_cstr(line, "div")) {
             fprintf(fptr, "xor rdx, rdx\n");
             fprintf(fptr, "div rcx\n");
@@ -217,6 +225,8 @@ int main(int argc, char **argv) {
             fprintf(fptr, "movzx rax, al\n");
         } else if (sv_equal_cstr(line, "erf")) {
             fprintf(fptr, "mov [rcx], rax\n");
+        } else if (sv_equal_cstr(line, "8er")) {
+            fprintf(fptr, "mov [rcx], al\n");
         } else if (sv_equal_cstr(line, "ret")) {
             fprintf(fptr, "leave\n");
             fprintf(fptr, "ret\n");

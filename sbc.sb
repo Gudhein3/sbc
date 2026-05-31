@@ -40,43 +40,55 @@ TOKSTR;
 TOKCHAR;
 TOKID;
 TOKEOF;
-TOKLPAR;
-TOKRPAR;
-TOKEXCL;
-TOKLESS;
-TOKGRET;
-TOKEQU;
-TOKEQUEQU;
-TOKSEMI;
-TOKASTER;
-TOKSLASH;
-TOKPLUS;
-TOKMINUS;
-TOKLBRACK;
-TOKRBRACK;
-TOKCOMMA;
-TOKLBRACE;
-TOKRBRACE;
-TOKAMPERS;
-TOKVTBAR;
-TOKPERS;
-TOKKWIF;
-TOKKWELSE;
-TOKKWWHILE;
-TOKKWEXTERN;
-TOKKWGLOBAL;
-TOKKWRETURN;
-TOKEXCLEQU;
-TOKLESSLESS;
-TOKLESSEQU;
-TOKGRETEQU;
-TOKGRETGRET;
-TOKKWBREAK;
-TOKKWCONTINUE;
+TOKLPAR;       // (
+TOKRPAR;       // )
+TOKEXCL;       // !
+TOKLESS;       // <
+TOKGRET;       // >
+TOKEQU;        // =
+TOKEQUEQU;     // ==
+TOKSEMI;       // ;
+TOKASTER;      // *
+TOKSLASH;      // /
+TOKPLUS;       // +
+TOKMINUS;      // -
+TOKLBRACK;     // [
+TOKRBRACK;     // ]
+TOKCOMMA;      // ,
+TOKLBRACE;     // {
+TOKRBRACE;     // }
+TOKAMPERS;     // &
+TOKVTBAR;      // |
+TOKPERS;       // %  (To not be confused with Achaemenid Empire, it falled aproximantelly 1630 years before symbol '%' were even introduced)
+TOKKWIF;       // if
+TOKKWELSE;     // else
+TOKKWWHILE;    // while
+TOKKWEXTERN;   // extern
+TOKKWGLOBAL;   // global
+TOKKWRETURN;   // return
+TOKEXCLEQU;    // !=
+TOKLESSLESS;   // <<
+TOKLESSEQU;    // <=
+TOKGRETEQU;    // >=
+TOKGRETGRET;   // >>
+TOKKWBREAK;    //
+TOKKWCONTINUE; // continue
 //TOKKWBLCHAR;
 //TOKKWBSCHAR;
-TOKTILDA;
-TOKCAROT;
+TOKTILDA;      // ~
+TOKCAROT;      // ^  (To not be confused with carrot, carrot is a kind of root vegitables, when carot is an ASCII symbol)
+TOKPLUSEQU;    // +=
+TOKMINUSEQU;   // -=
+TOKSLASHEQU;   // /=
+TOKPERSEQU;    // %=
+TOKAMPERSEQU;  // &=
+TOKVTBAREQU;   // |=
+TOKEXCLEXCL;   // !!
+TOKMINUSMINUS; // --
+TOKPLUSPLUS;   // ++
+TOKAT8;        // @8
+TOKEXCL8;      // !8
+TOKASTEREQU;   // *=
 
 tokenkind;
 tokenu64;
@@ -153,8 +165,13 @@ lex() c, i {
         if c == '=' {
             tokenkind = TOKEXCLEQU;
             cnext();
-        }
-        else {
+        } else if c == '!' {
+            tokenkind = TOKEXCLEXCL;
+            cnext();
+        } else if c == '8' {
+            tokenkind = TOKEXCL8;
+            cnext();
+        } else {
             tokenkind = TOKEXCL;
         }
     }
@@ -205,24 +222,62 @@ lex() c, i {
         cnext();
     }
     else if c == '*' {
-        tokenkind = TOKASTER;
-        cnext();
+        c = cnext();
+        if c == '=' {
+            tokenkind = TOKASTEREQU;
+            cnext();
+        }
+        else {
+            tokenkind = TOKASTER;
+        }
     }
     else if c == '/' {
-        tokenkind = TOKSLASH;
-        cnext();
+        c = cnext();
+        if c == '=' {
+            tokenkind = TOKSLASHEQU;
+            cnext();
+        }
+        else {
+            tokenkind = TOKSLASH;
+        }
     }
     else if c == '%' {
-        tokenkind = TOKPERS;
-        cnext();
+        c = cnext();
+        if c == '=' {
+            tokenkind = TOKPERSEQU;
+            cnext();
+        }
+        else {
+            tokenkind = TOKPERS;
+        }
     }
     else if c == '+' {
-        tokenkind = TOKPLUS;
-        cnext();
+        c = cnext();
+        if c == '=' {
+            tokenkind = TOKPLUSEQU;
+            cnext();
+        }
+        else if c == '+' {
+            tokenkind = TOKPLUSPLUS;
+            cnext();
+        }
+        else {
+            tokenkind = TOKPLUS;
+        }
     }
     else if c == '-' {
-        tokenkind = TOKMINUS;
-        cnext();
+        c = cnext();
+        if c == '=' {
+            tokenkind = TOKMINUSEQU;
+            cnext();
+        }
+        else if c == '-' {
+            tokenkind = TOKMINUSMINUS;
+            cnext();
+        }
+        else {
+            tokenkind = TOKMINUS;
+        }
     }
     else if c == '[' {
         tokenkind = TOKLBRACK;
@@ -245,12 +300,24 @@ lex() c, i {
         cnext();
     }
     else if c == '&' {
-        tokenkind = TOKAMPERS;
-        cnext();
+        c = cnext();
+        if c == '=' {
+            tokenkind = TOKAMPERSEQU;
+            cnext();
+        }
+        else {
+            tokenkind = TOKAMPERS;
+        }
     }
     else if c == '|' {
-        tokenkind = TOKVTBAR;
-        cnext();
+        c = cnext();
+        if c == '=' {
+            tokenkind = TOKVTBAREQU;
+            cnext();
+        }
+        else {
+            tokenkind = TOKVTBAR;
+        }
     }
     else if c == '~' {
         tokenkind = TOKTILDA;
@@ -258,6 +325,15 @@ lex() c, i {
     }
     else if c == '^' {
         tokenkind = TOKCAROT;
+        cnext();
+    }
+    else if c == '@' {
+        c = cnext();
+        if c != '8' {
+            fprintf(stderr, "Bad code: character '%c' at %d,%d was unexpected\n", tokenrow+1, tokencol+1, c);
+            exit(1);
+        }
+        tokenkind = TOKAT8;
         cnext();
     }
     else if c == '"' {
@@ -506,6 +582,36 @@ p6(fl) tk, si, i, argc, found, islexpr, length {
             if tk == TOKEQU {
                 lex();
                 return 1;
+            } else if tk == TOKPLUSEQU {
+                lex();
+                return 2;
+            } else if tk == TOKMINUSEQU {
+                lex();
+                return 3;
+            } else if tk == TOKSLASHEQU {
+                lex();
+                return 4;
+            } else if tk == TOKPERSEQU {
+                lex();
+                return 5;
+            } else if tk == TOKAMPERSEQU {
+                lex();
+                return 6;
+            } else if tk == TOKVTBAREQU {
+                lex();
+                return 7;
+            } else if tk == TOKEXCLEXCL {
+                lex();
+                return 8;
+            } else if tk == TOKEXCL8 {
+                lex();
+                return 9;
+            } else if tk == TOKMINUSMINUS {
+                lex();
+                return 10;
+            } else if tk == TOKPLUSPLUS {
+                lex();
+                return 11;
             }
         }
     }
@@ -529,6 +635,10 @@ p6(fl) tk, si, i, argc, found, islexpr, length {
         } else if tk == TOKAMPERS {
             lex();
             lexpr();
+        } else if tk == TOKAT8 {
+            lex();
+            lexpr();
+            emits("\t8dr\n");
         } else if tk == TOKCHAR {
             emits("\tldc");
             emitd(tokenu64);
@@ -545,6 +655,20 @@ p6(fl) tk, si, i, argc, found, islexpr, length {
             memcpy(&strbuf+strbufsz, &tokenstring, length);
             strbufsz = strbufsz + length;
             lex();
+        } else if tk == TOKMINUSMINUS {
+            lex();
+            lexpr();
+            emits("\tm10\n");
+            emits("\tdrf\n");
+            emits("\tdec\n");
+            emits("\terf\n");
+        } else if tk == TOKPLUSPLUS {
+            lex();
+            lexpr();
+            emits("\tm10\n");
+            emits("\tdrf\n");
+            emits("\tinc\n");
+            emits("\terf\n");
         } else {
             fprintf(stderr, "Invalid primary expression: 'XXX'(%d) at %d,%d\n", tk, tokenrow+1, tokencol+1);
             exit(1);
@@ -614,8 +738,8 @@ p5() tk, si, i, argc, found {
     return 0;
 }
 
-p4() tk {
-    if p5() == 1 return 1;
+p4() tk, code {
+    if (code = p5()) != 0 return code;
     while 1 {
         tk = peek();
         if tk == TOKAMPERS {
@@ -666,8 +790,8 @@ p4() tk {
     return 0;
 }
 
-p3() tk {
-    if p4() == 1 return 1;
+p3() tk, code {
+    if (code = p4()) != 0 return code;
     while 1 {
         tk = peek();
         if tk == TOKPLUS {
@@ -692,8 +816,8 @@ p3() tk {
     return 0;
 }
 
-p2() tk, mode {
-    if p3() == 1 return 1;
+p2() tk, mode, code {
+    if (code = p3()) != 0 return code;
     while 1 {
         tk = peek();
         if tk == TOKEQUEQU {
@@ -758,14 +882,100 @@ p2() tk, mode {
     return 0;
 }
 
-p1() tk {
-    if p2() == 1 { // Assignment
-        emits("\tsv0\n");
-        p1();
-        emits("\tld1\n");
-        emits("\terf\n");
-        return 0;
-    }
+p1() tk, code {
+    code = p2();
+    if code
+        if code == 1 { // =
+            emits("\tsv0\n");
+            p1();
+            emits("\tld1\n");
+            emits("\terf\n");
+        } else if code == 2 { // +=
+            emits("\tsv0\n");
+            p1();
+            emits("\tld1\n"); // b = B
+            emits("\tsv1\n");
+            emits("\tdr1\n"); // b = *b
+            emits("\tadd\n"); // a += b
+            emits("\tld1\n"); // b = B
+            emits("\terf\n"); // *b = a
+        } else if code == 3 { // -=
+            emits("\tsv0\n");
+            p1();
+            emits("\tld1\n");
+            emits("\tsv1\n");
+            emits("\tdr1\n");
+            emits("\tsub\n");
+            emits("\tld1\n");
+            emits("\terf\n");
+        } else if code == 4 { // /=
+            emits("\tsv0\n");
+            p1();
+            emits("\tld1\n");
+            emits("\tsv1\n");
+            emits("\tdr1\n");
+            emits("\tdiv\n");
+            emits("\tld1\n");
+            emits("\terf\n");
+        } else if code == 4 { // /=
+            emits("\tsv0\n");
+            p1();
+            emits("\tld1\n");
+            emits("\tsv1\n");
+            emits("\tdr1\n");
+            emits("\tdiv\n");
+            emits("\tld1\n");
+            emits("\terf\n");
+        } else if code == 5 { // %=
+            emits("\tsv0\n");
+            p1();
+            emits("\tld1\n");
+            emits("\tsv1\n");
+            emits("\tdr1\n");
+            emits("\trem\n");
+            emits("\tld1\n");
+            emits("\terf\n");
+        } else if code == 6 { // &=
+            emits("\tsv0\n");
+            p1();
+            emits("\tld1\n");
+            emits("\tsv1\n");
+            emits("\tdr1\n");
+            emits("\tand\n");
+            emits("\tld1\n");
+            emits("\terf\n");
+        } else if code == 7 { // |=
+            emits("\tsv0\n");
+            p1();
+            emits("\tld1\n");
+            emits("\tsv1\n");
+            emits("\tdr1\n");
+            emits("\tor\n");
+            emits("\tld1\n");
+            emits("\terf\n");
+        } else if code == 8 { // !!
+            emits("\tm10\n");
+            emits("\tdrf\n");
+            emits("\tlnt\n");
+            emits("\terf\n");
+        } else if code == 9 { // !8
+            emits("\tsv0\n");
+            p1();
+            emits("\tld1\n");
+            emits("\t8er\n");
+        } else if code == 10 { // --
+            emits("\tm10\n");
+            emits("\tdrf\n");
+            emits("\tdec\n");
+            emits("\terf\n");
+            emits("\tinc\n");
+        } else if code == 11 { // ++
+            emits("\tm10\n");
+            emits("\tdrf\n");
+            emits("\tinc\n");
+            emits("\terf\n");
+            emits("\tdec\n");
+        }
 }
 
 expr()! p1();
@@ -1026,6 +1236,18 @@ main(argc, argv) i, pid, status {
     TOKKWCONTINUE = 38;
     TOKTILDA = 39;
     TOKCAROT = 40;
+    TOKPLUSEQU = 41;
+    TOKMINUSEQU = 42;
+    TOKSLASHEQU = 43;
+    TOKPERSEQU = 44;
+    TOKAMPERSEQU = 45;
+    TOKVTBAREQU = 46;
+    TOKEXCLEXCL = 47;
+    TOKMINUSMINUS = 48;
+    TOKPLUSPLUS = 49;
+    TOKAT8 = 50;
+    TOKEXCL8 = 51;
+    TOKASTEREQU = 52;
 
     if argc <3 {
         usage(argv[0]);

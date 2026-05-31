@@ -6,12 +6,22 @@ Left expressions - works kinda like in C; `*(&a+3)` \
 Precendence Parenthesis™ - works kinda like in Math; `(2 + 2) * 2 == 8` \
 Basic arithmetics - works kinda like in C; `2 + 2 * 2 == 6` \
 Expressioned statement - works kinda like in Rust; `2 + {printf("Aboba\n"); 2 * 2;} == 6` \
-Equality, Inequality, Assignment(expect for "+="ish operators), Boolean operators works kinda same as in C \
+Special operators - special;
+```
+x = 0;
+x!!;
+x; // 1
+x!!;
+x; // 0
+
+@8 x; // Works like `*(char*)x;' in C
+```
+Equality, Inequality, Assignment, Boolean operators works kinda same as in C
 ***
 #### In-function Statements
-Almost like in C but there's a few exceptions. \
+Almost like in C but there's a few exceptions.
 ###### If/While
-No more parenthesis.
+No more parenthesis. \
 You can write something like
 ```c
 if 2 == 2 {
@@ -25,7 +35,7 @@ if 2 == 2 printf("2 really equals to 2\n");
 The same for while
 ###### Variables
 "SB" has no variable scoping mechanisms yet. \
-So you have to declare them at the function definition time: See the "In-global statements" section for more details. \
+So you have to declare them at the function definition time: See the "In-global statements" section for more details.
 ***
 #### In-global statements
 ###### Functions(Procedures actually)
@@ -81,7 +91,7 @@ extern printf // Now le symbol "printf" avaliable for our object (Only if you ar
 ```
 ***
 # IR
-Currently IR is used only in the [Bootstrapping file](./bootstrap/sbc.ir) to minimize its size.
+Currently IR is used only in the [Bootstrapping file](./bootstrap/sbc.ir) to minimize its size.\
 But in the future I'll add other platforms (e.g. MS Windows)
 # Bootstrapping
 ```shell
