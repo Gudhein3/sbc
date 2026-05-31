@@ -82,7 +82,7 @@ extern printf // Now le symbol "printf" avaliable for our object (Only if you ar
 ***
 # IR
 Currently IR is used only in the [Bootstrapping file](./bootstrap/sbc.ir) to minimize its size.
-But in the future I'll add other platforms (e.g. Python)
+But in the future I'll add other platforms (e.g. MS Windows)
 # Bootstrapping
 ```shell
 $ cc -o sba sba.c

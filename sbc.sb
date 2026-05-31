@@ -1,3 +1,4 @@
+extern memcpy
 extern fread
 extern fwrite
 extern printf
@@ -18,6 +19,7 @@ extern fork
 extern execvp
 extern waitpid
 extern memmove
+extern strlen
 
 variables[160]; /* variable[0] - frame_offset;
                    variable[1]..variable[4] - name (ascii);
@@ -32,54 +34,342 @@ inputfile;
 outputfile;
 dooutputparse;
 
-push(c)! {
+TOKNUM;
+TOKSTR;
+TOKCHAR;
+TOKID;
+TOKEOF;
+TOKLPAR;
+TOKRPAR;
+TOKEXCL;
+TOKLESS;
+TOKGRET;
+TOKEQU;
+TOKEQUEQU;
+TOKSEMI;
+TOKASTER;
+TOKSLASH;
+TOKPLUS;
+TOKMINUS;
+TOKLBRACK;
+TOKRBRACK;
+TOKCOMMA;
+TOKLBRACE;
+TOKRBRACE;
+TOKAMPERS;
+TOKVTBAR;
+TOKPERS;
+TOKKWIF;
+TOKKWELSE;
+TOKKWWHILE;
+TOKKWEXTERN;
+TOKKWGLOBAL;
+TOKKWRETURN;
+TOKEXCLEQU;
+TOKLESSLESS;
+TOKLESSEQU;
+TOKGRETEQU;
+TOKGRETGRET;
+TOKKWBREAK;
+TOKKWCONTINUE;
+//TOKKWBLCHAR;
+//TOKKWBSCHAR;
+
+tokenkind;
+tokenu64;
+tokenstring[128];
+tokenrow;
+tokencol;
+
+currentrow;
+currentcol;
+
+lex() c, i {
+    c = cpeek();
+    while isspace(c) {
+        c = cnext();
+    }
+    tokenrow = currentrow;
+    tokencol = currentcol;
+    if c == 0xFF {
+        tokenkind = TOKEOF;
+    }
+    else if c == '0' {
+        tokenkind = TOKNUM;
+        // octal or hexadecimal
+        // TODO: handle inappropriate characters
+        if (c = cnext()) == 'x' {
+            // hexadecimal
+            tokenu64 = 0;
+            cnext();
+            c = cpeek();
+            while isxdigit(c) {
+                tokenu64 = tokenu64 * 16 +
+                    {
+                        if c <= '9' c - '0';
+                        else if c <= 'F' c - 'A' + 10;
+                        else if c <= 'f' c - 'a' + 10;
+                    };
+                c = cnext();
+                i = i + 1;
+            }
+        }
+        else {
+            // octal
+            tokenu64 = 0;
+            while isdigit(c) {
+                tokenu64 = tokenu64 * 8 + c - '0';
+                c = cnext();
+                i = i + 1;
+            }
+        }
+    }
+    else if c == '\'' {
+        tokenkind = TOKCHAR;
+        c = cnextr();
+        tokenu64 = {
+            if c == '\\' parseEscapeCode();
+            else c;
+        };
+        if cnext() != '\'' {
+            fprintf(stderr, "Bad code: expected '\\'' at %d,%d but got '%c'\n", tokenrow+1, tokencol+1, cpeek());
+            exit(1);
+        }
+        cnext();
+    }
+    else if c == '(' {
+        tokenkind = TOKLPAR;
+        cnext();
+    }
+    else if c == ')' {
+        tokenkind = TOKRPAR;
+        cnext();
+    }
+    else if c == '!' {
+        c = cnext();
+        if c == '=' {
+            tokenkind = TOKEXCLEQU;
+            cnext();
+        }
+        else {
+            tokenkind = TOKEXCL;
+        }
+    }
+    else if c == '<' {
+        c = cnext();
+        if c == '=' {
+            tokenkind = TOKLESSEQU;
+            cnext();
+        }
+        else if c == '<' {
+            tokenkind = TOKLESSLESS;
+            cnext();
+        }
+        else {
+            tokenkind = TOKLESS;
+        }
+    }
+    else if c == '>' {
+        c = cnext();
+        if c == '=' {
+            tokenkind = TOKGRETEQU;
+            cnext();
+        }
+        else if c == '>' {
+            tokenkind = TOKGRETGRET;
+            cnext();
+        }
+        else {
+            tokenkind = TOKGRET;
+        }
+    }
+    else if c == ';' {
+        tokenkind = TOKSEMI;
+        cnext();
+    }
+    else if c == '=' {
+        c = cnext();
+        if c == '=' {
+            tokenkind = TOKEQUEQU;
+            cnext();
+        }
+        else {
+            tokenkind = TOKEQU;
+        }
+    }
+    else if c == ';' {
+        tokenkind = TOKSEMI;
+        cnext();
+    }
+    else if c == '*' {
+        tokenkind = TOKASTER;
+        cnext();
+    }
+    else if c == '/' {
+        tokenkind = TOKSLASH;
+        cnext();
+    }
+    else if c == '%' {
+        tokenkind = TOKPERS;
+        cnext();
+    }
+    else if c == '+' {
+        tokenkind = TOKPLUS;
+        cnext();
+    }
+    else if c == '-' {
+        tokenkind = TOKMINUS;
+        cnext();
+    }
+    else if c == '[' {
+        tokenkind = TOKLBRACK;
+        cnext();
+    }
+    else if c == ']' {
+        tokenkind = TOKRBRACK;
+        cnext();
+    }
+    else if c == ',' {
+        tokenkind = TOKCOMMA;
+        cnext();
+    }
+    else if c == '{' {
+        tokenkind = TOKLBRACE;
+        cnext();
+    }
+    else if c == '}' {
+        tokenkind = TOKRBRACE;
+        cnext();
+    }
+    else if c == '&' {
+        tokenkind = TOKAMPERS;
+        cnext();
+    }
+    else if c == '|' {
+        tokenkind = TOKVTBAR;
+        cnext();
+    }
+    else if c == '"' {
+        tokenkind = TOKSTR;
+        c = cnextr();
+        i = 0;
+        while (c = cpeek()) != '"' {
+            c = cpeek();
+            if c == '\\'
+                c = parseEscapeCode();
+            Bschar(&tokenstring+i, c);
+            cnextr();
+            i = i + 1;
+        }
+        cnextr();
+        Bschar(&tokenstring+i, 0);
+        strbufsz = strbufsz + 1;
+    }
+    else if isdigit(c) {
+        tokenkind = TOKNUM;
+        tokenu64 = 0;
+        while isdigit(c) {
+            tokenu64 = tokenu64 * 10 + c - '0';
+            c = cnext();
+            i = i + 1;
+        }
+    }
+    else if isalpha(c) {
+        tokenkind = TOKID;
+        i = 0;
+        while isalnum(c) {
+            if i > 1024 { // NOTE: Hardcoded
+                fprintf(stderr, "Bad code: name is too long at %d,%d\n", tokenrow+1, tokencol+1);
+                exit(1);
+            }
+            Bschar(&tokenstring+i, c);
+            c = cnext();
+            i = i + 1;
+        }
+        Bschar(&tokenstring+i, 0);
+        if !strcmp(&tokenstring, "if")
+            tokenkind = TOKKWIF;
+        else if !strcmp(&tokenstring, "else")
+            tokenkind = TOKKWELSE;
+        else if !strcmp(&tokenstring, "while")
+            tokenkind = TOKKWWHILE;
+        else if !strcmp(&tokenstring, "extern")
+            tokenkind = TOKKWEXTERN;
+        else if !strcmp(&tokenstring, "global")
+            tokenkind = TOKKWGLOBAL;
+        else if !strcmp(&tokenstring, "return")
+            tokenkind = TOKKWRETURN;
+        else if !strcmp(&tokenstring, "break")
+            tokenkind = TOKKWBREAK;
+        else if !strcmp(&tokenstring, "continue")
+            tokenkind = TOKKWCONTINUE;
+    }
+    else {
+        fprintf(stderr, "Bad code: character '%c' at %d,%d was unexpected\n", tokenrow+1, tokencol+1, c);
+        exit(1);
+    }
+}
+
+peek()! {
+    if tokenkind == 0 lex();
+    tokenkind;
+}
+
+cpush(c)! {
     Bschar(&stream+streamsize, c);
     streamsize = streamsize + 1;
 }
 
-next()! {
+cnext()! {
     if streamsize {
         activecharacter = Blchar(&stream);
         memmove(&stream, &stream+1, streamsize);
         streamsize = streamsize - 1;
     } else {
-        nextr(); /* We have comments like that */ // And like that
+        cnextr(); /* We have comments like that */ // And like that
         if activecharacter == '/' {
-            nextr();
+            cnextr();
             if activecharacter == '*' {
                 while 1 {
-                    nextr();
+                    cnextr();
                     if activecharacter == '*' {
-                        nextr();
+                        cnextr();
                         if activecharacter == '/' break;
                     }
                 }
-                nextr();
+                cnextr();
             } else if activecharacter == '/' {
                 while 1 {
-                    nextr();
+                    cnextr();
                     if activecharacter == '\n' break;
                 }
             } else {
-                push(activecharacter);
+                cpush(activecharacter);
                 activecharacter = '/';
             }
         }
     }
     activecharacter;
 }
-nextr()! {
+cnextr()! {
     if fread(&activecharacter, 1, 1, inputfile) == 0 {
         activecharacter = 0xFF;
     }
+    if activecharacter == '\n' {
+        currentrow = currentrow + 1;
+        currentcol = 0;
+    }
+    else
+        currentcol = currentcol + 1;
     if dooutputparse {
         fprintf(stderr, "%c", activecharacter);
     }
     activecharacter;
 }
-peek()!
-    if activecharacter==0 next();
-    else activecharacter;
+cpeek()! {
+    if activecharacter==0 cnext();
+    activecharacter;
+}
 
 emit(x)! fprintf(outputfile, "%c", x);
 emits(x)! fprintf(outputfile, "%s", x);
@@ -89,23 +379,25 @@ emitd(x)! fprintf(outputfile, "%zu", x);
 continueaddress;
 breakaddress;
 addrcounter;
-namebuffer[64];
 strbuf[1024];
 strbufsz;
 ra[6];
 
-whitespace()!
-    while isspace(peek()) next();
-
-expect(c) ac
-    if (ac = peek()) == c next();
+expect(tk)!
+    if peek() == tk lex();
     else {
-        fprintf(stderr, "Expected '%c'(%d) but got '%c'(%d)\n", c, c, ac, ac);
+        fprintf(stderr, "Expected token 'XXX'(%d) at %d,%d but got 'XXX'(%d)\n", tk, tokenrow+1, tokencol+1, peek());
+        exit(1);
+    }
+
+lexpect(tk)!
+    if peek() != tk {
+        fprintf(stderr, "LExpected token 'XXX'(%d) at %d,%d but got 'XXX'(%d)\n", tk, tokenrow+1, tokencol+1, peek());
         exit(1);
     }
 
 parseEscapeCode() c, n {
-    c = next();
+    c = cnextr();
     return {
         if c == 'n' '\n';
         else if c == 't' '\t';
@@ -113,17 +405,17 @@ parseEscapeCode() c, n {
         else if c == '\'' '\'';
         else if c == '"' '"';
         else if c == 'x' {
-            c = next();
+            c = cnextr();
             if !isxdigit(c) {
-                fprintf(stderr, "Invalid hexadecimal digit: '\\%c'\n", c);
+                fprintf(stderr, "Invalid hexadecimal digit: '\\%c' at %d,%d\n", c, tokenrow+1, tokencol+1);
                 exit(1);
             }
             if c <= '9' n = c - '0';
             else if c <= 'F' n = c - 'A' + 10;
             else if c <= 'f' n = c - 'a' + 10;
-            c = next();
+            c = cnextr();
             if !isxdigit(c) {
-                fprintf(stderr, "Invalid hexadecimal digit: '\\%c'\n", c);
+                fprintf(stderr, "Invalid hexadecimal digit: '\\%c' at %d,%d\n", c, tokenrow+1, tokencol+1);
                 exit(1);
             }
             n = n * 16;
@@ -133,29 +425,21 @@ parseEscapeCode() c, n {
             n;
         }
         else {
-            fprintf(stderr, "Invalid escape code: '\\%c'\n", c);
+            fprintf(stderr, "Invalid escape code: '\\%c' at %d,%d\n", c, tokenrow+1, tokencol+1);
             exit(1);
         }
     };
 }
 
-lprimary() c, i, found {
-    whitespace();
-    c = peek();
+lprimary() tk, i, found {
+
+    tk = peek();
     // emits("; lexpr()\n");
-    if isalpha(c) {
-        i = 0;
-        while isalnum(c) {
-            /* TODO: Check for too long names */
-            Bschar(&namebuffer+i, c);
-            c = next();
-            i = i + 1;
-        }
-        Bschar(&namebuffer+i, 0);
+    if tk == TOKID {
         i = 0;
         found = 0;
         while i < varcnt {
-            if strcmp(&namebuffer, &variables+(i*5*8)+8) == 0 {
+            if strcmp(&tokenstring, &variables+(i*5*8)+8) == 0 {
                 emits("\txfp");
                 emitd(variables[i*5]);
                 emits("\n");
@@ -166,146 +450,116 @@ lprimary() c, i, found {
         }
         if !found {
             emits("\txst");
-            emits(&namebuffer);
+            emits(&tokenstring);
             emits("\n");
         }
+        lex();
         if found {
             return 2;
         }
         return 1;
-    } else if c == '*' {
-        next();
+    } else if tk == TOKASTER {
+        lex();
         p6(1);
         return 1;
     } else return 0;
 }
 
-lexpr() c, stat {
-    whitespace();
+lexpr() stat {
     if stat = lprimary()
-        if peek() == '[' {
+        if peek() == TOKLBRACK {
             if stat == 2 { // We need to get value from a localvar
                 emits("\tdrf\n"); // ; Lexpr localvar deref within the lexpr itself\n");
             }
             emits("\tsv0\n"); // ; lexpr index\n");
-            next();
+            lex();
             expr();
-            expect(']');
+            expect(TOKRBRACK);
             emits("\tld1\n");
             emits("\tdar\n");
         }
     return stat;
 }
 
-p6(fl) c, si, i, argc, found, islexpr {
+p6(fl) tk, si, i, argc, found, islexpr, length {
     islexpr = lexpr();
-    whitespace();
-    c = peek();
 
+    tk = peek();
 
-//    if islexpr emits("; primary()\n"); // ; after a lexpr\n"); // XXX: Spaghetii
+    // XXX: Spaghetii
 
-//    else emits("; primary()\n"); // ; after a non lexpr\n");
-    if islexpr
-        if fl == 0
-            if peek() == '='
-                if next() != '=' return 1;
-                else push('=');
-    if !islexpr {
+    if islexpr != 0 {
+        if fl == 0 {
+            if tk == TOKEQU {
+                lex();
+                return 1;
+            }
+        }
+    }
+    else {
         found = 0;
-        if isdigit(c) {
+        if tk == TOKNUM {
             emits("\tldc");
-            if c=='0' {
-                c = next();
-                emits("0");
-                if c=='x' {
-                    emits("x");
-                    c = next();
-                    while isxdigit(c) {
-                        emit(c);
-                        next();
-                        c = peek();
-                    }
-                }
-            }
-            else {
-                while isdigit(c) {
-                    emit(c);
-                    c = next();
-                }
-            }
+            emitd(tokenu64);
             emits("\n");
-        } else if c == '{' {
-            next();
-            whitespace();
-            while peek() != '}' {
+            lex();
+        } else if tk == TOKLBRACE {
+            lex();
+            while peek() != TOKRBRACE {
                 stmt();
-                whitespace();
             }
-            next();
-        } else if c == '(' {
-            next();
+            lex();
+        } else if tk == TOKLPAR {
+            lex();
             expr();
-            expect(')');
-        } else if c == '&' {
-            next();
+            expect(TOKRPAR);
+        } else if tk == TOKAMPERS {
+            lex();
             lexpr();
-        } else if c == '\'' {
-            c = next();
-            if c == '\\'
-                c = parseEscapeCode();
-            next();
-            expect('\'');
+        } else if tk == TOKCHAR {
             emits("\tldc");
-            emitd(c);
+            emitd(tokenu64);
             emits("\n");
-        } else if c == '"' {
-            c = next();
+            lex();
+        } else if tk == TOKSTR {
             si = strbufsz;
-            while (c = peek()) != '"' {
-                c = peek();
-                if c == '\\'
-                    c = parseEscapeCode();
-                Bschar(&strbuf+strbufsz, c);
-                strbufsz = strbufsz + 1;
-                nextr();
-            }
-            next();
-            Bschar(&strbuf+strbufsz, 0);
-            strbufsz = strbufsz + 1;
             emits("\tlds");
             emitd(si);
             emits("\n");
+
+            length = strlen(&tokenstring)+1;
+
+            memcpy(&strbuf+strbufsz, &tokenstring, length);
+            strbufsz = strbufsz + length;
+            lex();
         } else {
-            fprintf(stderr, "Invalid primary expression: '%c'\n", c);
+            fprintf(stderr, "Invalid primary expression: 'XXX'(%d) at %d,%d\n", tk, tokenrow+1, tokencol+1);
             exit(1);
         }
     }
-    whitespace();
-    c = peek();
 
-    if c == '(' {
-        next();
+    tk = peek();
+
+    if tk == TOKLPAR {
+        lex();
         emits("\tsv2\n");
         emits("\tm20\n");
-        whitespace();
         argc = 0;
-        if peek() != ')' {
+        if peek() != TOKRPAR {
             i = 0;
             while 1 {
                 argc = argc + 1;
                 expr();
                 emits("\tsv0\n");
-                whitespace();
-                c = peek();
-                if c == ','
-                    next();
-                else if c == ')'
+                tk = peek();
+                if tk == TOKCOMMA {
+                    lex();
+                } else if tk == TOKRPAR
                     break;
                 i = i + 1;
             }
         }
-        expect(')');
+        expect(TOKRPAR);
         emits("\tcal");
         emitd(argc);
         emit('\n');
@@ -313,33 +567,32 @@ p6(fl) c, si, i, argc, found, islexpr {
         islexpr = 0;
     }
 
-    whitespace();
-    c = peek();
+
+    tk = peek();
     if islexpr { // We need to get value from a lexpr
         emits("\tdrf\n"); // ; Lexpr deref\n");
     }
     0;
 }
 
-p5() c, si, i, argc, found {
-    whitespace();
-    c = peek();
+p5() tk, si, i, argc, found {
+    tk = peek();
 
     found = 0;
-    if c == '~' {
-        next();
+    if tk == 6969 { // TOKXXX: '~'
+        lex();
         p6(0);
         emits("\tnot\n");
-    } else if c == '-' {
-        next();
+    } else if tk == TOKMINUS {
+        lex();
         p6(0);
         emits("\tneg\n");
-    } else if c == '+' {
-        next();
+    } else if tk == TOKPLUS {
+        lex();
         p6(0);
         // Such a useless operation
-    } else if c == '!' {
-        next();
+    } else if tk == TOKEXCL {
+        lex();
         p6(0);
         emits("\tlnt\n");
     } else {
@@ -348,56 +601,49 @@ p5() c, si, i, argc, found {
     return 0;
 }
 
-p4() c {
+p4() tk {
     if p5() == 1 return 1;
-    whitespace();
     while 1 {
-        c = peek();
-        if c == '&' {
-            next();
+        tk = peek();
+        if tk == TOKAMPERS {
+            lex();
             emits("\tsv0\n");
             p5();
-            whitespace();
             emits("\tm10\n");
             emits("\tld0\n");
             emits("\tand\n");
-        } else if c == '|' {
-            next();
+        } else if tk == TOKVTBAR {
+            lex();
             emits("\tsv0\n");
             p5();
-            whitespace();
             emits("\tm10\n");
             emits("\tld0\n");
             emits("\tor\n");
-        } else if c == '^' {
-            next();
+        } else if tk == 6969 { // TOKXXX: '^'
+            lex();
             emits("\tsv0\n");
             p5();
-            whitespace();
             emits("\tm10\n");
             emits("\tld0\n");
             emits("\txor\n");
-        } else if c == '*' {
-            next();
+        } else if tk == TOKASTER {
+            lex();
             emits("\tsv0\n");
             p5();
-            whitespace();
             emits("\tm10\n");
             emits("\tld0\n");
             emits("\tmul\n");
-        } else if c == '/' {
-            next();
+        } else if tk == TOKSLASH {
+            lex();
             emits("\tsv0\n");
             p5();
-            whitespace();
             emits("\tm10\n");
             emits("\tld0\n");
             emits("\tdiv\n");
-        } else if c == '%' {
-            next();
+        } else if tk == TOKPERS {
+            lex();
             emits("\tsv0\n");
             p5();
-            whitespace();
             emits("\tm10\n");
             emits("\tld0\n");
             emits("\trem\n");
@@ -407,24 +653,23 @@ p4() c {
     return 0;
 }
 
-p3() c {
+p3() tk {
     if p4() == 1 return 1;
-    whitespace();
     while 1 {
-        c = peek();
-        if c == '+' {
-            next();
+        tk = peek();
+        if tk == TOKPLUS {
+            lex();
             emits("\tsv0\n");
             p4();
-            whitespace();
+
             emits("\tm10\n");
             emits("\tld0\n");
             emits("\tadd\n");
-        } else if c == '-' {
-            next();
+        } else if tk == TOKMINUS {
+            lex();
             emits("\tsv0\n");
             p4();
-            whitespace();
+
             emits("\tm10\n");
             emits("\tld0\n");
             emits("\tsub\n");
@@ -434,82 +679,73 @@ p3() c {
     return 0;
 }
 
-p2() c, mode {
+p2() tk, mode {
     if p3() == 1 return 1;
-    whitespace();
     while 1 {
-        c = peek();
-        if c == '=' {
-            next();
-            expect('=');
+        tk = peek();
+        if tk == TOKEQUEQU {
+            lex();
             emits("\tsv0\n");
             p3();
-            whitespace();
             emits("\tm10\n");
             emits("\tld0\n");
             emits("\tequ\n");
-        } else if c == '!' {
-            next();
-            expect('=');
+        } else if tk == TOKEXCLEQU {
+            lex();
             emits("\tsv0\n");
             p3();
-            whitespace();
             emits("\tm10\n");
             emits("\tld0\n");
             emits("\tneq\n");
-        } else if c == '<' {
-            next();
-            mode = 0;
-            if peek() == '=' {
-                mode = 1;
-                next();
-            } else if peek() == '<' {
-                mode = 2;
-                next();
-            }
+        } else if tk == TOKLESS {
+            lex();
             emits("\tsv0\n");
             p3();
-            whitespace();
             emits("\tm10\n");
             emits("\tld0\n");
-            if mode == 2
-                emits("\tshl\n");
-            else {
-                if mode == 1
-                    emits("\tube\n");
-                else
-                    emits("\tubi\n");
-            }
-        } else if c == '>' {
-            next();
-            mode = 0;
-            if peek() == '=' {
-                mode = 1;
-                next();
-            } else if peek() == '>' {
-                mode = 2;
-                next();
-            }
+            emits("\tubi\n");
+        } else if tk == TOKLESSEQU {
+            lex();
             emits("\tsv0\n");
             p3();
-            whitespace();
             emits("\tm10\n");
             emits("\tld0\n");
-            if mode == 2
-                emits("\tshr\n");
-            else {
-                if mode == 1
-                    emits("\tuae\n");
-                else
-                    emits("\tuai\n");
-            }
+            emits("\tube\n");
+        } else if tk == TOKLESSLESS {
+            lex();
+            emits("\tsv0\n");
+            p3();
+            emits("\tm10\n");
+            emits("\tld0\n");
+            emits("\tshl\n");
+        } else if tk == TOKGRET {
+            lex();
+            emits("\tsv0\n");
+            p3();
+            emits("\tm10\n");
+            emits("\tld0\n");
+            emits("\tuai\n");
+        } else if tk == TOKGRETEQU {
+            lex();
+            emits("\tsv0\n");
+            p3();
+            emits("\tm10\n");
+            emits("\tld0\n");
+            emits("\tuae\n");
+        } else if tk == TOKGRETGRET {
+            lex();
+            emits("\tsv0\n");
+            p3();
+            emits("\tm10\n");
+            emits("\tld0\n");
+            emits("\tshr\n");
         } else
             break;
     }
     return 0;
 }
 
-p1() c {
+p1() tk {
     if p2() == 1 { // Assignment
         emits("\tsv0\n");
         p1();
@@ -517,93 +753,42 @@ p1() c {
         emits("\terf\n");
         return 0;
     }
-    whitespace();
-    while 1 {
-        c = peek();
-        if c == ':' {
-            next();
-            emits("\tsv0\n"); // ;; Deprecated reverse assignment: ':'\n");
-            if !lexpr() {
-                fprintf(stderr, "Expected lexpr on right hand side of the reverse assignment.\nMaybe you should consider not using a decrecated feature?!!\n");
-                exit(1);
-            }
-            emits("\tld1\n");
-            emits("\terf\n");
-            emits("\tm01\n");
-        } else
-            break;
-    }
 }
 
 expr()! p1();
 
 addrcnt;
 
-tryword(str) c, Ss, i {
-    Ss = str;
-    c = peek();
-    if c != Blchar(str) {
-        return 0;
-    }
-    Ss = Ss+1;
-    next();
-    while Blchar(Ss) {
-        c = peek();
-        if c != Blchar(Ss) {
-            i = str;
-            while i < Ss {
-                push(*i);
-                i = i + 1;
-            }
-            push(c);
-            next();
-            return 0;
-        }
-        Ss = Ss + 1;
-        next();
-    }
-    c = peek();
-    if isalnum(c) { /* "if0" won't be considered as "if" */
-        i = str;
-        while i < Ss {
-            push(*i);
-            i = i + 1;
-        }
-        push(c);
-        next();
-        return 0;
-    }
-    whitespace();
-    return 1;
-}
+stmt() tk, addr, addr1, haselse, oca, oba {
 
-stmt() c, addr, addr1, haselse, oca, oba {
-    whitespace();
-    c = peek();
-    if c == '{' {
-        next();
-        whitespace();
-        while peek() != '}' {
+    tk = peek();
+    if tk == TOKLBRACE {
+        lex();
+
+        while peek() != TOKRBRACE {
             stmt();
-            whitespace();
+
         }
-        next();
+        lex();
         return 0;
-    } else if tryword("continue") {
+    } else if tk == TOKKWCONTINUE {
+        lex();
         emits("\tjlc");
         emitd(continueaddress);
         // emits(" ; continue\n");
         emit('\n');
-        expect(';');
+        expect(TOKSEMI);
         return 0;
-    } else if tryword("break") {
+    } else if tk == TOKKWBREAK {
+        lex();
         emits("\tjlc");
         emitd(breakaddress);
         emit('\n');
         // emits(" ; break\n");
-        expect(';');
+        expect(TOKSEMI);
         return 0;
-    } else if tryword("while") {
+    } else if tk == TOKKWWHILE {
+        lex();
         oca = continueaddress;
         oba = breakaddress;
         continueaddress = addr = addrcounter;
@@ -626,13 +811,15 @@ stmt() c, addr, addr1, haselse, oca, oba {
         continueaddress = oca;
         breakaddress = oba;
         return 0;
-    } else if tryword("return") {
+    } else if tk == TOKKWRETURN {
+        lex();
         expr();
         emits("\tret\n");
-        whitespace();
-        expect(';');
+
+        expect(TOKSEMI);
         return 0;
-    } else if tryword("if") {
+    } else if tk == TOKKWIF {
+        lex();
         addr = addrcounter;
         addrcounter = addrcounter + 1;
         expr();
@@ -640,9 +827,9 @@ stmt() c, addr, addr1, haselse, oca, oba {
         emitd(addr);
         emit('\n');
         stmt();
-        whitespace();
-        c = peek();
-        haselse = tryword("else");
+
+        tk = peek();
+        haselse = tk == TOKKWELSE;
         addr1 = addrcounter;
         addrcounter = addrcounter + 1;
         if haselse {
@@ -654,6 +841,7 @@ stmt() c, addr, addr1, haselse, oca, oba {
         emitd(addr);
         emits("\n"); // ; if\n");
         if haselse {
+            lex();
             stmt();
             emits("loc");
             emitd(addr1);
@@ -662,142 +850,65 @@ stmt() c, addr, addr1, haselse, oca, oba {
         return 0;
     }
     expr();
-    whitespace();
-    expect(';'); /* ; */
+
+    expect(TOKSEMI);
 }
 
-top() c, i, j, frameshift, variable, cinputfile {
+top() tk, i, j, frameshift, variable, cinputfile {
     while 1 {
-        whitespace();
-        c = peek();
-        if isalpha(c) {
-            i = 0;
-            while isalnum(c) {
-                /* TODO: Check for too long names */
-                Bschar(&namebuffer+i, c);
-                c = next();
-                i = i + 1;
-            }
-            Bschar(&namebuffer+i, 0);
-            if strcmp(&namebuffer, "global") == 0 {
-                emits("glb");
-                whitespace();
-                c = peek();
-                while isalnum(c) {
-                    emit(c);
-                    c = next();
-                }
-                emit('\n');
-            } else if strcmp(&namebuffer, "extern") == 0 {
-                emits("ext");
-                whitespace();
-                c = peek();
-                while isalnum(c) {
-                    emit(c);
-                    c = next();
-                }
-                emit('\n');
-            } else if strcmp(&namebuffer, "import") == 0 {
-                fprintf(stderr, "importing stuff is not implemented yet.\n");
-                exit(1);
-                /*
-                0 : i;
-                whitespace();
-                expect('"');
-                while (peek() : c) != '"' {
-                    peek() : c;
-                    if c == '\\' {
-                        next() : c;
-                        if c == 'n'
-                            Bschar(namebuffer+i, 10);
-                        else if c == 't'
-                            Bschar(namebuffer+i, '\t');
-                        else if c == '\\'
-                            Bschar(namebuffer+i, '\\');
-                        else if c == '"'
-                            Bschar(namebuffer+i, '"');
-                        else {
-                            fprintf(*stderr, "Invalid escape code: '\\%c'\n", c);
-                            exit(1);
-                        }
-                    }
-                    else
-                        Bschar(namebuffer+i, c);
-                    i + 1 : i;
-                    nextr();
-                }
-                next();
-                Bschar(namebuffer+i, 0);
-                *inputfile : cinputfile;
-                fopen(namebuffer, "rb") : inputfile;
-                if !inputfile {
-                    fprintf(*stderr, "Failed to open: %s: %s", namebuffer, strerror(*getErrno()));
-                    return 2;
-                }
-                top();
-                fclose(*inputfile);
-                cinputfile : inputfile;
-                */
-            } else if peek() == ';' {
-                next();
-                emits("rsw 1*");
-                emits(&namebuffer);
+
+        tk = peek();
+        if tk == TOKKWGLOBAL {
+            lex();
+            emits("glb");
+            lexpect(TOKID);
+            emits(&tokenstring);
+            emit('\n');
+            lex();
+        } else if tk == TOKKWEXTERN {
+            lex();
+            emits("ext");
+            lexpect(TOKID);
+            emits(&tokenstring);
+            emit('\n');
+            lex();
+        } else if tk == TOKID {
+            lex();
+            tk = peek();
+            if tk == TOKSEMI {
+                emits("rsw1*");
+                emits(&tokenstring);
                 emits("\n");
-            } else if peek() == '[' {
-                c = next();
-                emits("rsw ");
-                if c=='0' {
-                    c = next();
-                    emits("0");
-                    if c=='x' {
-                        emits("x");
-                        c = next();
-                        while isxdigit(c) {
-                            emit(c);
-                            next();
-                            c = peek();
-                        }
-                    }
-                } else {
-                    while isdigit(c) {
-                        emit(c);
-                        c = next();
-                    }
-                }
-                expect(']');
-                expect(';');
+                lex();
+            } else if tk == TOKLBRACK {
+                lex();
+                emits("rsw");
+                emitd(tokenu64);
                 emits("*");
-                emits(&namebuffer);
+                emits(&tokenstring);
+                expect(TOKNUM);
+                expect(TOKRBRACK);
+                expect(TOKSEMI);
                 emits("\n");
             } else {
                 emits("prc");
-                emits(&namebuffer);
+                emits(&tokenstring);
                 emits("\n");
-                whitespace();
-                expect('(');
-                whitespace();
+                expect(TOKLPAR);
                 frameshift = 0;
                 varcnt = 0;
                 i = 0;
                 while i < 6 {
-                    whitespace();
-                    c = peek();
-                    if c == ')' break;
-                    if !isalpha(c) {
-                        fprintf(stderr, "Bad character: '%c'\n", c);
-                        exit(1);
-                    }
-                    /* TBD: Optimize that parsing thingy
+                    tk = peek();
+                    if tk == TOKRPAR break;
+                    /* TBD: Optimize this parsing thingy
                        TODOOO: Avoid overflows */
                     variable = &variables[varcnt*5];
                     varcnt = varcnt + 1;
                     j = 0;
-                    while isalnum(c) {
-                        Bschar(variable+8+j, c);
-                        j = j + 1;
-                        c = next();
-                    }
-                    Bschar(variable+8+j, 0); // TODOO: array indexation by a reference
+                    lexpect(TOKID);
+                    memcpy(variable+8, &tokenstring, 64);
+                    lex();
                     frameshift = frameshift + 8;
                     *variable = frameshift;
 
@@ -806,45 +917,39 @@ top() c, i, j, frameshift, variable, cinputfile {
                     emits(":");
                     emitd(i);
                     emits("\n");
-                    if peek() != ',' {
+                    if peek() != TOKCOMMA {
                         break;
                     }
-                    next();
+                    lex();
                     i = i + 1;
                 }
-                whitespace();
-                expect(')');
+                expect(TOKRPAR);
+                tk = peek();
+                if tk == TOKEXCL lex();
+                else
+                    while 1 {
 
-                while 1 {
-                    whitespace();
-                    c = peek();
-                    if c == '!' {
-                        next();
-                        break;
-                    }
-                    if !isalpha(c) {
-                        fprintf(stderr, "Bad character: '%c'\n", c);
-                        exit(1);
-                    }
-                    /* TBD: Optimize that parsing thingy
-                       TODOOO: Avoid overflows */
-                    variable = &variables[varcnt*5];
-                    varcnt = varcnt + 1;
-                    j = 0;
-                    while isalnum(c) {
-                        Bschar(variable+8+j, c);
-                        j = j + 1;
-                        c = next();
-                    }
-                    Bschar(variable+8+j, 0);
-                    frameshift = frameshift + 8;
-                    *variable = frameshift;
+                        /* TBD: Optimize that parsing thingy
+                           TODOOO: Avoid overflows */
+                        variable = &variables[varcnt*5];
+                        varcnt = varcnt + 1;
+                        j = 0;
 
-                    if peek() != ',' {
-                        break;
+                        if tk != TOKID {
+                            fprintf(stderr, "Expected token ID at %d,%d but got 'XXX'(%d)\n", tokenrow+1, tokencol+1, tk);
+                            exit(1);
+                        }
+                        memcpy(variable+8, &tokenstring, 64);
+                        frameshift = frameshift + 8;
+                        *variable = frameshift;
+                        lex();
+
+                        if peek() != TOKCOMMA {
+                            break;
+                        }
+                        lex();
+                        tk = peek();
                     }
-                    next();
-                }
                 frameshift = frameshift + 8;
 
                 emits("\talc");
@@ -854,10 +959,10 @@ top() c, i, j, frameshift, variable, cinputfile {
                 stmt();
                 emits("\tret\n");
             }
-        } else if c == 0xFF {
+        } else if tk == TOKEOF {
             break;
         } else {
-            fprintf(stderr, "Invalid statement: '%c'\n", c);
+            fprintf(stderr, "Invalid statement: 'XXX'(%d) at %d,%d\n", tk, tokenrow+1, tokencol+1);
             exit(1);
         }
     }
@@ -867,6 +972,45 @@ usage(progname)! fprintf(stderr, "Usage: %s [-pp] input-code output-ir\n", progn
 
 global main
 main(argc, argv) i, pid, status {
+    TOKNUM = 1;
+    TOKSTR = 2;
+    TOKCHAR = 3;
+    TOKID = 4;
+    TOKEOF = 5;
+    TOKLPAR = 6;
+    TOKRPAR = 7;
+    TOKEXCL = 8;
+    TOKLESS = 9;
+    TOKGRET = 10;
+    TOKEQU = 11;
+    TOKEQUEQU = 12;
+    TOKSEMI = 13;
+    TOKASTER = 14;
+    TOKSLASH = 15;
+    TOKPLUS = 16;
+    TOKMINUS = 17;
+    TOKLBRACK = 18;
+    TOKRBRACK = 19;
+    TOKCOMMA = 20;
+    TOKLBRACE = 21;
+    TOKRBRACE = 22;
+    TOKAMPERS = 23;
+    TOKVTBAR = 24;
+    TOKPERS = 25;
+    TOKKWIF = 26;
+    TOKKWELSE = 27;
+    TOKKWWHILE = 28;
+    TOKKWEXTERN = 29;
+    TOKKWGLOBAL = 30;
+    TOKKWRETURN = 31;
+    TOKEXCLEQU = 32;
+    TOKLESSLESS = 33;
+    TOKLESSEQU = 34;
+    TOKGRETEQU = 35;
+    TOKGRETGRET = 36;
+    TOKKWBREAK = 37;
+    TOKKWCONTINUE = 38;
+
     if argc <3 {
         usage(argv[0]);
         return 2;
@@ -899,6 +1043,5 @@ main(argc, argv) i, pid, status {
     emits("\n");
     fclose(inputfile);
     fclose(outputfile);
-
     0;
 }

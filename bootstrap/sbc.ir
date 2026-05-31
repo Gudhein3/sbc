@@ -1,3 +1,4 @@
+extmemcpy
 extfread
 extfwrite
 extprintf
@@ -18,15 +19,1594 @@ extfork
 extexecvp
 extwaitpid
 extmemmove
-rsw 160*variables
-rsw 1*varcnt
-rsw 1*activecharacter
-rsw 128*stream
-rsw 1*streamsize
-rsw 1*inputfile
-rsw 1*outputfile
-rsw 1*dooutputparse
-prcpush
+extstrlen
+rsw160*variables
+rsw1*varcnt
+rsw1*activecharacter
+rsw128*stream
+rsw1*streamsize
+rsw1*inputfile
+rsw1*outputfile
+rsw1*dooutputparse
+rsw1*TOKNUM
+rsw1*TOKSTR
+rsw1*TOKCHAR
+rsw1*TOKID
+rsw1*TOKEOF
+rsw1*TOKLPAR
+rsw1*TOKRPAR
+rsw1*TOKEXCL
+rsw1*TOKLESS
+rsw1*TOKGRET
+rsw1*TOKEQU
+rsw1*TOKEQUEQU
+rsw1*TOKSEMI
+rsw1*TOKASTER
+rsw1*TOKSLASH
+rsw1*TOKPLUS
+rsw1*TOKMINUS
+rsw1*TOKLBRACK
+rsw1*TOKRBRACK
+rsw1*TOKCOMMA
+rsw1*TOKLBRACE
+rsw1*TOKRBRACE
+rsw1*TOKAMPERS
+rsw1*TOKVTBAR
+rsw1*TOKPERS
+rsw1*TOKKWIF
+rsw1*TOKKWELSE
+rsw1*TOKKWWHILE
+rsw1*TOKKWEXTERN
+rsw1*TOKKWGLOBAL
+rsw1*TOKKWRETURN
+rsw1*TOKEXCLEQU
+rsw1*TOKLESSLESS
+rsw1*TOKLESSEQU
+rsw1*TOKGRETEQU
+rsw1*TOKGRETGRET
+rsw1*TOKKWBREAK
+rsw1*TOKKWCONTINUE
+rsw1*tokenkind
+rsw1*tokenu64
+rsw128*tokenstring
+rsw1*tokenrow
+rsw1*tokencol
+rsw1*currentrow
+rsw1*currentcol
+prclex
+	alc32
+	xfp8
+	sv0
+	xstcpeek
+	sv2
+	m20
+	cal0
+	ld2
+	ld1
+	erf
+loc0
+	xstisspace
+	sv2
+	m20
+	xfp8
+	drf
+	sv0
+	cal1
+	ld2
+	ljz1
+	xfp8
+	sv0
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+	ld1
+	erf
+ljp0
+loc1
+	xsttokenrow
+	sv0
+	xstcurrentrow
+	drf
+	ld1
+	erf
+	xsttokencol
+	sv0
+	xstcurrentcol
+	drf
+	ld1
+	erf
+	xfp8
+	drf
+	sv0
+	ldc255
+	m10
+	ld0
+	equ
+	ljz2
+	xsttokenkind
+	sv0
+	xstTOKEOF
+	drf
+	ld1
+	erf
+ljp3
+loc2
+	xfp8
+	drf
+	sv0
+	ldc48
+	m10
+	ld0
+	equ
+	ljz4
+	xsttokenkind
+	sv0
+	xstTOKNUM
+	drf
+	ld1
+	erf
+	xfp8
+	sv0
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+	ld1
+	erf
+	sv0
+	ldc120
+	m10
+	ld0
+	equ
+	ljz5
+	xsttokenu64
+	sv0
+	ldc0
+	ld1
+	erf
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+	xfp8
+	sv0
+	xstcpeek
+	sv2
+	m20
+	cal0
+	ld2
+	ld1
+	erf
+loc6
+	xstisxdigit
+	sv2
+	m20
+	xfp8
+	drf
+	sv0
+	cal1
+	ld2
+	ljz7
+	xsttokenu64
+	sv0
+	xsttokenu64
+	drf
+	sv0
+	ldc16
+	m10
+	ld0
+	mul
+	sv0
+	xfp8
+	drf
+	sv0
+	ldc57
+	m10
+	ld0
+	ube
+	ljz8
+	xfp8
+	drf
+	sv0
+	ldc48
+	m10
+	ld0
+	sub
+ljp9
+loc8
+	xfp8
+	drf
+	sv0
+	ldc70
+	m10
+	ld0
+	ube
+	ljz10
+	xfp8
+	drf
+	sv0
+	ldc65
+	m10
+	ld0
+	sub
+	sv0
+	ldc10
+	m10
+	ld0
+	add
+ljp11
+loc10
+	xfp8
+	drf
+	sv0
+	ldc102
+	m10
+	ld0
+	ube
+	ljz12
+	xfp8
+	drf
+	sv0
+	ldc97
+	m10
+	ld0
+	sub
+	sv0
+	ldc10
+	m10
+	ld0
+	add
+loc12
+loc11
+loc9
+	m10
+	ld0
+	add
+	ld1
+	erf
+	xfp8
+	sv0
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+	ld1
+	erf
+	xfp16
+	sv0
+	xfp16
+	drf
+	sv0
+	ldc1
+	m10
+	ld0
+	add
+	ld1
+	erf
+ljp6
+loc7
+ljp14
+loc5
+	xsttokenu64
+	sv0
+	ldc0
+	ld1
+	erf
+loc15
+	xstisdigit
+	sv2
+	m20
+	xfp8
+	drf
+	sv0
+	cal1
+	ld2
+	ljz16
+	xsttokenu64
+	sv0
+	xsttokenu64
+	drf
+	sv0
+	ldc8
+	m10
+	ld0
+	mul
+	sv0
+	xfp8
+	drf
+	m10
+	ld0
+	add
+	sv0
+	ldc48
+	m10
+	ld0
+	sub
+	ld1
+	erf
+	xfp8
+	sv0
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+	ld1
+	erf
+	xfp16
+	sv0
+	xfp16
+	drf
+	sv0
+	ldc1
+	m10
+	ld0
+	add
+	ld1
+	erf
+ljp15
+loc16
+loc14
+ljp17
+loc4
+	xfp8
+	drf
+	sv0
+	ldc39
+	m10
+	ld0
+	equ
+	ljz18
+	xsttokenkind
+	sv0
+	xstTOKCHAR
+	drf
+	ld1
+	erf
+	xfp8
+	sv0
+	xstcnextr
+	sv2
+	m20
+	cal0
+	ld2
+	ld1
+	erf
+	xsttokenu64
+	sv0
+	xfp8
+	drf
+	sv0
+	ldc92
+	m10
+	ld0
+	equ
+	ljz19
+	xstparseEscapeCode
+	sv2
+	m20
+	cal0
+	ld2
+ljp20
+loc19
+	xfp8
+	drf
+loc20
+	ld1
+	erf
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+	sv0
+	ldc39
+	m10
+	ld0
+	neq
+	ljz21
+	xstfprintf
+	sv2
+	m20
+	xststderr
+	drf
+	sv0
+	lds1
+	sv0
+	xsttokenrow
+	drf
+	sv0
+	ldc1
+	m10
+	ld0
+	add
+	sv0
+	xsttokencol
+	drf
+	sv0
+	ldc1
+	m10
+	ld0
+	add
+	sv0
+	xstcpeek
+	sv2
+	m20
+	cal0
+	ld2
+	sv0
+	cal5
+	ld2
+	xstexit
+	sv2
+	m20
+	ldc1
+	sv0
+	cal1
+	ld2
+loc21
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+ljp23
+loc18
+	xfp8
+	drf
+	sv0
+	ldc40
+	m10
+	ld0
+	equ
+	ljz24
+	xsttokenkind
+	sv0
+	xstTOKLPAR
+	drf
+	ld1
+	erf
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+ljp25
+loc24
+	xfp8
+	drf
+	sv0
+	ldc41
+	m10
+	ld0
+	equ
+	ljz26
+	xsttokenkind
+	sv0
+	xstTOKRPAR
+	drf
+	ld1
+	erf
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+ljp27
+loc26
+	xfp8
+	drf
+	sv0
+	ldc33
+	m10
+	ld0
+	equ
+	ljz28
+	xfp8
+	sv0
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+	ld1
+	erf
+	xfp8
+	drf
+	sv0
+	ldc61
+	m10
+	ld0
+	equ
+	ljz29
+	xsttokenkind
+	sv0
+	xstTOKEXCLEQU
+	drf
+	ld1
+	erf
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+ljp30
+loc29
+	xsttokenkind
+	sv0
+	xstTOKEXCL
+	drf
+	ld1
+	erf
+loc30
+ljp31
+loc28
+	xfp8
+	drf
+	sv0
+	ldc60
+	m10
+	ld0
+	equ
+	ljz32
+	xfp8
+	sv0
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+	ld1
+	erf
+	xfp8
+	drf
+	sv0
+	ldc61
+	m10
+	ld0
+	equ
+	ljz33
+	xsttokenkind
+	sv0
+	xstTOKLESSEQU
+	drf
+	ld1
+	erf
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+ljp34
+loc33
+	xfp8
+	drf
+	sv0
+	ldc60
+	m10
+	ld0
+	equ
+	ljz35
+	xsttokenkind
+	sv0
+	xstTOKLESSLESS
+	drf
+	ld1
+	erf
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+ljp36
+loc35
+	xsttokenkind
+	sv0
+	xstTOKLESS
+	drf
+	ld1
+	erf
+loc36
+loc34
+ljp37
+loc32
+	xfp8
+	drf
+	sv0
+	ldc62
+	m10
+	ld0
+	equ
+	ljz38
+	xfp8
+	sv0
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+	ld1
+	erf
+	xfp8
+	drf
+	sv0
+	ldc61
+	m10
+	ld0
+	equ
+	ljz39
+	xsttokenkind
+	sv0
+	xstTOKGRETEQU
+	drf
+	ld1
+	erf
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+ljp40
+loc39
+	xfp8
+	drf
+	sv0
+	ldc62
+	m10
+	ld0
+	equ
+	ljz41
+	xsttokenkind
+	sv0
+	xstTOKGRETGRET
+	drf
+	ld1
+	erf
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+ljp42
+loc41
+	xsttokenkind
+	sv0
+	xstTOKGRET
+	drf
+	ld1
+	erf
+loc42
+loc40
+ljp43
+loc38
+	xfp8
+	drf
+	sv0
+	ldc59
+	m10
+	ld0
+	equ
+	ljz44
+	xsttokenkind
+	sv0
+	xstTOKSEMI
+	drf
+	ld1
+	erf
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+ljp45
+loc44
+	xfp8
+	drf
+	sv0
+	ldc61
+	m10
+	ld0
+	equ
+	ljz46
+	xfp8
+	sv0
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+	ld1
+	erf
+	xfp8
+	drf
+	sv0
+	ldc61
+	m10
+	ld0
+	equ
+	ljz47
+	xsttokenkind
+	sv0
+	xstTOKEQUEQU
+	drf
+	ld1
+	erf
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+ljp48
+loc47
+	xsttokenkind
+	sv0
+	xstTOKEQU
+	drf
+	ld1
+	erf
+loc48
+ljp49
+loc46
+	xfp8
+	drf
+	sv0
+	ldc59
+	m10
+	ld0
+	equ
+	ljz50
+	xsttokenkind
+	sv0
+	xstTOKSEMI
+	drf
+	ld1
+	erf
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+ljp51
+loc50
+	xfp8
+	drf
+	sv0
+	ldc42
+	m10
+	ld0
+	equ
+	ljz52
+	xsttokenkind
+	sv0
+	xstTOKASTER
+	drf
+	ld1
+	erf
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+ljp53
+loc52
+	xfp8
+	drf
+	sv0
+	ldc47
+	m10
+	ld0
+	equ
+	ljz54
+	xsttokenkind
+	sv0
+	xstTOKSLASH
+	drf
+	ld1
+	erf
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+ljp55
+loc54
+	xfp8
+	drf
+	sv0
+	ldc37
+	m10
+	ld0
+	equ
+	ljz56
+	xsttokenkind
+	sv0
+	xstTOKPERS
+	drf
+	ld1
+	erf
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+ljp57
+loc56
+	xfp8
+	drf
+	sv0
+	ldc43
+	m10
+	ld0
+	equ
+	ljz58
+	xsttokenkind
+	sv0
+	xstTOKPLUS
+	drf
+	ld1
+	erf
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+ljp59
+loc58
+	xfp8
+	drf
+	sv0
+	ldc45
+	m10
+	ld0
+	equ
+	ljz60
+	xsttokenkind
+	sv0
+	xstTOKMINUS
+	drf
+	ld1
+	erf
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+ljp61
+loc60
+	xfp8
+	drf
+	sv0
+	ldc91
+	m10
+	ld0
+	equ
+	ljz62
+	xsttokenkind
+	sv0
+	xstTOKLBRACK
+	drf
+	ld1
+	erf
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+ljp63
+loc62
+	xfp8
+	drf
+	sv0
+	ldc93
+	m10
+	ld0
+	equ
+	ljz64
+	xsttokenkind
+	sv0
+	xstTOKRBRACK
+	drf
+	ld1
+	erf
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+ljp65
+loc64
+	xfp8
+	drf
+	sv0
+	ldc44
+	m10
+	ld0
+	equ
+	ljz66
+	xsttokenkind
+	sv0
+	xstTOKCOMMA
+	drf
+	ld1
+	erf
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+ljp67
+loc66
+	xfp8
+	drf
+	sv0
+	ldc123
+	m10
+	ld0
+	equ
+	ljz68
+	xsttokenkind
+	sv0
+	xstTOKLBRACE
+	drf
+	ld1
+	erf
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+ljp69
+loc68
+	xfp8
+	drf
+	sv0
+	ldc125
+	m10
+	ld0
+	equ
+	ljz70
+	xsttokenkind
+	sv0
+	xstTOKRBRACE
+	drf
+	ld1
+	erf
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+ljp71
+loc70
+	xfp8
+	drf
+	sv0
+	ldc38
+	m10
+	ld0
+	equ
+	ljz72
+	xsttokenkind
+	sv0
+	xstTOKAMPERS
+	drf
+	ld1
+	erf
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+ljp73
+loc72
+	xfp8
+	drf
+	sv0
+	ldc124
+	m10
+	ld0
+	equ
+	ljz74
+	xsttokenkind
+	sv0
+	xstTOKVTBAR
+	drf
+	ld1
+	erf
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+ljp75
+loc74
+	xfp8
+	drf
+	sv0
+	ldc34
+	m10
+	ld0
+	equ
+	ljz76
+	xsttokenkind
+	sv0
+	xstTOKSTR
+	drf
+	ld1
+	erf
+	xfp8
+	sv0
+	xstcnextr
+	sv2
+	m20
+	cal0
+	ld2
+	ld1
+	erf
+	xfp16
+	sv0
+	ldc0
+	ld1
+	erf
+loc77
+	xfp8
+	sv0
+	xstcpeek
+	sv2
+	m20
+	cal0
+	ld2
+	ld1
+	erf
+	sv0
+	ldc34
+	m10
+	ld0
+	neq
+	ljz78
+	xfp8
+	sv0
+	xstcpeek
+	sv2
+	m20
+	cal0
+	ld2
+	ld1
+	erf
+	xfp8
+	drf
+	sv0
+	ldc92
+	m10
+	ld0
+	equ
+	ljz79
+	xfp8
+	sv0
+	xstparseEscapeCode
+	sv2
+	m20
+	cal0
+	ld2
+	ld1
+	erf
+loc79
+	xstBschar
+	sv2
+	m20
+	xsttokenstring
+	sv0
+	xfp16
+	drf
+	m10
+	ld0
+	add
+	sv0
+	xfp8
+	drf
+	sv0
+	cal2
+	ld2
+	xstcnextr
+	sv2
+	m20
+	cal0
+	ld2
+	xfp16
+	sv0
+	xfp16
+	drf
+	sv0
+	ldc1
+	m10
+	ld0
+	add
+	ld1
+	erf
+ljp77
+loc78
+	xstcnextr
+	sv2
+	m20
+	cal0
+	ld2
+	xstBschar
+	sv2
+	m20
+	xsttokenstring
+	sv0
+	xfp16
+	drf
+	m10
+	ld0
+	add
+	sv0
+	ldc0
+	sv0
+	cal2
+	ld2
+	xststrbufsz
+	sv0
+	xststrbufsz
+	drf
+	sv0
+	ldc1
+	m10
+	ld0
+	add
+	ld1
+	erf
+ljp81
+loc76
+	xstisdigit
+	sv2
+	m20
+	xfp8
+	drf
+	sv0
+	cal1
+	ld2
+	ljz82
+	xsttokenkind
+	sv0
+	xstTOKNUM
+	drf
+	ld1
+	erf
+	xsttokenu64
+	sv0
+	ldc0
+	ld1
+	erf
+loc83
+	xstisdigit
+	sv2
+	m20
+	xfp8
+	drf
+	sv0
+	cal1
+	ld2
+	ljz84
+	xsttokenu64
+	sv0
+	xsttokenu64
+	drf
+	sv0
+	ldc10
+	m10
+	ld0
+	mul
+	sv0
+	xfp8
+	drf
+	m10
+	ld0
+	add
+	sv0
+	ldc48
+	m10
+	ld0
+	sub
+	ld1
+	erf
+	xfp8
+	sv0
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+	ld1
+	erf
+	xfp16
+	sv0
+	xfp16
+	drf
+	sv0
+	ldc1
+	m10
+	ld0
+	add
+	ld1
+	erf
+ljp83
+loc84
+ljp85
+loc82
+	xstisalpha
+	sv2
+	m20
+	xfp8
+	drf
+	sv0
+	cal1
+	ld2
+	ljz86
+	xsttokenkind
+	sv0
+	xstTOKID
+	drf
+	ld1
+	erf
+	xfp16
+	sv0
+	ldc0
+	ld1
+	erf
+loc87
+	xstisalnum
+	sv2
+	m20
+	xfp8
+	drf
+	sv0
+	cal1
+	ld2
+	ljz88
+	xfp16
+	drf
+	sv0
+	ldc1024
+	m10
+	ld0
+	uai
+	ljz89
+	xstfprintf
+	sv2
+	m20
+	xststderr
+	drf
+	sv0
+	lds49
+	sv0
+	xsttokenrow
+	drf
+	sv0
+	ldc1
+	m10
+	ld0
+	add
+	sv0
+	xsttokencol
+	drf
+	sv0
+	ldc1
+	m10
+	ld0
+	add
+	sv0
+	cal4
+	ld2
+	xstexit
+	sv2
+	m20
+	ldc1
+	sv0
+	cal1
+	ld2
+loc89
+	xstBschar
+	sv2
+	m20
+	xsttokenstring
+	sv0
+	xfp16
+	drf
+	m10
+	ld0
+	add
+	sv0
+	xfp8
+	drf
+	sv0
+	cal2
+	ld2
+	xfp8
+	sv0
+	xstcnext
+	sv2
+	m20
+	cal0
+	ld2
+	ld1
+	erf
+	xfp16
+	sv0
+	xfp16
+	drf
+	sv0
+	ldc1
+	m10
+	ld0
+	add
+	ld1
+	erf
+ljp87
+loc88
+	xstBschar
+	sv2
+	m20
+	xsttokenstring
+	sv0
+	xfp16
+	drf
+	m10
+	ld0
+	add
+	sv0
+	ldc0
+	sv0
+	cal2
+	ld2
+	xststrcmp
+	sv2
+	m20
+	xsttokenstring
+	sv0
+	lds87
+	sv0
+	cal2
+	ld2
+	lnt
+	ljz91
+	xsttokenkind
+	sv0
+	xstTOKKWIF
+	drf
+	ld1
+	erf
+ljp92
+loc91
+	xststrcmp
+	sv2
+	m20
+	xsttokenstring
+	sv0
+	lds91
+	sv0
+	cal2
+	ld2
+	lnt
+	ljz93
+	xsttokenkind
+	sv0
+	xstTOKKWELSE
+	drf
+	ld1
+	erf
+ljp94
+loc93
+	xststrcmp
+	sv2
+	m20
+	xsttokenstring
+	sv0
+	lds97
+	sv0
+	cal2
+	ld2
+	lnt
+	ljz95
+	xsttokenkind
+	sv0
+	xstTOKKWWHILE
+	drf
+	ld1
+	erf
+ljp96
+loc95
+	xststrcmp
+	sv2
+	m20
+	xsttokenstring
+	sv0
+	lds104
+	sv0
+	cal2
+	ld2
+	lnt
+	ljz97
+	xsttokenkind
+	sv0
+	xstTOKKWEXTERN
+	drf
+	ld1
+	erf
+ljp98
+loc97
+	xststrcmp
+	sv2
+	m20
+	xsttokenstring
+	sv0
+	lds112
+	sv0
+	cal2
+	ld2
+	lnt
+	ljz99
+	xsttokenkind
+	sv0
+	xstTOKKWGLOBAL
+	drf
+	ld1
+	erf
+ljp100
+loc99
+	xststrcmp
+	sv2
+	m20
+	xsttokenstring
+	sv0
+	lds120
+	sv0
+	cal2
+	ld2
+	lnt
+	ljz101
+	xsttokenkind
+	sv0
+	xstTOKKWRETURN
+	drf
+	ld1
+	erf
+ljp102
+loc101
+	xststrcmp
+	sv2
+	m20
+	xsttokenstring
+	sv0
+	lds128
+	sv0
+	cal2
+	ld2
+	lnt
+	ljz103
+	xsttokenkind
+	sv0
+	xstTOKKWBREAK
+	drf
+	ld1
+	erf
+ljp104
+loc103
+	xststrcmp
+	sv2
+	m20
+	xsttokenstring
+	sv0
+	lds135
+	sv0
+	cal2
+	ld2
+	lnt
+	ljz105
+	xsttokenkind
+	sv0
+	xstTOKKWCONTINUE
+	drf
+	ld1
+	erf
+loc105
+loc104
+loc102
+loc100
+loc98
+loc96
+loc94
+loc92
+ljp107
+loc86
+	xstfprintf
+	sv2
+	m20
+	xststderr
+	drf
+	sv0
+	lds145
+	sv0
+	xsttokenrow
+	drf
+	sv0
+	ldc1
+	m10
+	ld0
+	add
+	sv0
+	xsttokencol
+	drf
+	sv0
+	ldc1
+	m10
+	ld0
+	add
+	sv0
+	xfp8
+	drf
+	sv0
+	cal5
+	ld2
+	xstexit
+	sv2
+	m20
+	ldc1
+	sv0
+	cal1
+	ld2
+loc107
+loc85
+loc81
+loc75
+loc73
+loc71
+loc69
+loc67
+loc65
+loc63
+loc61
+loc59
+loc57
+loc55
+loc53
+loc51
+loc49
+loc45
+loc43
+loc37
+loc31
+loc27
+loc25
+loc23
+loc17
+loc3
+	ret
+prcpeek
+	alc16
+	xsttokenkind
+	drf
+	sv0
+	ldc0
+	m10
+	ld0
+	equ
+	ljz108
+	xstlex
+	sv2
+	m20
+	cal0
+	ld2
+loc108
+	xsttokenkind
+	drf
+	ret
+prccpush
 	mfs8:0
 	alc32
 	xstBschar
@@ -57,11 +1637,11 @@ prcpush
 	ld1
 	erf
 	ret
-prcnext
+prccnext
 	alc16
 	xststreamsize
 	drf
-	ljz0
+	ljz110
 	xstactivecharacter
 	sv0
 	xstBlchar
@@ -101,9 +1681,9 @@ prcnext
 	sub
 	ld1
 	erf
-ljp1
-loc0
-	xstnextr
+ljp111
+loc110
+	xstcnextr
 	sv2
 	m20
 	cal0
@@ -115,8 +1695,8 @@ loc0
 	m10
 	ld0
 	equ
-	ljz2
-	xstnextr
+	ljz112
+	xstcnextr
 	sv2
 	m20
 	cal0
@@ -128,11 +1708,11 @@ loc0
 	m10
 	ld0
 	equ
-	ljz3
-loc4
+	ljz113
+loc114
 	ldc1
-	ljz5
-	xstnextr
+	ljz115
+	xstcnextr
 	sv2
 	m20
 	cal0
@@ -144,8 +1724,8 @@ loc4
 	m10
 	ld0
 	equ
-	ljz6
-	xstnextr
+	ljz116
+	xstcnextr
 	sv2
 	m20
 	cal0
@@ -157,19 +1737,19 @@ loc4
 	m10
 	ld0
 	equ
-	ljz7
-	jlc5
-loc7
-loc6
-ljp4
-loc5
-	xstnextr
+	ljz117
+	jlc115
+loc117
+loc116
+ljp114
+loc115
+	xstcnextr
 	sv2
 	m20
 	cal0
 	ld2
-ljp10
-loc3
+ljp120
+loc113
 	xstactivecharacter
 	drf
 	sv0
@@ -177,11 +1757,11 @@ loc3
 	m10
 	ld0
 	equ
-	ljz11
-loc12
+	ljz121
+loc122
 	ldc1
-	ljz13
-	xstnextr
+	ljz123
+	xstcnextr
 	sv2
 	m20
 	cal0
@@ -193,14 +1773,14 @@ loc12
 	m10
 	ld0
 	equ
-	ljz14
-	jlc13
-loc14
-ljp12
-loc13
-ljp16
-loc11
-	xstpush
+	ljz124
+	jlc123
+loc124
+ljp122
+loc123
+ljp126
+loc121
+	xstcpush
 	sv2
 	m20
 	xstactivecharacter
@@ -213,14 +1793,14 @@ loc11
 	ldc47
 	ld1
 	erf
-loc16
-loc10
-loc2
-loc1
+loc126
+loc120
+loc112
+loc111
 	xstactivecharacter
 	drf
 	ret
-prcnextr
+prccnextr
 	alc16
 	xstfread
 	sv2
@@ -241,34 +1821,72 @@ prcnextr
 	m10
 	ld0
 	equ
-	ljz18
+	ljz128
 	xstactivecharacter
 	sv0
-	ldc0xFF
+	ldc255
 	ld1
 	erf
-loc18
+loc128
+	xstactivecharacter
+	drf
+	sv0
+	ldc10
+	m10
+	ld0
+	equ
+	ljz130
+	xstcurrentrow
+	sv0
+	xstcurrentrow
+	drf
+	sv0
+	ldc1
+	m10
+	ld0
+	add
+	ld1
+	erf
+	xstcurrentcol
+	sv0
+	ldc0
+	ld1
+	erf
+ljp131
+loc130
+	xstcurrentcol
+	sv0
+	xstcurrentcol
+	drf
+	sv0
+	ldc1
+	m10
+	ld0
+	add
+	ld1
+	erf
+loc131
 	xstdooutputparse
 	drf
-	ljz20
+	ljz132
 	xstfprintf
 	sv2
 	m20
 	xststderr
 	drf
 	sv0
-	lds0
+	lds196
 	sv0
 	xstactivecharacter
 	drf
 	sv0
 	cal3
 	ld2
-loc20
+loc132
 	xstactivecharacter
 	drf
 	ret
-prcpeek
+prccpeek
 	alc16
 	xstactivecharacter
 	drf
@@ -277,17 +1895,15 @@ prcpeek
 	m10
 	ld0
 	equ
-	ljz22
-	xstnext
+	ljz134
+	xstcnext
 	sv2
 	m20
 	cal0
 	ld2
-ljp23
-loc22
+loc134
 	xstactivecharacter
 	drf
-loc23
 	ret
 prcemit
 	mfs8:0
@@ -298,7 +1914,7 @@ prcemit
 	xstoutputfile
 	drf
 	sv0
-	lds3
+	lds200
 	sv0
 	xfp8
 	drf
@@ -315,7 +1931,7 @@ prcemits
 	xstoutputfile
 	drf
 	sv0
-	lds6
+	lds204
 	sv0
 	xfp8
 	drf
@@ -332,7 +1948,7 @@ prcemitd
 	xstoutputfile
 	drf
 	sv0
-	lds9
+	lds208
 	sv0
 	xfp8
 	drf
@@ -340,81 +1956,66 @@ prcemitd
 	cal3
 	ld2
 	ret
-rsw 1*continueaddress
-rsw 1*breakaddress
-rsw 1*addrcounter
-rsw 64*namebuffer
-rsw 1024*strbuf
-rsw 1*strbufsz
-rsw 6*ra
-prcwhitespace
-	alc16
-loc24
-	xstisspace
-	sv2
-	m20
-	xstpeek
-	sv2
-	m20
-	cal0
-	ld2
-	sv0
-	cal1
-	ld2
-	ljz25
-	xstnext
-	sv2
-	m20
-	cal0
-	ld2
-ljp24
-loc25
-	ret
+rsw1*continueaddress
+rsw1*breakaddress
+rsw1*addrcounter
+rsw1024*strbuf
+rsw1*strbufsz
+rsw6*ra
 prcexpect
 	mfs8:0
 	alc32
-	xfp16
-	sv0
 	xstpeek
 	sv2
 	m20
 	cal0
 	ld2
-	ld1
-	erf
 	sv0
 	xfp8
 	drf
 	m10
 	ld0
 	equ
-	ljz26
-	xstnext
+	ljz136
+	xstlex
 	sv2
 	m20
 	cal0
 	ld2
-ljp27
-loc26
+ljp137
+loc136
 	xstfprintf
 	sv2
 	m20
 	xststderr
 	drf
 	sv0
-	lds13
+	lds213
 	sv0
 	xfp8
 	drf
 	sv0
-	xfp8
+	xsttokenrow
 	drf
 	sv0
-	xfp16
+	ldc1
+	m10
+	ld0
+	add
+	sv0
+	xsttokencol
 	drf
 	sv0
-	xfp16
-	drf
+	ldc1
+	m10
+	ld0
+	add
+	sv0
+	xstpeek
+	sv2
+	m20
+	cal0
+	ld2
 	sv0
 	cal6
 	ld2
@@ -425,13 +2026,72 @@ loc26
 	sv0
 	cal1
 	ld2
-loc27
+loc137
+	ret
+prclexpect
+	mfs8:0
+	alc32
+	xstpeek
+	sv2
+	m20
+	cal0
+	ld2
+	sv0
+	xfp8
+	drf
+	m10
+	ld0
+	neq
+	ljz138
+	xstfprintf
+	sv2
+	m20
+	xststderr
+	drf
+	sv0
+	lds267
+	sv0
+	xfp8
+	drf
+	sv0
+	xsttokenrow
+	drf
+	sv0
+	ldc1
+	m10
+	ld0
+	add
+	sv0
+	xsttokencol
+	drf
+	sv0
+	ldc1
+	m10
+	ld0
+	add
+	sv0
+	xstpeek
+	sv2
+	m20
+	cal0
+	ld2
+	sv0
+	cal6
+	ld2
+	xstexit
+	sv2
+	m20
+	ldc1
+	sv0
+	cal1
+	ld2
+loc138
 	ret
 prcparseEscapeCode
 	alc32
 	xfp8
 	sv0
-	xstnext
+	xstcnextr
 	sv2
 	m20
 	cal0
@@ -445,10 +2105,10 @@ prcparseEscapeCode
 	m10
 	ld0
 	equ
-	ljz28
+	ljz140
 	ldc10
-ljp29
-loc28
+ljp141
+loc140
 	xfp8
 	drf
 	sv0
@@ -456,10 +2116,10 @@ loc28
 	m10
 	ld0
 	equ
-	ljz30
+	ljz142
 	ldc9
-ljp31
-loc30
+ljp143
+loc142
 	xfp8
 	drf
 	sv0
@@ -467,10 +2127,10 @@ loc30
 	m10
 	ld0
 	equ
-	ljz32
+	ljz144
 	ldc92
-ljp33
-loc32
+ljp145
+loc144
 	xfp8
 	drf
 	sv0
@@ -478,10 +2138,21 @@ loc32
 	m10
 	ld0
 	equ
-	ljz34
+	ljz146
 	ldc39
-ljp35
-loc34
+ljp147
+loc146
+	xfp8
+	drf
+	sv0
+	ldc34
+	m10
+	ld0
+	equ
+	ljz148
+	ldc34
+ljp149
+loc148
 	xfp8
 	drf
 	sv0
@@ -489,10 +2160,10 @@ loc34
 	m10
 	ld0
 	equ
-	ljz36
+	ljz150
 	xfp8
 	sv0
-	xstnext
+	xstcnextr
 	sv2
 	m20
 	cal0
@@ -508,19 +2179,35 @@ loc34
 	cal1
 	ld2
 	lnt
-	ljz37
+	ljz151
 	xstfprintf
 	sv2
 	m20
 	xststderr
 	drf
 	sv0
-	lds49
+	lds322
 	sv0
 	xfp8
 	drf
 	sv0
-	cal3
+	xsttokenrow
+	drf
+	sv0
+	ldc1
+	m10
+	ld0
+	add
+	sv0
+	xsttokencol
+	drf
+	sv0
+	ldc1
+	m10
+	ld0
+	add
+	sv0
+	cal5
 	ld2
 	xstexit
 	sv2
@@ -529,7 +2216,7 @@ loc34
 	sv0
 	cal1
 	ld2
-loc37
+loc151
 	xfp8
 	drf
 	sv0
@@ -537,7 +2224,7 @@ loc37
 	m10
 	ld0
 	ube
-	ljz39
+	ljz153
 	xfp16
 	sv0
 	xfp8
@@ -549,8 +2236,8 @@ loc37
 	sub
 	ld1
 	erf
-ljp40
-loc39
+ljp154
+loc153
 	xfp8
 	drf
 	sv0
@@ -558,7 +2245,7 @@ loc39
 	m10
 	ld0
 	ube
-	ljz41
+	ljz155
 	xfp16
 	sv0
 	xfp8
@@ -575,8 +2262,8 @@ loc39
 	add
 	ld1
 	erf
-ljp42
-loc41
+ljp156
+loc155
 	xfp8
 	drf
 	sv0
@@ -584,7 +2271,7 @@ loc41
 	m10
 	ld0
 	ube
-	ljz43
+	ljz157
 	xfp16
 	sv0
 	xfp8
@@ -601,12 +2288,12 @@ loc41
 	add
 	ld1
 	erf
-loc43
-loc42
-loc40
+loc157
+loc156
+loc154
 	xfp8
 	sv0
-	xstnext
+	xstcnextr
 	sv2
 	m20
 	cal0
@@ -622,19 +2309,35 @@ loc40
 	cal1
 	ld2
 	lnt
-	ljz45
+	ljz159
 	xstfprintf
 	sv2
 	m20
 	xststderr
 	drf
 	sv0
-	lds83
+	lds366
 	sv0
 	xfp8
 	drf
 	sv0
-	cal3
+	xsttokenrow
+	drf
+	sv0
+	ldc1
+	m10
+	ld0
+	add
+	sv0
+	xsttokencol
+	drf
+	sv0
+	ldc1
+	m10
+	ld0
+	add
+	sv0
+	cal5
 	ld2
 	xstexit
 	sv2
@@ -643,7 +2346,7 @@ loc40
 	sv0
 	cal1
 	ld2
-loc45
+loc159
 	xfp16
 	sv0
 	xfp16
@@ -662,7 +2365,7 @@ loc45
 	m10
 	ld0
 	ube
-	ljz47
+	ljz161
 	xfp16
 	sv0
 	xfp16
@@ -680,8 +2383,8 @@ loc45
 	sub
 	ld1
 	erf
-ljp48
-loc47
+ljp162
+loc161
 	xfp8
 	drf
 	sv0
@@ -689,7 +2392,7 @@ loc47
 	m10
 	ld0
 	ube
-	ljz49
+	ljz163
 	xfp16
 	sv0
 	xfp16
@@ -712,8 +2415,8 @@ loc47
 	add
 	ld1
 	erf
-ljp50
-loc49
+ljp164
+loc163
 	xfp8
 	drf
 	sv0
@@ -721,7 +2424,7 @@ loc49
 	m10
 	ld0
 	ube
-	ljz51
+	ljz165
 	xfp16
 	sv0
 	xfp16
@@ -744,25 +2447,41 @@ loc49
 	add
 	ld1
 	erf
-loc51
-loc50
-loc48
+loc165
+loc164
+loc162
 	xfp16
 	drf
-ljp53
-loc36
+ljp167
+loc150
 	xstfprintf
 	sv2
 	m20
 	xststderr
 	drf
 	sv0
-	lds117
+	lds410
 	sv0
 	xfp8
 	drf
 	sv0
-	cal3
+	xsttokenrow
+	drf
+	sv0
+	ldc1
+	m10
+	ld0
+	add
+	sv0
+	xsttokencol
+	drf
+	sv0
+	ldc1
+	m10
+	ld0
+	add
+	sv0
+	cal5
 	ld2
 	xstexit
 	sv2
@@ -771,20 +2490,16 @@ loc36
 	sv0
 	cal1
 	ld2
-loc53
-loc35
-loc33
-loc31
-loc29
+loc167
+loc149
+loc147
+loc145
+loc143
+loc141
 	ret
 	ret
 prclprimary
 	alc48
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
 	xfp8
 	sv0
 	xstpeek
@@ -794,83 +2509,15 @@ prclprimary
 	ld2
 	ld1
 	erf
-	xstisalpha
-	sv2
-	m20
 	xfp8
 	drf
 	sv0
-	cal1
-	ld2
-	ljz54
-	xfp16
-	sv0
-	ldc0
-	ld1
-	erf
-loc55
-	xstisalnum
-	sv2
-	m20
-	xfp8
-	drf
-	sv0
-	cal1
-	ld2
-	ljz56
-	xstBschar
-	sv2
-	m20
-	xstnamebuffer
-	sv0
-	xfp16
+	xstTOKID
 	drf
 	m10
 	ld0
-	add
-	sv0
-	xfp8
-	drf
-	sv0
-	cal2
-	ld2
-	xfp8
-	sv0
-	xstnext
-	sv2
-	m20
-	cal0
-	ld2
-	ld1
-	erf
-	xfp16
-	sv0
-	xfp16
-	drf
-	sv0
-	ldc1
-	m10
-	ld0
-	add
-	ld1
-	erf
-ljp55
-loc56
-	xstBschar
-	sv2
-	m20
-	xstnamebuffer
-	sv0
-	xfp16
-	drf
-	m10
-	ld0
-	add
-	sv0
-	ldc0
-	sv0
-	cal2
-	ld2
+	equ
+	ljz168
 	xfp16
 	sv0
 	ldc0
@@ -881,7 +2528,7 @@ loc56
 	ldc0
 	ld1
 	erf
-loc57
+loc169
 	xfp16
 	drf
 	sv0
@@ -890,11 +2537,11 @@ loc57
 	m10
 	ld0
 	ubi
-	ljz58
+	ljz170
 	xststrcmp
 	sv2
 	m20
-	xstnamebuffer
+	xsttokenstring
 	sv0
 	xstvariables
 	sv0
@@ -926,11 +2573,11 @@ loc57
 	m10
 	ld0
 	equ
-	ljz59
+	ljz171
 	xstemits
 	sv2
 	m20
-	lds145
+	lds448
 	sv0
 	cal1
 	ld2
@@ -955,7 +2602,7 @@ loc57
 	xstemits
 	sv2
 	m20
-	lds150
+	lds454
 	sv0
 	cal1
 	ld2
@@ -964,8 +2611,8 @@ loc57
 	ldc1
 	ld1
 	erf
-	jlc58
-loc59
+	jlc170
+loc171
 	xfp16
 	sv0
 	xfp16
@@ -977,53 +2624,59 @@ loc59
 	add
 	ld1
 	erf
-ljp57
-loc58
+ljp169
+loc170
 	xfp24
 	drf
 	lnt
-	ljz61
+	ljz173
 	xstemits
 	sv2
 	m20
-	lds152
+	lds457
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	xstnamebuffer
+	xsttokenstring
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds157
+	lds463
 	sv0
 	cal1
 	ld2
-loc61
+loc173
+	xstlex
+	sv2
+	m20
+	cal0
+	ld2
 	xfp24
 	drf
-	ljz63
+	ljz175
 	ldc2
 	ret
-loc63
+loc175
 	ldc1
 	ret
-ljp65
-loc54
+ljp177
+loc168
 	xfp8
 	drf
 	sv0
-	ldc42
+	xstTOKASTER
+	drf
 	m10
 	ld0
 	equ
-	ljz66
-	xstnext
+	ljz178
+	xstlex
 	sv2
 	m20
 	cal0
@@ -1037,21 +2690,16 @@ loc54
 	ld2
 	ldc1
 	ret
-ljp67
-loc66
+ljp179
+loc178
 	ldc0
 	ret
-loc67
-loc65
+loc179
+loc177
 	ret
 prclexpr
 	alc32
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
-	xfp16
+	xfp8
 	sv0
 	xstlprimary
 	sv2
@@ -1060,42 +2708,43 @@ prclexpr
 	ld2
 	ld1
 	erf
-	ljz68
+	ljz180
 	xstpeek
 	sv2
 	m20
 	cal0
 	ld2
 	sv0
-	ldc91
+	xstTOKLBRACK
+	drf
 	m10
 	ld0
 	equ
-	ljz69
-	xfp16
+	ljz181
+	xfp8
 	drf
 	sv0
 	ldc2
 	m10
 	ld0
 	equ
-	ljz70
+	ljz182
 	xstemits
 	sv2
 	m20
-	lds159
+	lds466
 	sv0
 	cal1
 	ld2
-loc70
+loc182
 	xstemits
 	sv2
 	m20
-	lds165
+	lds473
 	sv0
 	cal1
 	ld2
-	xstnext
+	xstlex
 	sv2
 	m20
 	cal0
@@ -1108,27 +2757,28 @@ loc70
 	xstexpect
 	sv2
 	m20
-	ldc93
+	xstTOKRBRACK
+	drf
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds171
+	lds480
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds177
+	lds487
 	sv0
 	cal1
 	ld2
-loc69
-loc68
-	xfp16
+loc181
+loc180
+	xfp8
 	drf
 	ret
 	ret
@@ -1144,11 +2794,6 @@ prcp6
 	ld2
 	ld1
 	erf
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
 	xfp16
 	sv0
 	xstpeek
@@ -1160,7 +2805,12 @@ prcp6
 	erf
 	xfp56
 	drf
-	ljz74
+	sv0
+	ldc0
+	m10
+	ld0
+	neq
+	ljz186
 	xfp8
 	drf
 	sv0
@@ -1168,251 +2818,121 @@ prcp6
 	m10
 	ld0
 	equ
-	ljz75
-	xstpeek
-	sv2
-	m20
-	cal0
-	ld2
+	ljz187
+	xfp16
+	drf
 	sv0
-	ldc61
+	xstTOKEQU
+	drf
 	m10
 	ld0
 	equ
-	ljz76
-	xstnext
+	ljz188
+	xstlex
 	sv2
 	m20
 	cal0
 	ld2
-	sv0
-	ldc61
-	m10
-	ld0
-	neq
-	ljz77
 	ldc1
 	ret
-ljp78
-loc77
-	xstpush
-	sv2
-	m20
-	ldc61
-	sv0
-	cal1
-	ld2
-loc78
-loc76
-loc75
-loc74
-	xfp56
-	drf
-	lnt
-	ljz82
+loc188
+loc187
+ljp191
+loc186
 	xfp48
 	sv0
 	ldc0
 	ld1
 	erf
-	xstisdigit
-	sv2
-	m20
 	xfp16
 	drf
 	sv0
-	cal1
-	ld2
-	ljz83
-	xstemits
-	sv2
-	m20
-	lds183
-	sv0
-	cal1
-	ld2
-	xfp16
+	xstTOKNUM
 	drf
-	sv0
-	ldc48
 	m10
 	ld0
 	equ
-	ljz84
-	xfp16
+	ljz192
+	xstemits
+	sv2
+	m20
+	lds494
 	sv0
-	xstnext
+	cal1
+	ld2
+	xstemitd
+	sv2
+	m20
+	xsttokenu64
+	drf
+	sv0
+	cal1
+	ld2
+	xstemits
+	sv2
+	m20
+	lds500
+	sv0
+	cal1
+	ld2
+	xstlex
 	sv2
 	m20
 	cal0
 	ld2
-	ld1
-	erf
-	xstemits
-	sv2
-	m20
-	lds188
-	sv0
-	cal1
-	ld2
+ljp193
+loc192
 	xfp16
 	drf
 	sv0
-	ldc120
+	xstTOKLBRACE
+	drf
 	m10
 	ld0
 	equ
-	ljz85
-	xstemits
-	sv2
-	m20
-	lds190
-	sv0
-	cal1
-	ld2
-	xfp16
-	sv0
-	xstnext
+	ljz194
+	xstlex
 	sv2
 	m20
 	cal0
 	ld2
-	ld1
-	erf
-loc86
-	xstisxdigit
-	sv2
-	m20
-	xfp16
-	drf
-	sv0
-	cal1
-	ld2
-	ljz87
-	xstemit
-	sv2
-	m20
-	xfp16
-	drf
-	sv0
-	cal1
-	ld2
-	xstnext
-	sv2
-	m20
-	cal0
-	ld2
-	xfp16
-	sv0
-	xstpeek
-	sv2
-	m20
-	cal0
-	ld2
-	ld1
-	erf
-ljp86
-loc87
-loc85
-ljp89
-loc84
-loc90
-	xstisdigit
-	sv2
-	m20
-	xfp16
-	drf
-	sv0
-	cal1
-	ld2
-	ljz91
-	xstemit
-	sv2
-	m20
-	xfp16
-	drf
-	sv0
-	cal1
-	ld2
-	xfp16
-	sv0
-	xstnext
-	sv2
-	m20
-	cal0
-	ld2
-	ld1
-	erf
-ljp90
-loc91
-loc89
-	xstemits
-	sv2
-	m20
-	lds192
-	sv0
-	cal1
-	ld2
-ljp92
-loc83
-	xfp16
-	drf
-	sv0
-	ldc123
-	m10
-	ld0
-	equ
-	ljz93
-	xstnext
-	sv2
-	m20
-	cal0
-	ld2
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
-loc94
+loc195
 	xstpeek
 	sv2
 	m20
 	cal0
 	ld2
 	sv0
-	ldc125
+	xstTOKRBRACE
+	drf
 	m10
 	ld0
 	neq
-	ljz95
+	ljz196
 	xststmt
 	sv2
 	m20
 	cal0
 	ld2
-	xstwhitespace
+ljp195
+loc196
+	xstlex
 	sv2
 	m20
 	cal0
 	ld2
-ljp94
-loc95
-	xstnext
-	sv2
-	m20
-	cal0
-	ld2
-ljp96
-loc93
+ljp197
+loc194
 	xfp16
 	drf
 	sv0
-	ldc40
+	xstTOKLPAR
+	drf
 	m10
 	ld0
 	equ
-	ljz97
-	xstnext
+	ljz198
+	xstlex
 	sv2
 	m20
 	cal0
@@ -1425,21 +2945,23 @@ loc93
 	xstexpect
 	sv2
 	m20
-	ldc41
+	xstTOKRPAR
+	drf
 	sv0
 	cal1
 	ld2
-ljp98
-loc97
+ljp199
+loc198
 	xfp16
 	drf
 	sv0
-	ldc38
+	xstTOKAMPERS
+	drf
 	m10
 	ld0
 	equ
-	ljz99
-	xstnext
+	ljz200
+	xstlex
 	sv2
 	m20
 	cal0
@@ -1449,66 +2971,28 @@ loc97
 	m20
 	cal0
 	ld2
-ljp100
-loc99
+ljp201
+loc200
 	xfp16
 	drf
 	sv0
-	ldc39
-	m10
-	ld0
-	equ
-	ljz101
-	xfp16
-	sv0
-	xstnext
-	sv2
-	m20
-	cal0
-	ld2
-	ld1
-	erf
-	xfp16
+	xstTOKCHAR
 	drf
-	sv0
-	ldc92
 	m10
 	ld0
 	equ
-	ljz102
-	xfp16
-	sv0
-	xstparseEscapeCode
-	sv2
-	m20
-	cal0
-	ld2
-	ld1
-	erf
-loc102
-	xstnext
-	sv2
-	m20
-	cal0
-	ld2
-	xstexpect
-	sv2
-	m20
-	ldc39
-	sv0
-	cal1
-	ld2
+	ljz202
 	xstemits
 	sv2
 	m20
-	lds194
+	lds503
 	sv0
 	cal1
 	ld2
 	xstemitd
 	sv2
 	m20
-	xfp16
+	xsttokenu64
 	drf
 	sv0
 	cal1
@@ -1516,147 +3000,36 @@ loc102
 	xstemits
 	sv2
 	m20
-	lds199
+	lds509
 	sv0
 	cal1
 	ld2
-ljp104
-loc101
-	xfp16
-	drf
-	sv0
-	ldc34
-	m10
-	ld0
-	equ
-	ljz105
-	xfp16
-	sv0
-	xstnext
+	xstlex
 	sv2
 	m20
 	cal0
 	ld2
-	ld1
-	erf
+ljp203
+loc202
+	xfp16
+	drf
+	sv0
+	xstTOKSTR
+	drf
+	m10
+	ld0
+	equ
+	ljz204
 	xfp24
 	sv0
 	xststrbufsz
 	drf
 	ld1
 	erf
-loc106
-	xfp16
-	sv0
-	xstpeek
-	sv2
-	m20
-	cal0
-	ld2
-	ld1
-	erf
-	sv0
-	ldc34
-	m10
-	ld0
-	neq
-	ljz107
-	xfp16
-	sv0
-	xstpeek
-	sv2
-	m20
-	cal0
-	ld2
-	ld1
-	erf
-	xfp16
-	drf
-	sv0
-	ldc92
-	m10
-	ld0
-	equ
-	ljz108
-	xfp16
-	sv0
-	xstparseEscapeCode
-	sv2
-	m20
-	cal0
-	ld2
-	ld1
-	erf
-loc108
-	xstBschar
-	sv2
-	m20
-	xststrbuf
-	sv0
-	xststrbufsz
-	drf
-	m10
-	ld0
-	add
-	sv0
-	xfp16
-	drf
-	sv0
-	cal2
-	ld2
-	xststrbufsz
-	sv0
-	xststrbufsz
-	drf
-	sv0
-	ldc1
-	m10
-	ld0
-	add
-	ld1
-	erf
-	xstnextr
-	sv2
-	m20
-	cal0
-	ld2
-ljp106
-loc107
-	xstnext
-	sv2
-	m20
-	cal0
-	ld2
-	xstBschar
-	sv2
-	m20
-	xststrbuf
-	sv0
-	xststrbufsz
-	drf
-	m10
-	ld0
-	add
-	sv0
-	ldc0
-	sv0
-	cal2
-	ld2
-	xststrbufsz
-	sv0
-	xststrbufsz
-	drf
-	sv0
-	ldc1
-	m10
-	ld0
-	add
-	ld1
-	erf
 	xstemits
 	sv2
 	m20
-	lds201
+	lds512
 	sv0
 	cal1
 	ld2
@@ -1671,24 +3044,91 @@ loc107
 	xstemits
 	sv2
 	m20
-	lds206
+	lds518
 	sv0
 	cal1
 	ld2
-ljp110
-loc105
+	xfp64
+	sv0
+	xststrlen
+	sv2
+	m20
+	xsttokenstring
+	sv0
+	cal1
+	ld2
+	sv0
+	ldc1
+	m10
+	ld0
+	add
+	ld1
+	erf
+	xstmemcpy
+	sv2
+	m20
+	xststrbuf
+	sv0
+	xststrbufsz
+	drf
+	m10
+	ld0
+	add
+	sv0
+	xsttokenstring
+	sv0
+	xfp64
+	drf
+	sv0
+	cal3
+	ld2
+	xststrbufsz
+	sv0
+	xststrbufsz
+	drf
+	sv0
+	xfp64
+	drf
+	m10
+	ld0
+	add
+	ld1
+	erf
+	xstlex
+	sv2
+	m20
+	cal0
+	ld2
+ljp205
+loc204
 	xstfprintf
 	sv2
 	m20
 	xststderr
 	drf
 	sv0
-	lds208
+	lds521
 	sv0
 	xfp16
 	drf
 	sv0
-	cal3
+	xsttokenrow
+	drf
+	sv0
+	ldc1
+	m10
+	ld0
+	add
+	sv0
+	xsttokencol
+	drf
+	sv0
+	ldc1
+	m10
+	ld0
+	add
+	sv0
+	cal5
 	ld2
 	xstexit
 	sv2
@@ -1697,18 +3137,13 @@ loc105
 	sv0
 	cal1
 	ld2
-loc110
-loc104
-loc100
-loc98
-loc96
-loc92
-loc82
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
+loc205
+loc203
+loc201
+loc199
+loc197
+loc193
+loc191
 	xfp16
 	sv0
 	xstpeek
@@ -1721,12 +3156,13 @@ loc82
 	xfp16
 	drf
 	sv0
-	ldc40
+	xstTOKLPAR
+	drf
 	m10
 	ld0
 	equ
-	ljz112
-	xstnext
+	ljz206
+	xstlex
 	sv2
 	m20
 	cal0
@@ -1734,21 +3170,16 @@ loc82
 	xstemits
 	sv2
 	m20
-	lds242
+	lds570
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds248
+	lds577
 	sv0
 	cal1
-	ld2
-	xstwhitespace
-	sv2
-	m20
-	cal0
 	ld2
 	xfp40
 	sv0
@@ -1761,19 +3192,20 @@ loc82
 	cal0
 	ld2
 	sv0
-	ldc41
+	xstTOKRPAR
+	drf
 	m10
 	ld0
 	neq
-	ljz113
+	ljz207
 	xfp32
 	sv0
 	ldc0
 	ld1
 	erf
-loc114
+loc208
 	ldc1
-	ljz115
+	ljz209
 	xfp40
 	sv0
 	xfp40
@@ -1793,14 +3225,9 @@ loc114
 	xstemits
 	sv2
 	m20
-	lds254
+	lds584
 	sv0
 	cal1
-	ld2
-	xstwhitespace
-	sv2
-	m20
-	cal0
 	ld2
 	xfp16
 	sv0
@@ -1814,29 +3241,31 @@ loc114
 	xfp16
 	drf
 	sv0
-	ldc44
+	xstTOKCOMMA
+	drf
 	m10
 	ld0
 	equ
-	ljz116
-	xstnext
+	ljz210
+	xstlex
 	sv2
 	m20
 	cal0
 	ld2
-ljp117
-loc116
+ljp211
+loc210
 	xfp16
 	drf
 	sv0
-	ldc41
+	xstTOKRPAR
+	drf
 	m10
 	ld0
 	equ
-	ljz118
-	jlc115
-loc118
-loc117
+	ljz212
+	jlc209
+loc212
+loc211
 	xfp32
 	sv0
 	xfp32
@@ -1848,20 +3277,21 @@ loc117
 	add
 	ld1
 	erf
-ljp114
-loc115
-loc113
+ljp208
+loc209
+loc207
 	xstexpect
 	sv2
 	m20
-	ldc41
+	xstTOKRPAR
+	drf
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds260
+	lds591
 	sv0
 	cal1
 	ld2
@@ -1883,7 +3313,7 @@ loc113
 	xstemits
 	sv2
 	m20
-	lds265
+	lds597
 	sv0
 	cal1
 	ld2
@@ -1892,12 +3322,7 @@ loc113
 	ldc0
 	ld1
 	erf
-loc112
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
+loc206
 	xfp16
 	sv0
 	xstpeek
@@ -1909,24 +3334,19 @@ loc112
 	erf
 	xfp56
 	drf
-	ljz122
+	ljz216
 	xstemits
 	sv2
 	m20
-	lds271
+	lds604
 	sv0
 	cal1
 	ld2
-loc122
+loc216
 	ldc0
 	ret
 prcp5
 	alc64
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
 	xfp8
 	sv0
 	xstpeek
@@ -1944,12 +3364,12 @@ prcp5
 	xfp8
 	drf
 	sv0
-	ldc126
+	ldc6969
 	m10
 	ld0
 	equ
-	ljz124
-	xstnext
+	ljz218
+	xstlex
 	sv2
 	m20
 	cal0
@@ -1964,21 +3384,22 @@ prcp5
 	xstemits
 	sv2
 	m20
-	lds277
+	lds611
 	sv0
 	cal1
 	ld2
-ljp125
-loc124
+ljp219
+loc218
 	xfp8
 	drf
 	sv0
-	ldc45
+	xstTOKMINUS
+	drf
 	m10
 	ld0
 	equ
-	ljz126
-	xstnext
+	ljz220
+	xstlex
 	sv2
 	m20
 	cal0
@@ -1993,21 +3414,22 @@ loc124
 	xstemits
 	sv2
 	m20
-	lds283
+	lds618
 	sv0
 	cal1
 	ld2
-ljp127
-loc126
+ljp221
+loc220
 	xfp8
 	drf
 	sv0
-	ldc43
+	xstTOKPLUS
+	drf
 	m10
 	ld0
 	equ
-	ljz128
-	xstnext
+	ljz222
+	xstlex
 	sv2
 	m20
 	cal0
@@ -2019,17 +3441,18 @@ loc126
 	sv0
 	cal1
 	ld2
-ljp129
-loc128
+ljp223
+loc222
 	xfp8
 	drf
 	sv0
-	ldc33
+	xstTOKEXCL
+	drf
 	m10
 	ld0
 	equ
-	ljz130
-	xstnext
+	ljz224
+	xstlex
 	sv2
 	m20
 	cal0
@@ -2044,12 +3467,12 @@ loc128
 	xstemits
 	sv2
 	m20
-	lds289
+	lds625
 	sv0
 	cal1
 	ld2
-ljp131
-loc130
+ljp225
+loc224
 	xstp6
 	sv2
 	m20
@@ -2058,10 +3481,10 @@ loc130
 	cal1
 	ld2
 	ret
-loc131
-loc129
-loc127
-loc125
+loc225
+loc223
+loc221
+loc219
 	ldc0
 	ret
 	ret
@@ -2077,18 +3500,13 @@ prcp4
 	m10
 	ld0
 	equ
-	ljz132
+	ljz226
 	ldc1
 	ret
-loc132
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
-loc134
+loc226
+loc228
 	ldc1
-	ljz135
+	ljz229
 	xfp8
 	sv0
 	xstpeek
@@ -2101,12 +3519,13 @@ loc134
 	xfp8
 	drf
 	sv0
-	ldc38
+	xstTOKAMPERS
+	drf
 	m10
 	ld0
 	equ
-	ljz136
-	xstnext
+	ljz230
+	xstlex
 	sv2
 	m20
 	cal0
@@ -2114,7 +3533,7 @@ loc134
 	xstemits
 	sv2
 	m20
-	lds295
+	lds632
 	sv0
 	cal1
 	ld2
@@ -2123,43 +3542,39 @@ loc134
 	m20
 	cal0
 	ld2
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
 	xstemits
 	sv2
 	m20
-	lds301
+	lds639
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds307
+	lds646
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds313
+	lds653
 	sv0
 	cal1
 	ld2
-ljp137
-loc136
+ljp231
+loc230
 	xfp8
 	drf
 	sv0
-	ldc124
+	xstTOKVTBAR
+	drf
 	m10
 	ld0
 	equ
-	ljz138
-	xstnext
+	ljz232
+	xstlex
 	sv2
 	m20
 	cal0
@@ -2167,7 +3582,7 @@ loc136
 	xstemits
 	sv2
 	m20
-	lds319
+	lds660
 	sv0
 	cal1
 	ld2
@@ -2176,43 +3591,38 @@ loc136
 	m20
 	cal0
 	ld2
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
 	xstemits
 	sv2
 	m20
-	lds325
+	lds667
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds331
+	lds674
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds337
+	lds681
 	sv0
 	cal1
 	ld2
-ljp139
-loc138
+ljp233
+loc232
 	xfp8
 	drf
 	sv0
-	ldc94
+	ldc6969
 	m10
 	ld0
 	equ
-	ljz140
-	xstnext
+	ljz234
+	xstlex
 	sv2
 	m20
 	cal0
@@ -2220,7 +3630,7 @@ loc138
 	xstemits
 	sv2
 	m20
-	lds342
+	lds687
 	sv0
 	cal1
 	ld2
@@ -2229,43 +3639,39 @@ loc138
 	m20
 	cal0
 	ld2
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
 	xstemits
 	sv2
 	m20
-	lds348
+	lds694
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds354
+	lds701
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds360
+	lds708
 	sv0
 	cal1
 	ld2
-ljp141
-loc140
+ljp235
+loc234
 	xfp8
 	drf
 	sv0
-	ldc42
+	xstTOKASTER
+	drf
 	m10
 	ld0
 	equ
-	ljz142
-	xstnext
+	ljz236
+	xstlex
 	sv2
 	m20
 	cal0
@@ -2273,7 +3679,7 @@ loc140
 	xstemits
 	sv2
 	m20
-	lds366
+	lds715
 	sv0
 	cal1
 	ld2
@@ -2282,43 +3688,39 @@ loc140
 	m20
 	cal0
 	ld2
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
 	xstemits
 	sv2
 	m20
-	lds372
+	lds722
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds378
+	lds729
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds384
+	lds736
 	sv0
 	cal1
 	ld2
-ljp143
-loc142
+ljp237
+loc236
 	xfp8
 	drf
 	sv0
-	ldc47
+	xstTOKSLASH
+	drf
 	m10
 	ld0
 	equ
-	ljz144
-	xstnext
+	ljz238
+	xstlex
 	sv2
 	m20
 	cal0
@@ -2326,7 +3728,7 @@ loc142
 	xstemits
 	sv2
 	m20
-	lds390
+	lds743
 	sv0
 	cal1
 	ld2
@@ -2335,43 +3737,39 @@ loc142
 	m20
 	cal0
 	ld2
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
 	xstemits
 	sv2
 	m20
-	lds396
+	lds750
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds402
+	lds757
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds408
+	lds764
 	sv0
 	cal1
 	ld2
-ljp145
-loc144
+ljp239
+loc238
 	xfp8
 	drf
 	sv0
-	ldc37
+	xstTOKPERS
+	drf
 	m10
 	ld0
 	equ
-	ljz146
-	xstnext
+	ljz240
+	xstlex
 	sv2
 	m20
 	cal0
@@ -2379,7 +3777,7 @@ loc144
 	xstemits
 	sv2
 	m20
-	lds414
+	lds771
 	sv0
 	cal1
 	ld2
@@ -2388,43 +3786,38 @@ loc144
 	m20
 	cal0
 	ld2
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
 	xstemits
 	sv2
 	m20
-	lds420
+	lds778
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds426
+	lds785
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds432
+	lds792
 	sv0
 	cal1
 	ld2
-ljp147
-loc146
-	jlc135
-loc147
-loc145
-loc143
-loc141
-loc139
-loc137
-ljp134
-loc135
+ljp241
+loc240
+	jlc229
+loc241
+loc239
+loc237
+loc235
+loc233
+loc231
+ljp228
+loc229
 	ldc0
 	ret
 	ret
@@ -2440,18 +3833,13 @@ prcp3
 	m10
 	ld0
 	equ
-	ljz148
+	ljz242
 	ldc1
 	ret
-loc148
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
-loc150
+loc242
+loc244
 	ldc1
-	ljz151
+	ljz245
 	xfp8
 	sv0
 	xstpeek
@@ -2464,12 +3852,13 @@ loc150
 	xfp8
 	drf
 	sv0
-	ldc43
+	xstTOKPLUS
+	drf
 	m10
 	ld0
 	equ
-	ljz152
-	xstnext
+	ljz246
+	xstlex
 	sv2
 	m20
 	cal0
@@ -2477,7 +3866,7 @@ loc150
 	xstemits
 	sv2
 	m20
-	lds438
+	lds799
 	sv0
 	cal1
 	ld2
@@ -2486,43 +3875,39 @@ loc150
 	m20
 	cal0
 	ld2
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
 	xstemits
 	sv2
 	m20
-	lds444
+	lds806
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds450
+	lds813
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds456
+	lds820
 	sv0
 	cal1
 	ld2
-ljp153
-loc152
+ljp247
+loc246
 	xfp8
 	drf
 	sv0
-	ldc45
+	xstTOKMINUS
+	drf
 	m10
 	ld0
 	equ
-	ljz154
-	xstnext
+	ljz248
+	xstlex
 	sv2
 	m20
 	cal0
@@ -2530,7 +3915,7 @@ loc152
 	xstemits
 	sv2
 	m20
-	lds462
+	lds827
 	sv0
 	cal1
 	ld2
@@ -2539,39 +3924,34 @@ loc152
 	m20
 	cal0
 	ld2
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
 	xstemits
 	sv2
 	m20
-	lds468
+	lds834
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds474
+	lds841
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds480
+	lds848
 	sv0
 	cal1
 	ld2
-ljp155
-loc154
-	jlc151
-loc155
-loc153
-ljp150
-loc151
+ljp249
+loc248
+	jlc245
+loc249
+loc247
+ljp244
+loc245
 	ldc0
 	ret
 	ret
@@ -2587,18 +3967,13 @@ prcp2
 	m10
 	ld0
 	equ
-	ljz156
+	ljz250
 	ldc1
 	ret
-loc156
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
-loc158
+loc250
+loc252
 	ldc1
-	ljz159
+	ljz253
 	xfp8
 	sv0
 	xstpeek
@@ -2611,27 +3986,21 @@ loc158
 	xfp8
 	drf
 	sv0
-	ldc61
+	xstTOKEQUEQU
+	drf
 	m10
 	ld0
 	equ
-	ljz160
-	xstnext
+	ljz254
+	xstlex
 	sv2
 	m20
 	cal0
 	ld2
-	xstexpect
-	sv2
-	m20
-	ldc61
-	sv0
-	cal1
-	ld2
 	xstemits
 	sv2
 	m20
-	lds486
+	lds855
 	sv0
 	cal1
 	ld2
@@ -2640,58 +4009,47 @@ loc158
 	m20
 	cal0
 	ld2
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
 	xstemits
 	sv2
 	m20
-	lds492
+	lds862
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds498
+	lds869
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds504
+	lds876
 	sv0
 	cal1
 	ld2
-ljp161
-loc160
+ljp255
+loc254
 	xfp8
 	drf
 	sv0
-	ldc33
+	xstTOKEXCLEQU
+	drf
 	m10
 	ld0
 	equ
-	ljz162
-	xstnext
+	ljz256
+	xstlex
 	sv2
 	m20
 	cal0
 	ld2
-	xstexpect
-	sv2
-	m20
-	ldc61
-	sv0
-	cal1
-	ld2
 	xstemits
 	sv2
 	m20
-	lds510
+	lds883
 	sv0
 	cal1
 	ld2
@@ -2700,102 +4058,47 @@ loc160
 	m20
 	cal0
 	ld2
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
 	xstemits
 	sv2
 	m20
-	lds516
+	lds890
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds522
+	lds897
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds528
+	lds904
 	sv0
 	cal1
 	ld2
-ljp163
-loc162
+ljp257
+loc256
 	xfp8
 	drf
 	sv0
-	ldc60
+	xstTOKLESS
+	drf
 	m10
 	ld0
 	equ
-	ljz164
-	xstnext
+	ljz258
+	xstlex
 	sv2
 	m20
 	cal0
 	ld2
-	xfp16
-	sv0
-	ldc0
-	ld1
-	erf
-	xstpeek
-	sv2
-	m20
-	cal0
-	ld2
-	sv0
-	ldc61
-	m10
-	ld0
-	equ
-	ljz165
-	xfp16
-	sv0
-	ldc1
-	ld1
-	erf
-	xstnext
-	sv2
-	m20
-	cal0
-	ld2
-ljp166
-loc165
-	xstpeek
-	sv2
-	m20
-	cal0
-	ld2
-	sv0
-	ldc60
-	m10
-	ld0
-	equ
-	ljz167
-	xfp16
-	sv0
-	ldc2
-	ld1
-	erf
-	xstnext
-	sv2
-	m20
-	cal0
-	ld2
-loc167
-loc166
 	xstemits
 	sv2
 	m20
-	lds534
+	lds911
 	sv0
 	cal1
 	ld2
@@ -2804,138 +4107,47 @@ loc166
 	m20
 	cal0
 	ld2
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
 	xstemits
 	sv2
 	m20
-	lds540
+	lds918
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds546
+	lds925
 	sv0
 	cal1
 	ld2
-	xfp16
-	drf
-	sv0
-	ldc2
-	m10
-	ld0
-	equ
-	ljz169
 	xstemits
 	sv2
 	m20
-	lds552
+	lds932
 	sv0
 	cal1
 	ld2
-ljp170
-loc169
-	xfp16
-	drf
-	sv0
-	ldc1
-	m10
-	ld0
-	equ
-	ljz171
-	xstemits
-	sv2
-	m20
-	lds558
-	sv0
-	cal1
-	ld2
-ljp172
-loc171
-	xstemits
-	sv2
-	m20
-	lds564
-	sv0
-	cal1
-	ld2
-loc172
-loc170
-ljp173
-loc164
+ljp259
+loc258
 	xfp8
 	drf
 	sv0
-	ldc62
+	xstTOKLESSEQU
+	drf
 	m10
 	ld0
 	equ
-	ljz174
-	xstnext
+	ljz260
+	xstlex
 	sv2
 	m20
 	cal0
 	ld2
-	xfp16
-	sv0
-	ldc0
-	ld1
-	erf
-	xstpeek
-	sv2
-	m20
-	cal0
-	ld2
-	sv0
-	ldc61
-	m10
-	ld0
-	equ
-	ljz175
-	xfp16
-	sv0
-	ldc1
-	ld1
-	erf
-	xstnext
-	sv2
-	m20
-	cal0
-	ld2
-ljp176
-loc175
-	xstpeek
-	sv2
-	m20
-	cal0
-	ld2
-	sv0
-	ldc62
-	m10
-	ld0
-	equ
-	ljz177
-	xfp16
-	sv0
-	ldc2
-	ld1
-	erf
-	xstnext
-	sv2
-	m20
-	cal0
-	ld2
-loc177
-loc176
 	xstemits
 	sv2
 	m20
-	lds570
+	lds939
 	sv0
 	cal1
 	ld2
@@ -2944,7 +4156,39 @@ loc176
 	m20
 	cal0
 	ld2
-	xstwhitespace
+	xstemits
+	sv2
+	m20
+	lds946
+	sv0
+	cal1
+	ld2
+	xstemits
+	sv2
+	m20
+	lds953
+	sv0
+	cal1
+	ld2
+	xstemits
+	sv2
+	m20
+	lds960
+	sv0
+	cal1
+	ld2
+ljp261
+loc260
+	xfp8
+	drf
+	sv0
+	xstTOKLESSLESS
+	drf
+	m10
+	ld0
+	equ
+	ljz262
+	xstlex
 	sv2
 	m20
 	cal0
@@ -2952,69 +4196,196 @@ loc176
 	xstemits
 	sv2
 	m20
-	lds576
+	lds967
+	sv0
+	cal1
+	ld2
+	xstp3
+	sv2
+	m20
+	cal0
+	ld2
+	xstemits
+	sv2
+	m20
+	lds974
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds582
+	lds981
 	sv0
 	cal1
 	ld2
-	xfp16
+	xstemits
+	sv2
+	m20
+	lds988
+	sv0
+	cal1
+	ld2
+ljp263
+loc262
+	xfp8
 	drf
 	sv0
-	ldc2
+	xstTOKGRET
+	drf
 	m10
 	ld0
 	equ
-	ljz179
+	ljz264
+	xstlex
+	sv2
+	m20
+	cal0
+	ld2
 	xstemits
 	sv2
 	m20
-	lds588
+	lds995
 	sv0
 	cal1
 	ld2
-ljp180
-loc179
-	xfp16
+	xstp3
+	sv2
+	m20
+	cal0
+	ld2
+	xstemits
+	sv2
+	m20
+	lds1002
+	sv0
+	cal1
+	ld2
+	xstemits
+	sv2
+	m20
+	lds1009
+	sv0
+	cal1
+	ld2
+	xstemits
+	sv2
+	m20
+	lds1016
+	sv0
+	cal1
+	ld2
+ljp265
+loc264
+	xfp8
 	drf
 	sv0
-	ldc1
+	xstTOKGRETEQU
+	drf
 	m10
 	ld0
 	equ
-	ljz181
+	ljz266
+	xstlex
+	sv2
+	m20
+	cal0
+	ld2
 	xstemits
 	sv2
 	m20
-	lds594
+	lds1023
 	sv0
 	cal1
 	ld2
-ljp182
-loc181
+	xstp3
+	sv2
+	m20
+	cal0
+	ld2
 	xstemits
 	sv2
 	m20
-	lds600
+	lds1030
 	sv0
 	cal1
 	ld2
-loc182
-loc180
-ljp183
-loc174
-	jlc159
-loc183
-loc173
-loc163
-loc161
-ljp158
-loc159
+	xstemits
+	sv2
+	m20
+	lds1037
+	sv0
+	cal1
+	ld2
+	xstemits
+	sv2
+	m20
+	lds1044
+	sv0
+	cal1
+	ld2
+ljp267
+loc266
+	xfp8
+	drf
+	sv0
+	xstTOKGRETGRET
+	drf
+	m10
+	ld0
+	equ
+	ljz268
+	xstlex
+	sv2
+	m20
+	cal0
+	ld2
+	xstemits
+	sv2
+	m20
+	lds1051
+	sv0
+	cal1
+	ld2
+	xstp3
+	sv2
+	m20
+	cal0
+	ld2
+	xstemits
+	sv2
+	m20
+	lds1058
+	sv0
+	cal1
+	ld2
+	xstemits
+	sv2
+	m20
+	lds1065
+	sv0
+	cal1
+	ld2
+	xstemits
+	sv2
+	m20
+	lds1072
+	sv0
+	cal1
+	ld2
+ljp269
+loc268
+	jlc253
+loc269
+loc267
+loc265
+loc263
+loc261
+loc259
+loc257
+loc255
+ljp252
+loc253
 	ldc0
 	ret
 	ret
@@ -3030,11 +4401,11 @@ prcp1
 	m10
 	ld0
 	equ
-	ljz184
+	ljz270
 	xstemits
 	sv2
 	m20
-	lds606
+	lds1079
 	sv0
 	cal1
 	ld2
@@ -3046,109 +4417,20 @@ prcp1
 	xstemits
 	sv2
 	m20
-	lds612
+	lds1086
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds618
+	lds1093
 	sv0
 	cal1
 	ld2
 	ldc0
 	ret
-loc184
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
-loc186
-	ldc1
-	ljz187
-	xfp8
-	sv0
-	xstpeek
-	sv2
-	m20
-	cal0
-	ld2
-	ld1
-	erf
-	xfp8
-	drf
-	sv0
-	ldc58
-	m10
-	ld0
-	equ
-	ljz188
-	xstnext
-	sv2
-	m20
-	cal0
-	ld2
-	xstemits
-	sv2
-	m20
-	lds624
-	sv0
-	cal1
-	ld2
-	xstlexpr
-	sv2
-	m20
-	cal0
-	ld2
-	lnt
-	ljz189
-	xstfprintf
-	sv2
-	m20
-	xststderr
-	drf
-	sv0
-	lds630
-	sv0
-	cal2
-	ld2
-	xstexit
-	sv2
-	m20
-	ldc1
-	sv0
-	cal1
-	ld2
-loc189
-	xstemits
-	sv2
-	m20
-	lds752
-	sv0
-	cal1
-	ld2
-	xstemits
-	sv2
-	m20
-	lds758
-	sv0
-	cal1
-	ld2
-	xstemits
-	sv2
-	m20
-	lds764
-	sv0
-	cal1
-	ld2
-ljp191
-loc188
-	jlc187
-loc191
-ljp186
-loc187
+loc270
 	ret
 prcexpr
 	alc16
@@ -3158,252 +4440,9 @@ prcexpr
 	cal0
 	ld2
 	ret
-rsw 1*addrcnt
-prctryword
-	mfs8:0
-	alc48
-	xfp24
-	sv0
-	xfp8
-	drf
-	ld1
-	erf
-	xfp16
-	sv0
-	xstpeek
-	sv2
-	m20
-	cal0
-	ld2
-	ld1
-	erf
-	xfp16
-	drf
-	sv0
-	xstBlchar
-	sv2
-	m20
-	xfp8
-	drf
-	sv0
-	cal1
-	ld2
-	m10
-	ld0
-	neq
-	ljz192
-	ldc0
-	ret
-loc192
-	xfp24
-	sv0
-	xfp24
-	drf
-	sv0
-	ldc1
-	m10
-	ld0
-	add
-	ld1
-	erf
-	xstnext
-	sv2
-	m20
-	cal0
-	ld2
-loc194
-	xstBlchar
-	sv2
-	m20
-	xfp24
-	drf
-	sv0
-	cal1
-	ld2
-	ljz195
-	xfp16
-	sv0
-	xstpeek
-	sv2
-	m20
-	cal0
-	ld2
-	ld1
-	erf
-	xfp16
-	drf
-	sv0
-	xstBlchar
-	sv2
-	m20
-	xfp24
-	drf
-	sv0
-	cal1
-	ld2
-	m10
-	ld0
-	neq
-	ljz196
-	xfp32
-	sv0
-	xfp8
-	drf
-	ld1
-	erf
-loc197
-	xfp32
-	drf
-	sv0
-	xfp24
-	drf
-	m10
-	ld0
-	ubi
-	ljz198
-	xstpush
-	sv2
-	m20
-	xfp32
-	drf
-	drf
-	sv0
-	cal1
-	ld2
-	xfp32
-	sv0
-	xfp32
-	drf
-	sv0
-	ldc1
-	m10
-	ld0
-	add
-	ld1
-	erf
-ljp197
-loc198
-	xstpush
-	sv2
-	m20
-	xfp16
-	drf
-	sv0
-	cal1
-	ld2
-	xstnext
-	sv2
-	m20
-	cal0
-	ld2
-	ldc0
-	ret
-loc196
-	xfp24
-	sv0
-	xfp24
-	drf
-	sv0
-	ldc1
-	m10
-	ld0
-	add
-	ld1
-	erf
-	xstnext
-	sv2
-	m20
-	cal0
-	ld2
-ljp194
-loc195
-	xfp16
-	sv0
-	xstpeek
-	sv2
-	m20
-	cal0
-	ld2
-	ld1
-	erf
-	xstisalnum
-	sv2
-	m20
-	xfp16
-	drf
-	sv0
-	cal1
-	ld2
-	ljz200
-	xfp32
-	sv0
-	xfp8
-	drf
-	ld1
-	erf
-loc201
-	xfp32
-	drf
-	sv0
-	xfp24
-	drf
-	m10
-	ld0
-	ubi
-	ljz202
-	xstpush
-	sv2
-	m20
-	xfp32
-	drf
-	drf
-	sv0
-	cal1
-	ld2
-	xfp32
-	sv0
-	xfp32
-	drf
-	sv0
-	ldc1
-	m10
-	ld0
-	add
-	ld1
-	erf
-ljp201
-loc202
-	xstpush
-	sv2
-	m20
-	xfp16
-	drf
-	sv0
-	cal1
-	ld2
-	xstnext
-	sv2
-	m20
-	cal0
-	ld2
-	ldc0
-	ret
-loc200
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
-	ldc1
-	ret
-	ret
+rsw1*addrcnt
 prcstmt
 	alc64
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
 	xfp8
 	sv0
 	xstpeek
@@ -3416,66 +4455,64 @@ prcstmt
 	xfp8
 	drf
 	sv0
-	ldc123
+	xstTOKLBRACE
+	drf
 	m10
 	ld0
 	equ
-	ljz204
-	xstnext
+	ljz272
+	xstlex
 	sv2
 	m20
 	cal0
 	ld2
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
-loc205
+loc273
 	xstpeek
 	sv2
 	m20
 	cal0
 	ld2
 	sv0
-	ldc125
+	xstTOKRBRACE
+	drf
 	m10
 	ld0
 	neq
-	ljz206
+	ljz274
 	xststmt
 	sv2
 	m20
 	cal0
 	ld2
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
-ljp205
-loc206
-	xstnext
+ljp273
+loc274
+	xstlex
 	sv2
 	m20
 	cal0
 	ld2
 	ldc0
 	ret
-ljp207
-loc204
-	xsttryword
+ljp275
+loc272
+	xfp8
+	drf
+	sv0
+	xstTOKKWCONTINUE
+	drf
+	m10
+	ld0
+	equ
+	ljz276
+	xstlex
 	sv2
 	m20
-	lds770
-	sv0
-	cal1
+	cal0
 	ld2
-	ljz208
 	xstemits
 	sv2
 	m20
-	lds779
+	lds1100
 	sv0
 	cal1
 	ld2
@@ -3497,26 +4534,33 @@ loc204
 	xstexpect
 	sv2
 	m20
-	ldc59
+	xstTOKSEMI
+	drf
 	sv0
 	cal1
 	ld2
 	ldc0
 	ret
-ljp209
-loc208
-	xsttryword
+ljp277
+loc276
+	xfp8
+	drf
+	sv0
+	xstTOKKWBREAK
+	drf
+	m10
+	ld0
+	equ
+	ljz278
+	xstlex
 	sv2
 	m20
-	lds784
-	sv0
-	cal1
+	cal0
 	ld2
-	ljz210
 	xstemits
 	sv2
 	m20
-	lds790
+	lds1106
 	sv0
 	cal1
 	ld2
@@ -3538,22 +4582,29 @@ loc208
 	xstexpect
 	sv2
 	m20
-	ldc59
+	xstTOKSEMI
+	drf
 	sv0
 	cal1
 	ld2
 	ldc0
 	ret
-ljp211
-loc210
-	xsttryword
+ljp279
+loc278
+	xfp8
+	drf
+	sv0
+	xstTOKKWWHILE
+	drf
+	m10
+	ld0
+	equ
+	ljz280
+	xstlex
 	sv2
 	m20
-	lds795
-	sv0
-	cal1
+	cal0
 	ld2
-	ljz212
 	xfp40
 	sv0
 	xstcontinueaddress
@@ -3605,7 +4656,7 @@ loc210
 	xstemits
 	sv2
 	m20
-	lds801
+	lds1112
 	sv0
 	cal1
 	ld2
@@ -3620,7 +4671,7 @@ loc210
 	xstemits
 	sv2
 	m20
-	lds805
+	lds1117
 	sv0
 	cal1
 	ld2
@@ -3632,7 +4683,7 @@ loc210
 	xstemits
 	sv2
 	m20
-	lds807
+	lds1120
 	sv0
 	cal1
 	ld2
@@ -3659,7 +4710,7 @@ loc210
 	xstemits
 	sv2
 	m20
-	lds812
+	lds1126
 	sv0
 	cal1
 	ld2
@@ -3681,7 +4732,7 @@ loc210
 	xstemits
 	sv2
 	m20
-	lds816
+	lds1131
 	sv0
 	cal1
 	ld2
@@ -3696,7 +4747,7 @@ loc210
 	xstemits
 	sv2
 	m20
-	lds820
+	lds1136
 	sv0
 	cal1
 	ld2
@@ -3714,16 +4765,22 @@ loc210
 	erf
 	ldc0
 	ret
-ljp213
-loc212
-	xsttryword
+ljp281
+loc280
+	xfp8
+	drf
+	sv0
+	xstTOKKWRETURN
+	drf
+	m10
+	ld0
+	equ
+	ljz282
+	xstlex
 	sv2
 	m20
-	lds822
-	sv0
-	cal1
+	cal0
 	ld2
-	ljz214
 	xstexpr
 	sv2
 	m20
@@ -3732,34 +4789,36 @@ loc212
 	xstemits
 	sv2
 	m20
-	lds829
+	lds1139
 	sv0
 	cal1
-	ld2
-	xstwhitespace
-	sv2
-	m20
-	cal0
 	ld2
 	xstexpect
 	sv2
 	m20
-	ldc59
+	xstTOKSEMI
+	drf
 	sv0
 	cal1
 	ld2
 	ldc0
 	ret
-ljp215
-loc214
-	xsttryword
+ljp283
+loc282
+	xfp8
+	drf
+	sv0
+	xstTOKKWIF
+	drf
+	m10
+	ld0
+	equ
+	ljz284
+	xstlex
 	sv2
 	m20
-	lds835
-	sv0
-	cal1
+	cal0
 	ld2
-	ljz216
 	xfp16
 	sv0
 	xstaddrcounter
@@ -3785,7 +4844,7 @@ loc214
 	xstemits
 	sv2
 	m20
-	lds838
+	lds1146
 	sv0
 	cal1
 	ld2
@@ -3805,11 +4864,6 @@ loc214
 	cal1
 	ld2
 	xststmt
-	sv2
-	m20
-	cal0
-	ld2
-	xstwhitespace
 	sv2
 	m20
 	cal0
@@ -3825,13 +4879,14 @@ loc214
 	erf
 	xfp32
 	sv0
-	xsttryword
-	sv2
-	m20
-	lds843
+	xfp8
+	drf
 	sv0
-	cal1
-	ld2
+	xstTOKKWELSE
+	drf
+	m10
+	ld0
+	equ
 	ld1
 	erf
 	xfp24
@@ -3853,11 +4908,11 @@ loc214
 	erf
 	xfp32
 	drf
-	ljz217
+	ljz285
 	xstemits
 	sv2
 	m20
-	lds848
+	lds1152
 	sv0
 	cal1
 	ld2
@@ -3876,11 +4931,11 @@ loc214
 	sv0
 	cal1
 	ld2
-loc217
+loc285
 	xstemits
 	sv2
 	m20
-	lds852
+	lds1157
 	sv0
 	cal1
 	ld2
@@ -3895,13 +4950,18 @@ loc217
 	xstemits
 	sv2
 	m20
-	lds856
+	lds1162
 	sv0
 	cal1
 	ld2
 	xfp32
 	drf
-	ljz219
+	ljz287
+	xstlex
+	sv2
+	m20
+	cal0
+	ld2
 	xststmt
 	sv2
 	m20
@@ -3910,7 +4970,7 @@ loc217
 	xstemits
 	sv2
 	m20
-	lds858
+	lds1165
 	sv0
 	cal1
 	ld2
@@ -3925,25 +4985,20 @@ loc217
 	xstemits
 	sv2
 	m20
-	lds862
+	lds1170
 	sv0
 	cal1
 	ld2
-loc219
+loc287
 	ldc0
 	ret
-loc216
-loc215
-loc213
-loc211
-loc209
-loc207
+loc284
+loc283
+loc281
+loc279
+loc277
+loc275
 	xstexpr
-	sv2
-	m20
-	cal0
-	ld2
-	xstwhitespace
 	sv2
 	m20
 	cal0
@@ -3951,21 +5006,17 @@ loc207
 	xstexpect
 	sv2
 	m20
-	ldc59
+	xstTOKSEMI
+	drf
 	sv0
 	cal1
 	ld2
 	ret
 prctop
 	alc64
-loc222
+loc290
 	ldc1
-	ljz223
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
+	ljz291
 	xfp8
 	sv0
 	xstpeek
@@ -3975,148 +5026,42 @@ loc222
 	ld2
 	ld1
 	erf
-	xstisalpha
-	sv2
-	m20
 	xfp8
 	drf
 	sv0
-	cal1
-	ld2
-	ljz224
-	xfp16
-	sv0
-	ldc0
-	ld1
-	erf
-loc225
-	xstisalnum
-	sv2
-	m20
-	xfp8
+	xstTOKKWGLOBAL
 	drf
-	sv0
-	cal1
-	ld2
-	ljz226
-	xstBschar
-	sv2
-	m20
-	xstnamebuffer
-	sv0
-	xfp16
-	drf
-	m10
-	ld0
-	add
-	sv0
-	xfp8
-	drf
-	sv0
-	cal2
-	ld2
-	xfp8
-	sv0
-	xstnext
-	sv2
-	m20
-	cal0
-	ld2
-	ld1
-	erf
-	xfp16
-	sv0
-	xfp16
-	drf
-	sv0
-	ldc1
-	m10
-	ld0
-	add
-	ld1
-	erf
-ljp225
-loc226
-	xstBschar
-	sv2
-	m20
-	xstnamebuffer
-	sv0
-	xfp16
-	drf
-	m10
-	ld0
-	add
-	sv0
-	ldc0
-	sv0
-	cal2
-	ld2
-	xststrcmp
-	sv2
-	m20
-	xstnamebuffer
-	sv0
-	lds864
-	sv0
-	cal2
-	ld2
-	sv0
-	ldc0
 	m10
 	ld0
 	equ
-	ljz227
+	ljz292
+	xstlex
+	sv2
+	m20
+	cal0
+	ld2
 	xstemits
 	sv2
 	m20
-	lds871
+	lds1173
 	sv0
 	cal1
 	ld2
-	xstwhitespace
+	xstlexpect
 	sv2
 	m20
-	cal0
-	ld2
-	xfp8
-	sv0
-	xstpeek
-	sv2
-	m20
-	cal0
-	ld2
-	ld1
-	erf
-loc228
-	xstisalnum
-	sv2
-	m20
-	xfp8
+	xstTOKID
 	drf
 	sv0
 	cal1
 	ld2
-	ljz229
-	xstemit
+	xstemits
 	sv2
 	m20
-	xfp8
-	drf
+	xsttokenstring
 	sv0
 	cal1
 	ld2
-	xfp8
-	sv0
-	xstnext
-	sv2
-	m20
-	cal0
-	ld2
-	ld1
-	erf
-ljp228
-loc229
 	xstemit
 	sv2
 	m20
@@ -4124,73 +5069,49 @@ loc229
 	sv0
 	cal1
 	ld2
-ljp230
-loc227
-	xststrcmp
+	xstlex
 	sv2
 	m20
-	xstnamebuffer
-	sv0
-	lds875
-	sv0
-	cal2
+	cal0
 	ld2
+ljp293
+loc292
+	xfp8
+	drf
 	sv0
-	ldc0
+	xstTOKKWEXTERN
+	drf
 	m10
 	ld0
 	equ
-	ljz231
+	ljz294
+	xstlex
+	sv2
+	m20
+	cal0
+	ld2
 	xstemits
 	sv2
 	m20
-	lds882
+	lds1178
 	sv0
 	cal1
 	ld2
-	xstwhitespace
+	xstlexpect
 	sv2
 	m20
-	cal0
-	ld2
-	xfp8
-	sv0
-	xstpeek
-	sv2
-	m20
-	cal0
-	ld2
-	ld1
-	erf
-loc232
-	xstisalnum
-	sv2
-	m20
-	xfp8
+	xstTOKID
 	drf
 	sv0
 	cal1
 	ld2
-	ljz233
-	xstemit
+	xstemits
 	sv2
 	m20
-	xfp8
-	drf
+	xsttokenstring
 	sv0
 	cal1
 	ld2
-	xfp8
-	sv0
-	xstnext
-	sv2
-	m20
-	cal0
-	ld2
-	ld1
-	erf
-ljp232
-loc233
 	xstemit
 	sv2
 	m20
@@ -4198,175 +5119,23 @@ loc233
 	sv0
 	cal1
 	ld2
-ljp234
-loc231
-	xststrcmp
-	sv2
-	m20
-	xstnamebuffer
-	sv0
-	lds886
-	sv0
-	cal2
-	ld2
-	sv0
-	ldc0
-	m10
-	ld0
-	equ
-	ljz235
-	xstfprintf
-	sv2
-	m20
-	xststderr
-	drf
-	sv0
-	lds893
-	sv0
-	cal2
-	ld2
-	xstexit
-	sv2
-	m20
-	ldc1
-	sv0
-	cal1
-	ld2
-ljp236
-loc235
-	xstpeek
+	xstlex
 	sv2
 	m20
 	cal0
 	ld2
-	sv0
-	ldc59
-	m10
-	ld0
-	equ
-	ljz237
-	xstnext
-	sv2
-	m20
-	cal0
-	ld2
-	xstemits
-	sv2
-	m20
-	lds934
-	sv0
-	cal1
-	ld2
-	xstemits
-	sv2
-	m20
-	xstnamebuffer
-	sv0
-	cal1
-	ld2
-	xstemits
-	sv2
-	m20
-	lds941
-	sv0
-	cal1
-	ld2
-ljp238
-loc237
-	xstpeek
-	sv2
-	m20
-	cal0
-	ld2
-	sv0
-	ldc91
-	m10
-	ld0
-	equ
-	ljz239
-	xfp8
-	sv0
-	xstnext
-	sv2
-	m20
-	cal0
-	ld2
-	ld1
-	erf
-	xstemits
-	sv2
-	m20
-	lds943
-	sv0
-	cal1
-	ld2
+ljp295
+loc294
 	xfp8
 	drf
 	sv0
-	ldc48
+	xstTOKID
+	drf
 	m10
 	ld0
 	equ
-	ljz240
-	xfp8
-	sv0
-	xstnext
-	sv2
-	m20
-	cal0
-	ld2
-	ld1
-	erf
-	xstemits
-	sv2
-	m20
-	lds948
-	sv0
-	cal1
-	ld2
-	xfp8
-	drf
-	sv0
-	ldc120
-	m10
-	ld0
-	equ
-	ljz241
-	xstemits
-	sv2
-	m20
-	lds950
-	sv0
-	cal1
-	ld2
-	xfp8
-	sv0
-	xstnext
-	sv2
-	m20
-	cal0
-	ld2
-	ld1
-	erf
-loc242
-	xstisxdigit
-	sv2
-	m20
-	xfp8
-	drf
-	sv0
-	cal1
-	ld2
-	ljz243
-	xstemit
-	sv2
-	m20
-	xfp8
-	drf
-	sv0
-	cal1
-	ld2
-	xstnext
+	ljz296
+	xstlex
 	sv2
 	m20
 	cal0
@@ -4380,115 +5149,147 @@ loc242
 	ld2
 	ld1
 	erf
-ljp242
-loc243
-loc241
-ljp245
-loc240
-loc246
-	xstisdigit
+	xfp8
+	drf
+	sv0
+	xstTOKSEMI
+	drf
+	m10
+	ld0
+	equ
+	ljz297
+	xstemits
 	sv2
 	m20
+	lds1183
+	sv0
+	cal1
+	ld2
+	xstemits
+	sv2
+	m20
+	xsttokenstring
+	sv0
+	cal1
+	ld2
+	xstemits
+	sv2
+	m20
+	lds1190
+	sv0
+	cal1
+	ld2
+	xstlex
+	sv2
+	m20
+	cal0
+	ld2
+ljp298
+loc297
 	xfp8
+	drf
+	sv0
+	xstTOKLBRACK
+	drf
+	m10
+	ld0
+	equ
+	ljz299
+	xstlex
+	sv2
+	m20
+	cal0
+	ld2
+	xstemits
+	sv2
+	m20
+	lds1193
+	sv0
+	cal1
+	ld2
+	xstemitd
+	sv2
+	m20
+	xsttokenu64
 	drf
 	sv0
 	cal1
 	ld2
-	ljz247
-	xstemit
+	xstemits
 	sv2
 	m20
-	xfp8
+	lds1198
+	sv0
+	cal1
+	ld2
+	xstemits
+	sv2
+	m20
+	xsttokenstring
+	sv0
+	cal1
+	ld2
+	xstexpect
+	sv2
+	m20
+	xstTOKNUM
 	drf
 	sv0
 	cal1
 	ld2
-	xfp8
-	sv0
-	xstnext
-	sv2
-	m20
-	cal0
-	ld2
-	ld1
-	erf
-ljp246
-loc247
-loc245
 	xstexpect
 	sv2
 	m20
-	ldc93
+	xstTOKRBRACK
+	drf
 	sv0
 	cal1
 	ld2
 	xstexpect
 	sv2
 	m20
-	ldc59
+	xstTOKSEMI
+	drf
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds952
+	lds1201
+	sv0
+	cal1
+	ld2
+ljp300
+loc299
+	xstemits
+	sv2
+	m20
+	lds1204
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	xstnamebuffer
+	xsttokenstring
 	sv0
 	cal1
 	ld2
 	xstemits
 	sv2
 	m20
-	lds954
+	lds1209
 	sv0
 	cal1
-	ld2
-ljp248
-loc239
-	xstemits
-	sv2
-	m20
-	lds956
-	sv0
-	cal1
-	ld2
-	xstemits
-	sv2
-	m20
-	xstnamebuffer
-	sv0
-	cal1
-	ld2
-	xstemits
-	sv2
-	m20
-	lds960
-	sv0
-	cal1
-	ld2
-	xstwhitespace
-	sv2
-	m20
-	cal0
 	ld2
 	xstexpect
 	sv2
 	m20
-	ldc40
+	xstTOKLPAR
+	drf
 	sv0
 	cal1
-	ld2
-	xstwhitespace
-	sv2
-	m20
-	cal0
 	ld2
 	xfp32
 	sv0
@@ -4505,7 +5306,7 @@ loc239
 	ldc0
 	ld1
 	erf
-loc249
+loc301
 	xfp16
 	drf
 	sv0
@@ -4513,12 +5314,7 @@ loc249
 	m10
 	ld0
 	ubi
-	ljz250
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
+	ljz302
 	xfp8
 	sv0
 	xstpeek
@@ -4531,44 +5327,14 @@ loc249
 	xfp8
 	drf
 	sv0
-	ldc41
+	xstTOKRPAR
+	drf
 	m10
 	ld0
 	equ
-	ljz251
-	jlc250
-loc251
-	xstisalpha
-	sv2
-	m20
-	xfp8
-	drf
-	sv0
-	cal1
-	ld2
-	lnt
-	ljz253
-	xstfprintf
-	sv2
-	m20
-	xststderr
-	drf
-	sv0
-	lds962
-	sv0
-	xfp8
-	drf
-	sv0
-	cal3
-	ld2
-	xstexit
-	sv2
-	m20
-	ldc1
-	sv0
-	cal1
-	ld2
-loc253
+	ljz303
+	jlc302
+loc303
 	xfp40
 	sv0
 	xstvariables
@@ -4600,17 +5366,15 @@ loc253
 	ldc0
 	ld1
 	erf
-loc255
-	xstisalnum
+	xstlexpect
 	sv2
 	m20
-	xfp8
+	xstTOKID
 	drf
 	sv0
 	cal1
 	ld2
-	ljz256
-	xstBschar
+	xstmemcpy
 	sv2
 	m20
 	xfp40
@@ -4621,59 +5385,16 @@ loc255
 	ld0
 	add
 	sv0
-	xfp24
-	drf
-	m10
-	ld0
-	add
+	xsttokenstring
 	sv0
-	xfp8
-	drf
+	ldc64
 	sv0
-	cal2
+	cal3
 	ld2
-	xfp24
-	sv0
-	xfp24
-	drf
-	sv0
-	ldc1
-	m10
-	ld0
-	add
-	ld1
-	erf
-	xfp8
-	sv0
-	xstnext
+	xstlex
 	sv2
 	m20
 	cal0
-	ld2
-	ld1
-	erf
-ljp255
-loc256
-	xstBschar
-	sv2
-	m20
-	xfp40
-	drf
-	sv0
-	ldc8
-	m10
-	ld0
-	add
-	sv0
-	xfp24
-	drf
-	m10
-	ld0
-	add
-	sv0
-	ldc0
-	sv0
-	cal2
 	ld2
 	xfp32
 	sv0
@@ -4696,7 +5417,7 @@ loc256
 	xstemits
 	sv2
 	m20
-	lds983
+	lds1212
 	sv0
 	cal1
 	ld2
@@ -4711,7 +5432,7 @@ loc256
 	xstemits
 	sv2
 	m20
-	lds988
+	lds1218
 	sv0
 	cal1
 	ld2
@@ -4726,7 +5447,7 @@ loc256
 	xstemits
 	sv2
 	m20
-	lds990
+	lds1221
 	sv0
 	cal1
 	ld2
@@ -4736,14 +5457,15 @@ loc256
 	cal0
 	ld2
 	sv0
-	ldc44
+	xstTOKCOMMA
+	drf
 	m10
 	ld0
 	neq
-	ljz257
-	jlc250
-loc257
-	xstnext
+	ljz305
+	jlc302
+loc305
+	xstlex
 	sv2
 	m20
 	cal0
@@ -4759,27 +5481,15 @@ loc257
 	add
 	ld1
 	erf
-ljp249
-loc250
-	xstwhitespace
-	sv2
-	m20
-	cal0
-	ld2
+ljp301
+loc302
 	xstexpect
 	sv2
 	m20
-	ldc41
+	xstTOKRPAR
+	drf
 	sv0
 	cal1
-	ld2
-loc259
-	ldc1
-	ljz260
-	xstwhitespace
-	sv2
-	m20
-	cal0
 	ld2
 	xfp8
 	sv0
@@ -4793,49 +5503,22 @@ loc259
 	xfp8
 	drf
 	sv0
-	ldc33
+	xstTOKEXCL
+	drf
 	m10
 	ld0
 	equ
-	ljz261
-	xstnext
+	ljz307
+	xstlex
 	sv2
 	m20
 	cal0
 	ld2
-	jlc260
-loc261
-	xstisalpha
-	sv2
-	m20
-	xfp8
-	drf
-	sv0
-	cal1
-	ld2
-	lnt
-	ljz263
-	xstfprintf
-	sv2
-	m20
-	xststderr
-	drf
-	sv0
-	lds992
-	sv0
-	xfp8
-	drf
-	sv0
-	cal3
-	ld2
-	xstexit
-	sv2
-	m20
+ljp308
+loc307
+loc309
 	ldc1
-	sv0
-	cal1
-	ld2
-loc263
+	ljz310
 	xfp40
 	sv0
 	xstvariables
@@ -4867,119 +5550,123 @@ loc263
 	ldc0
 	ld1
 	erf
-loc265
-	xstisalnum
-	sv2
-	m20
 	xfp8
 	drf
 	sv0
-	cal1
-	ld2
-	ljz266
-	xstBschar
+	xstTOKID
+	drf
+	m10
+	ld0
+	neq
+	ljz311
+	xstfprintf
 	sv2
 	m20
-	xfp40
+	xststderr
 	drf
 	sv0
-	ldc8
-	m10
-	ld0
-	add
+	lds1224
 	sv0
-	xfp24
-	drf
-	m10
-	ld0
-	add
-	sv0
-	xfp8
-	drf
-	sv0
-	cal2
-	ld2
-	xfp24
-	sv0
-	xfp24
+	xsttokenrow
 	drf
 	sv0
 	ldc1
 	m10
 	ld0
 	add
+	sv0
+	xsttokencol
+	drf
+	sv0
+	ldc1
+	m10
+	ld0
+	add
+	sv0
+	xfp8
+	drf
+	sv0
+	cal5
+	ld2
+	xstexit
+	sv2
+	m20
+	ldc1
+	sv0
+	cal1
+	ld2
+loc311
+	xstmemcpy
+	sv2
+	m20
+	xfp40
+	drf
+	sv0
+	ldc8
+	m10
+	ld0
+	add
+	sv0
+	xsttokenstring
+	sv0
+	ldc64
+	sv0
+	cal3
+	ld2
+	xfp32
+	sv0
+	xfp32
+	drf
+	sv0
+	ldc8
+	m10
+	ld0
+	add
 	ld1
 	erf
-	xfp8
+	xfp40
+	drf
 	sv0
-	xstnext
+	xfp32
+	drf
+	ld1
+	erf
+	xstlex
 	sv2
 	m20
 	cal0
 	ld2
-	ld1
-	erf
-ljp265
-loc266
-	xstBschar
-	sv2
-	m20
-	xfp40
-	drf
-	sv0
-	ldc8
-	m10
-	ld0
-	add
-	sv0
-	xfp24
-	drf
-	m10
-	ld0
-	add
-	sv0
-	ldc0
-	sv0
-	cal2
-	ld2
-	xfp32
-	sv0
-	xfp32
-	drf
-	sv0
-	ldc8
-	m10
-	ld0
-	add
-	ld1
-	erf
-	xfp40
-	drf
-	sv0
-	xfp32
-	drf
-	ld1
-	erf
 	xstpeek
 	sv2
 	m20
 	cal0
 	ld2
 	sv0
-	ldc44
+	xstTOKCOMMA
+	drf
 	m10
 	ld0
 	neq
-	ljz267
-	jlc260
-loc267
-	xstnext
+	ljz313
+	jlc310
+loc313
+	xstlex
 	sv2
 	m20
 	cal0
 	ld2
-ljp259
-loc260
+	xfp8
+	sv0
+	xstpeek
+	sv2
+	m20
+	cal0
+	ld2
+	ld1
+	erf
+ljp309
+loc310
+loc308
 	xfp32
 	sv0
 	xfp32
@@ -4994,7 +5681,7 @@ loc260
 	xstemits
 	sv2
 	m20
-	lds1013
+	lds1271
 	sv0
 	cal1
 	ld2
@@ -5025,7 +5712,7 @@ loc260
 	xstemits
 	sv2
 	m20
-	lds1018
+	lds1277
 	sv0
 	cal1
 	ld2
@@ -5037,40 +5724,54 @@ loc260
 	xstemits
 	sv2
 	m20
-	lds1020
+	lds1280
 	sv0
 	cal1
 	ld2
-loc248
-loc238
-loc236
-loc234
-loc230
-ljp269
-loc224
+loc300
+loc298
+ljp315
+loc296
 	xfp8
 	drf
 	sv0
-	ldc0xFF
+	xstTOKEOF
+	drf
 	m10
 	ld0
 	equ
-	ljz270
-	jlc223
-ljp271
-loc270
+	ljz316
+	jlc291
+ljp317
+loc316
 	xstfprintf
 	sv2
 	m20
 	xststderr
 	drf
 	sv0
-	lds1026
+	lds1287
 	sv0
 	xfp8
 	drf
 	sv0
-	cal3
+	xsttokenrow
+	drf
+	sv0
+	ldc1
+	m10
+	ld0
+	add
+	sv0
+	xsttokencol
+	drf
+	sv0
+	ldc1
+	m10
+	ld0
+	add
+	sv0
+	cal5
 	ld2
 	xstexit
 	sv2
@@ -5079,10 +5780,12 @@ loc270
 	sv0
 	cal1
 	ld2
-loc271
-loc269
-ljp222
-loc223
+loc317
+loc315
+loc295
+loc293
+ljp290
+loc291
 	ret
 prcusage
 	mfs8:0
@@ -5093,7 +5796,7 @@ prcusage
 	xststderr
 	drf
 	sv0
-	lds1051
+	lds1327
 	sv0
 	xfp8
 	drf
@@ -5106,6 +5809,196 @@ prcmain
 	mfs8:0
 	mfs16:1
 	alc64
+	xstTOKNUM
+	sv0
+	ldc1
+	ld1
+	erf
+	xstTOKSTR
+	sv0
+	ldc2
+	ld1
+	erf
+	xstTOKCHAR
+	sv0
+	ldc3
+	ld1
+	erf
+	xstTOKID
+	sv0
+	ldc4
+	ld1
+	erf
+	xstTOKEOF
+	sv0
+	ldc5
+	ld1
+	erf
+	xstTOKLPAR
+	sv0
+	ldc6
+	ld1
+	erf
+	xstTOKRPAR
+	sv0
+	ldc7
+	ld1
+	erf
+	xstTOKEXCL
+	sv0
+	ldc8
+	ld1
+	erf
+	xstTOKLESS
+	sv0
+	ldc9
+	ld1
+	erf
+	xstTOKGRET
+	sv0
+	ldc10
+	ld1
+	erf
+	xstTOKEQU
+	sv0
+	ldc11
+	ld1
+	erf
+	xstTOKEQUEQU
+	sv0
+	ldc12
+	ld1
+	erf
+	xstTOKSEMI
+	sv0
+	ldc13
+	ld1
+	erf
+	xstTOKASTER
+	sv0
+	ldc14
+	ld1
+	erf
+	xstTOKSLASH
+	sv0
+	ldc15
+	ld1
+	erf
+	xstTOKPLUS
+	sv0
+	ldc16
+	ld1
+	erf
+	xstTOKMINUS
+	sv0
+	ldc17
+	ld1
+	erf
+	xstTOKLBRACK
+	sv0
+	ldc18
+	ld1
+	erf
+	xstTOKRBRACK
+	sv0
+	ldc19
+	ld1
+	erf
+	xstTOKCOMMA
+	sv0
+	ldc20
+	ld1
+	erf
+	xstTOKLBRACE
+	sv0
+	ldc21
+	ld1
+	erf
+	xstTOKRBRACE
+	sv0
+	ldc22
+	ld1
+	erf
+	xstTOKAMPERS
+	sv0
+	ldc23
+	ld1
+	erf
+	xstTOKVTBAR
+	sv0
+	ldc24
+	ld1
+	erf
+	xstTOKPERS
+	sv0
+	ldc25
+	ld1
+	erf
+	xstTOKKWIF
+	sv0
+	ldc26
+	ld1
+	erf
+	xstTOKKWELSE
+	sv0
+	ldc27
+	ld1
+	erf
+	xstTOKKWWHILE
+	sv0
+	ldc28
+	ld1
+	erf
+	xstTOKKWEXTERN
+	sv0
+	ldc29
+	ld1
+	erf
+	xstTOKKWGLOBAL
+	sv0
+	ldc30
+	ld1
+	erf
+	xstTOKKWRETURN
+	sv0
+	ldc31
+	ld1
+	erf
+	xstTOKEXCLEQU
+	sv0
+	ldc32
+	ld1
+	erf
+	xstTOKLESSLESS
+	sv0
+	ldc33
+	ld1
+	erf
+	xstTOKLESSEQU
+	sv0
+	ldc34
+	ld1
+	erf
+	xstTOKGRETEQU
+	sv0
+	ldc35
+	ld1
+	erf
+	xstTOKGRETGRET
+	sv0
+	ldc36
+	ld1
+	erf
+	xstTOKKWBREAK
+	sv0
+	ldc37
+	ld1
+	erf
+	xstTOKKWCONTINUE
+	sv0
+	ldc38
+	ld1
+	erf
 	xfp8
 	drf
 	sv0
@@ -5113,7 +6006,7 @@ prcmain
 	m10
 	ld0
 	ubi
-	ljz272
+	ljz318
 	xstusage
 	sv2
 	m20
@@ -5129,7 +6022,7 @@ prcmain
 	ld2
 	ldc2
 	ret
-loc272
+loc318
 	xfp8
 	sv0
 	xfp8
@@ -5163,7 +6056,7 @@ loc272
 	dar
 	drf
 	sv0
-	lds1089
+	lds1366
 	sv0
 	cal2
 	ld2
@@ -5172,7 +6065,7 @@ loc272
 	m10
 	ld0
 	equ
-	ljz274
+	ljz320
 	xfp8
 	sv0
 	xfp8
@@ -5200,7 +6093,7 @@ loc272
 	ldc1
 	ld1
 	erf
-loc274
+loc320
 	xstinputfile
 	sv0
 	xstfopen
@@ -5214,7 +6107,7 @@ loc274
 	dar
 	drf
 	sv0
-	lds1093
+	lds1371
 	sv0
 	cal2
 	ld2
@@ -5223,14 +6116,14 @@ loc274
 	xstinputfile
 	drf
 	lnt
-	ljz276
+	ljz322
 	xstfprintf
 	sv2
 	m20
 	xststderr
 	drf
 	sv0
-	lds1096
+	lds1375
 	sv0
 	xfp16
 	drf
@@ -5257,7 +6150,7 @@ loc274
 	ld2
 	ldc2
 	ret
-loc276
+loc322
 	xstoutputfile
 	sv0
 	xstfopen
@@ -5271,7 +6164,7 @@ loc276
 	dar
 	drf
 	sv0
-	lds1120
+	lds1400
 	sv0
 	cal2
 	ld2
@@ -5280,14 +6173,14 @@ loc276
 	xstoutputfile
 	drf
 	lnt
-	ljz278
+	ljz324
 	xstfprintf
 	sv2
 	m20
 	xststderr
 	drf
 	sv0
-	lds1123
+	lds1404
 	sv0
 	xfp16
 	drf
@@ -5314,7 +6207,7 @@ loc276
 	ld2
 	ldc2
 	ret
-loc278
+loc324
 	xfp8
 	sv0
 	xfp8
@@ -5345,7 +6238,7 @@ loc278
 	xstemits
 	sv2
 	m20
-	lds1147
+	lds1429
 	sv0
 	cal1
 	ld2
@@ -5372,7 +6265,7 @@ loc278
 	ldc1
 	ld1
 	erf
-loc280
+loc326
 	xfp24
 	drf
 	sv0
@@ -5381,11 +6274,11 @@ loc280
 	m10
 	ld0
 	ubi
-	ljz281
+	ljz327
 	xstemits
 	sv2
 	m20
-	lds1151
+	lds1434
 	sv0
 	cal1
 	ld2
@@ -5419,12 +6312,12 @@ loc280
 	add
 	ld1
 	erf
-ljp280
-loc281
+ljp326
+loc327
 	xstemits
 	sv2
 	m20
-	lds1153
+	lds1437
 	sv0
 	cal1
 	ld2
@@ -5446,4 +6339,4 @@ loc281
 	ld2
 	ldc0
 	ret
-str37,99,0,37,99,0,37,115,0,37,122,117,0,69,120,112,101,99,116,101,100,32,39,37,99,39,40,37,100,41,32,98,117,116,32,103,111,116,32,39,37,99,39,40,37,100,41,10,0,73,110,118,97,108,105,100,32,104,101,120,97,100,101,99,105,109,97,108,32,100,105,103,105,116,58,32,39,92,37,99,39,10,0,73,110,118,97,108,105,100,32,104,101,120,97,100,101,99,105,109,97,108,32,100,105,103,105,116,58,32,39,92,37,99,39,10,0,73,110,118,97,108,105,100,32,101,115,99,97,112,101,32,99,111,100,101,58,32,39,92,37,99,39,10,0,9,120,102,112,0,10,0,9,120,115,116,0,10,0,9,100,114,102,10,0,9,115,118,48,10,0,9,108,100,49,10,0,9,100,97,114,10,0,9,108,100,99,0,48,0,120,0,10,0,9,108,100,99,0,10,0,9,108,100,115,0,10,0,73,110,118,97,108,105,100,32,112,114,105,109,97,114,121,32,101,120,112,114,101,115,115,105,111,110,58,32,39,37,99,39,10,0,9,115,118,50,10,0,9,109,50,48,10,0,9,115,118,48,10,0,9,99,97,108,0,9,108,100,50,10,0,9,100,114,102,10,0,9,110,111,116,10,0,9,110,101,103,10,0,9,108,110,116,10,0,9,115,118,48,10,0,9,109,49,48,10,0,9,108,100,48,10,0,9,97,110,100,10,0,9,115,118,48,10,0,9,109,49,48,10,0,9,108,100,48,10,0,9,111,114,10,0,9,115,118,48,10,0,9,109,49,48,10,0,9,108,100,48,10,0,9,120,111,114,10,0,9,115,118,48,10,0,9,109,49,48,10,0,9,108,100,48,10,0,9,109,117,108,10,0,9,115,118,48,10,0,9,109,49,48,10,0,9,108,100,48,10,0,9,100,105,118,10,0,9,115,118,48,10,0,9,109,49,48,10,0,9,108,100,48,10,0,9,114,101,109,10,0,9,115,118,48,10,0,9,109,49,48,10,0,9,108,100,48,10,0,9,97,100,100,10,0,9,115,118,48,10,0,9,109,49,48,10,0,9,108,100,48,10,0,9,115,117,98,10,0,9,115,118,48,10,0,9,109,49,48,10,0,9,108,100,48,10,0,9,101,113,117,10,0,9,115,118,48,10,0,9,109,49,48,10,0,9,108,100,48,10,0,9,110,101,113,10,0,9,115,118,48,10,0,9,109,49,48,10,0,9,108,100,48,10,0,9,115,104,108,10,0,9,117,98,101,10,0,9,117,98,105,10,0,9,115,118,48,10,0,9,109,49,48,10,0,9,108,100,48,10,0,9,115,104,114,10,0,9,117,97,101,10,0,9,117,97,105,10,0,9,115,118,48,10,0,9,108,100,49,10,0,9,101,114,102,10,0,9,115,118,48,10,0,69,120,112,101,99,116,101,100,32,108,101,120,112,114,32,111,110,32,114,105,103,104,116,32,104,97,110,100,32,115,105,100,101,32,111,102,32,116,104,101,32,114,101,118,101,114,115,101,32,97,115,115,105,103,110,109,101,110,116,46,10,77,97,121,98,101,32,121,111,117,32,115,104,111,117,108,100,32,99,111,110,115,105,100,101,114,32,110,111,116,32,117,115,105,110,103,32,97,32,100,101,99,114,101,99,97,116,101,100,32,102,101,97,116,117,114,101,63,33,33,10,0,9,108,100,49,10,0,9,101,114,102,10,0,9,109,48,49,10,0,99,111,110,116,105,110,117,101,0,9,106,108,99,0,98,114,101,97,107,0,9,106,108,99,0,119,104,105,108,101,0,108,111,99,0,10,0,9,108,106,122,0,108,106,112,0,108,111,99,0,10,0,114,101,116,117,114,110,0,9,114,101,116,10,0,105,102,0,9,108,106,122,0,101,108,115,101,0,108,106,112,0,108,111,99,0,10,0,108,111,99,0,10,0,103,108,111,98,97,108,0,103,108,98,0,101,120,116,101,114,110,0,101,120,116,0,105,109,112,111,114,116,0,105,109,112,111,114,116,105,110,103,32,115,116,117,102,102,32,105,115,32,110,111,116,32,105,109,112,108,101,109,101,110,116,101,100,32,121,101,116,46,10,0,114,115,119,32,49,42,0,10,0,114,115,119,32,0,48,0,120,0,42,0,10,0,112,114,99,0,10,0,66,97,100,32,99,104,97,114,97,99,116,101,114,58,32,39,37,99,39,10,0,9,109,102,115,0,58,0,10,0,66,97,100,32,99,104,97,114,97,99,116,101,114,58,32,39,37,99,39,10,0,9,97,108,99,0,10,0,9,114,101,116,10,0,73,110,118,97,108,105,100,32,115,116,97,116,101,109,101,110,116,58,32,39,37,99,39,10,0,85,115,97,103,101,58,32,37,115,32,91,45,112,112,93,32,105,110,112,117,116,45,99,111,100,101,32,111,117,116,112,117,116,45,105,114,10,0,45,112,112,0,114,98,0,70,97,105,108,101,100,32,116,111,32,111,112,101,110,58,32,37,115,58,32,37,115,10,0,119,98,0,70,97,105,108,101,100,32,116,111,32,111,112,101,110,58,32,37,115,58,32,37,115,10,0,115,116,114,0,44,0,10,0
+str0,66,97,100,32,99,111,100,101,58,32,101,120,112,101,99,116,101,100,32,39,92,39,39,32,97,116,32,37,100,44,37,100,32,98,117,116,32,103,111,116,32,39,37,99,39,10,0,0,66,97,100,32,99,111,100,101,58,32,110,97,109,101,32,105,115,32,116,111,111,32,108,111,110,103,32,97,116,32,37,100,44,37,100,10,0,0,105,102,0,0,101,108,115,101,0,0,119,104,105,108,101,0,0,101,120,116,101,114,110,0,0,103,108,111,98,97,108,0,0,114,101,116,117,114,110,0,0,98,114,101,97,107,0,0,99,111,110,116,105,110,117,101,0,0,66,97,100,32,99,111,100,101,58,32,99,104,97,114,97,99,116,101,114,32,39,37,99,39,32,97,116,32,37,100,44,37,100,32,119,97,115,32,117,110,101,120,112,101,99,116,101,100,10,0,0,37,99,0,0,37,99,0,0,37,115,0,0,37,122,117,0,0,69,120,112,101,99,116,101,100,32,116,111,107,101,110,32,39,88,88,88,39,40,37,100,41,32,97,116,32,37,100,44,37,100,32,98,117,116,32,103,111,116,32,39,88,88,88,39,40,37,100,41,10,0,0,76,69,120,112,101,99,116,101,100,32,116,111,107,101,110,32,39,88,88,88,39,40,37,100,41,32,97,116,32,37,100,44,37,100,32,98,117,116,32,103,111,116,32,39,88,88,88,39,40,37,100,41,10,0,0,73,110,118,97,108,105,100,32,104,101,120,97,100,101,99,105,109,97,108,32,100,105,103,105,116,58,32,39,92,37,99,39,32,97,116,32,37,100,44,37,100,10,0,0,73,110,118,97,108,105,100,32,104,101,120,97,100,101,99,105,109,97,108,32,100,105,103,105,116,58,32,39,92,37,99,39,32,97,116,32,37,100,44,37,100,10,0,0,73,110,118,97,108,105,100,32,101,115,99,97,112,101,32,99,111,100,101,58,32,39,92,37,99,39,32,97,116,32,37,100,44,37,100,10,0,0,9,120,102,112,0,0,10,0,0,9,120,115,116,0,0,10,0,0,9,100,114,102,10,0,0,9,115,118,48,10,0,0,9,108,100,49,10,0,0,9,100,97,114,10,0,0,9,108,100,99,0,0,10,0,0,9,108,100,99,0,0,10,0,0,9,108,100,115,0,0,10,0,0,73,110,118,97,108,105,100,32,112,114,105,109,97,114,121,32,101,120,112,114,101,115,115,105,111,110,58,32,39,88,88,88,39,40,37,100,41,32,97,116,32,37,100,44,37,100,10,0,0,9,115,118,50,10,0,0,9,109,50,48,10,0,0,9,115,118,48,10,0,0,9,99,97,108,0,0,9,108,100,50,10,0,0,9,100,114,102,10,0,0,9,110,111,116,10,0,0,9,110,101,103,10,0,0,9,108,110,116,10,0,0,9,115,118,48,10,0,0,9,109,49,48,10,0,0,9,108,100,48,10,0,0,9,97,110,100,10,0,0,9,115,118,48,10,0,0,9,109,49,48,10,0,0,9,108,100,48,10,0,0,9,111,114,10,0,0,9,115,118,48,10,0,0,9,109,49,48,10,0,0,9,108,100,48,10,0,0,9,120,111,114,10,0,0,9,115,118,48,10,0,0,9,109,49,48,10,0,0,9,108,100,48,10,0,0,9,109,117,108,10,0,0,9,115,118,48,10,0,0,9,109,49,48,10,0,0,9,108,100,48,10,0,0,9,100,105,118,10,0,0,9,115,118,48,10,0,0,9,109,49,48,10,0,0,9,108,100,48,10,0,0,9,114,101,109,10,0,0,9,115,118,48,10,0,0,9,109,49,48,10,0,0,9,108,100,48,10,0,0,9,97,100,100,10,0,0,9,115,118,48,10,0,0,9,109,49,48,10,0,0,9,108,100,48,10,0,0,9,115,117,98,10,0,0,9,115,118,48,10,0,0,9,109,49,48,10,0,0,9,108,100,48,10,0,0,9,101,113,117,10,0,0,9,115,118,48,10,0,0,9,109,49,48,10,0,0,9,108,100,48,10,0,0,9,110,101,113,10,0,0,9,115,118,48,10,0,0,9,109,49,48,10,0,0,9,108,100,48,10,0,0,9,117,98,105,10,0,0,9,115,118,48,10,0,0,9,109,49,48,10,0,0,9,108,100,48,10,0,0,9,117,98,101,10,0,0,9,115,118,48,10,0,0,9,109,49,48,10,0,0,9,108,100,48,10,0,0,9,115,104,108,10,0,0,9,115,118,48,10,0,0,9,109,49,48,10,0,0,9,108,100,48,10,0,0,9,117,97,105,10,0,0,9,115,118,48,10,0,0,9,109,49,48,10,0,0,9,108,100,48,10,0,0,9,117,97,101,10,0,0,9,115,118,48,10,0,0,9,109,49,48,10,0,0,9,108,100,48,10,0,0,9,115,104,114,10,0,0,9,115,118,48,10,0,0,9,108,100,49,10,0,0,9,101,114,102,10,0,0,9,106,108,99,0,0,9,106,108,99,0,0,108,111,99,0,0,10,0,0,9,108,106,122,0,0,108,106,112,0,0,108,111,99,0,0,10,0,0,9,114,101,116,10,0,0,9,108,106,122,0,0,108,106,112,0,0,108,111,99,0,0,10,0,0,108,111,99,0,0,10,0,0,103,108,98,0,0,101,120,116,0,0,114,115,119,49,42,0,0,10,0,0,114,115,119,0,0,42,0,0,10,0,0,112,114,99,0,0,10,0,0,9,109,102,115,0,0,58,0,0,10,0,0,69,120,112,101,99,116,101,100,32,116,111,107,101,110,32,73,68,32,97,116,32,37,100,44,37,100,32,98,117,116,32,103,111,116,32,39,88,88,88,39,40,37,100,41,10,0,0,9,97,108,99,0,0,10,0,0,9,114,101,116,10,0,0,73,110,118,97,108,105,100,32,115,116,97,116,101,109,101,110,116,58,32,39,88,88,88,39,40,37,100,41,32,97,116,32,37,100,44,37,100,10,0,0,85,115,97,103,101,58,32,37,115,32,91,45,112,112,93,32,105,110,112,117,116,45,99,111,100,101,32,111,117,116,112,117,116,45,105,114,10,0,0,45,112,112,0,0,114,98,0,0,70,97,105,108,101,100,32,116,111,32,111,112,101,110,58,32,37,115,58,32,37,115,10,0,0,119,98,0,0,70,97,105,108,101,100,32,116,111,32,111,112,101,110,58,32,37,115,58,32,37,115,10,0,0,115,116,114,0,0,44,0,0,10,0
