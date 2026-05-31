@@ -20,6 +20,7 @@ extern execvp
 extern waitpid
 extern memmove
 extern strlen
+extern abort
 
 variables[160]; /* variable[0] - frame_offset;
                    variable[1]..variable[4] - name (ascii);
@@ -313,6 +314,8 @@ lex() c, i {
             tokenkind = TOKKWBREAK;
         else if !strcmp(&tokenstring, "continue")
             tokenkind = TOKKWCONTINUE;
+        else if !strcmp(&tokenstring, "BIRDSFALLAPART")
+            abort();
     }
     else {
         fprintf(stderr, "Bad code: character '%c' at %d,%d was unexpected\n", tokenrow+1, tokencol+1, c);
