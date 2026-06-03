@@ -114,8 +114,6 @@ int main(int argc, char **argv) {
 
     fprintf(fptr,
         "extern __errno_location\n"
-        "getErrno:\n"
-        "\tjmp __errno_location\n"
         "Blchar:\n"
         "\tmov r10b, [rdi]\n"
         "\tmovzx rax, r10b\n"

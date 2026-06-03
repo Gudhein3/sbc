@@ -118,7 +118,12 @@ lex() c, i {
             tokenu64 = 0;
             cnext();
             c = cpeek();
-            while isxdigit(c) {
+            while {
+                while c == '_' {
+                    c = cnext();
+                }
+                isxdigit(c);
+            } {
                 tokenu64 = tokenu64 * 16 +
                     {
                         if c <= '9' c - '0';
@@ -132,7 +137,12 @@ lex() c, i {
         else {
             // octal
             tokenu64 = 0;
-            while isdigit(c) {
+            while {
+                while c == '_' {
+                    c = cnext();
+                }
+                isdigit(c);
+            } {
                 tokenu64 = tokenu64 * 8 + c - '0';
                 c = cnext();
                 i = i + 1;
@@ -356,16 +366,21 @@ lex() c, i {
     else if isdigit(c) {
         tokenkind = TOKNUM;
         tokenu64 = 0;
-        while isdigit(c) {
+        while {
+            while c == '_' {
+                c = cnext();
+            }
+            isdigit(c);
+        } {
             tokenu64 = tokenu64 * 10 + c - '0';
             c = cnext();
             i = i + 1;
         }
     }
-    else if isalpha(c) {
+    else if isalpha(c) | (c == '_') {
         tokenkind = TOKID;
         i = 0;
-        while isalnum(c) {
+        while isalnum(c) | (c == '_') {
             if i > 1024 { // NOTE: Hardcoded
                 fprintf(stderr, "Bad code: name is too long at %d,%d\n", tokenrow+1, tokencol+1);
                 exit(1);
@@ -1261,12 +1276,12 @@ main(argc, argv) i, pid, status {
     }
     inputfile = fopen(argv[0], "rb");
     if !inputfile {
-        fprintf(stderr, "Failed to open: %s: %s\n", argv[0], strerror(*getErrno()));
+        fprintf(stderr, "Failed to open: %s: %s\n", argv[0], strerror(*__errno_location()));
         return 2;
     }
     outputfile = fopen(argv[1], "wb");
     if !outputfile {
-        fprintf(stderr, "Failed to open: %s: %s\n", argv[1], strerror(*getErrno()));
+        fprintf(stderr, "Failed to open: %s: %s\n", argv[1], strerror(*__errno_location()));
         return 2;
     }
     argc = argc - 2;argv = argv + 16;
