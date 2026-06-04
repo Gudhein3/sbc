@@ -2,6 +2,8 @@ extern printf
 extern fprintf
 extern stderr
 extern atoi
+extern sin
+
 
 fact(n)!
     if n <= 0
@@ -15,7 +17,7 @@ usage(prog)!
 arr[5];
 
 global main
-main(argc, argv) max, x, y, z {
+main(argc, argv) max, x, y, z, pi {
     fprintf(stderr, "Aboba\n");
     x = 1;
     y = 2;
@@ -104,6 +106,11 @@ main(argc, argv) max, x, y, z {
     printf("*++x = %d;x = %d\n", *++x, x);
     printf("++*x = %d;x = %d\n", ++*x, x);
     printf("*x = %d\n", *x);
+
+    pi = 0x400921FB54442D18;
+
+    printf("sinf(pi+pi)=%f\n" : sin(: fpAdd(pi, pi))float);
+    printf("pi=%f\n" : pi);
 
     0;
 }

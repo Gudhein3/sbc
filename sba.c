@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <sys/wait.h>
+#include <assert.h>
 
 #define Fmt_SV "%.*s"
 #define Pass_SV(sv) (sv).length, (sv).data
@@ -121,7 +122,62 @@ int main(int argc, char **argv) {
         "Bschar:\n"
         "\tmov byte [rdi], sil\n"
         "\tmovzx rax, sil\n"
-        "\tret\n");
+        "\tret\n"
+
+        "fpAdd:\n"
+        "\tmovq xmm0, rdi\n"
+        "\tmovq xmm1, rsi\n"
+        "\taddsd xmm0, xmm1\n"
+        "\tmovq rax, xmm0\n"
+        "\tret\n"
+        "fpSub:\n"
+        "\tmovq xmm0, rdi\n"
+        "\tmovq xmm1, rsi\n"
+        "\tsubsd xmm0, xmm1\n"
+        "\tmovq rax, xmm0\n"
+        "\tret\n"
+        "fpMul:\n"
+        "\tmovq xmm0, rdi\n"
+        "\tmovq xmm1, rsi\n"
+        "\tmulsd xmm0, xmm1\n"
+        "\tmovq rax, xmm0\n"
+        "\tret\n"
+        "fpDiv:\n"
+        "\tmovq xmm0, rdi\n"
+        "\tmovq xmm1, rsi\n"
+        "\tdivsd xmm0, xmm1\n"
+        "\tmovq rax, xmm0\n"
+        "\tret\n"
+        "fpLth:\n"
+        "\tmovq xmm1, rdi\n"
+        "\tmovq xmm0, rsi\n"
+        "\tcomisd xmm0, xmm1\n"
+        "\tseta al\n"
+        "\tmovzx rax, al\n"
+        "\tret\n"
+        "fpGth:\n"
+        "\tmovq xmm0, rdi\n"
+        "\tmovq xmm1, rsi\n"
+        "\tcomisd xmm0, xmm1\n"
+        "\tseta al\n"
+        "\tmovzx rax, al\n"
+        "\tret\n"
+        "fpEqu:\n" // Without parity check.
+        "\tmovq xmm0, rdi\n"
+        "\tmovq xmm1, rsi\n"
+        "\tcomisd xmm0, xmm1\n"
+        "\tsete al\n"
+        "\tmovzx rax, al\n"
+        "\tret\n"
+        "fpInt2:\n"
+        "\tcvtsi2sd xmm0, rdi\n"
+        "\tmovq rax, xmm0\n"
+        "\tret\n"
+        "fp2Int:\n"
+        "\tmovq xmm0, rdi\n"
+        "\tcvttsd2si rax, xmm0\n"
+        "\tret\n"
+        );
 
    while (code.length) {
         sv_strip(&code);
@@ -195,6 +251,8 @@ int main(int argc, char **argv) {
             fprintf(fptr, "mov rcx, rax\n");
         } else if (sv_equal_cstr(line, "m01")) {
             fprintf(fptr, "mov rax, rcx\n");
+        } else if (sv_equal_cstr(line, "m0x")) {
+            fprintf(fptr, "movq rax, xmm0\n");
         } else if (sv_equal_cstr(line, "dar")) {
             fprintf(fptr, "lea rax, [rcx+rax*8]\n");
         } else if (sv_equal_cstr(line, "equ")) {
@@ -299,6 +357,14 @@ int main(int argc, char **argv) {
             if (oargc >= ra_cnt) {
                 fprintf(fptr, "add rsp, %zu\n", (ptr+oargc)*8);
             }
+        } else if (sv_starts_cstr(line, "pux")) {
+            size_t argc = sv_parse_size(line3);
+            assert(argc < 6 && "Too many args");
+            for (size_t i = 0; i < argc; ++i) {
+                fprintf(fptr, "movq xmm%d, qword [rsp+%zu]\n", i, (argc-i)*8-8);
+            }
+            sp -= argc;
+            fprintf(fptr, "add rsp, %zu\n", argc*8);
         } else if (sv_starts_cstr(line, "str")) {
             fprintf(fptr, "section .rodata\n");
             fprintf(fptr, "string: db "Fmt_SV"\n", Pass_SV(line3));

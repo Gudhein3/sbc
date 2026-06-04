@@ -89,6 +89,8 @@ TOKPLUSPLUS;   // ++
 TOKAT8;        // @8
 TOKEXCL8;      // !8
 TOKASTEREQU;   // *=
+TOKCOLON;      // :
+TOKKWFLOAT;    // float
 
 tokenkind;
 tokenu64;
@@ -229,6 +231,10 @@ lex() c, i {
     }
     else if c == ';' {
         tokenkind = TOKSEMI;
+        cnext();
+    }
+    else if c == ':' {
+        tokenkind = TOKCOLON;
         cnext();
     }
     else if c == '*' {
@@ -406,6 +412,8 @@ lex() c, i {
             tokenkind = TOKKWBREAK;
         else if !strcmp(&tokenstring, "continue")
             tokenkind = TOKKWCONTINUE;
+        else if !strcmp(&tokenstring, "float")
+            tokenkind = TOKKWFLOAT;
         else if !strcmp(&tokenstring, "BIRDSFALLAPART")
             abort();
     }
@@ -586,7 +594,7 @@ lexpr() stat {
     return stat;
 }
 
-p6(fl) tk, si, i, argc, found, islexpr, length {
+p6(fl) tk, si, i, argc, found, islexpr, length, dofp, fpargc {
     islexpr = lexpr();
 
     tk = peek();
@@ -694,30 +702,56 @@ p6(fl) tk, si, i, argc, found, islexpr, length {
     tk = peek();
 
     if tk == TOKLPAR {
+        dofp = 0;
         lex();
         emits("\tsv2\n");
         emits("\tm20\n");
         argc = 0;
+        fpargc = 0;
         if peek() != TOKRPAR {
             i = 0;
+            if peek() == TOKCOLON {
+                dofp = 1;
+                lex();
+            }
             while 1 {
-                argc = argc + 1;
                 expr();
+                if dofp {
+                    fpargc++;
+                } else {
+                    argc++;
+                }
                 emits("\tsv0\n");
                 tk = peek();
                 if tk == TOKCOMMA {
                     lex();
+                } else if tk == TOKCOLON {
+                    dofp = 1;
+                    lex();
+                    continue;
                 } else if tk == TOKRPAR
                     break;
                 i = i + 1;
             }
         }
         expect(TOKRPAR);
+        if fpargc {
+            emits("\tpux");
+            emitd(fpargc);
+            emit('\n');
+            emits("\tldc");
+            emitd(fpargc);
+            emit('\n');
+        }
         emits("\tcal");
         emitd(argc);
         emit('\n');
         emits("\tld2\n");
         islexpr = 0;
+        if peek() == TOKKWFLOAT {
+            emits("\tm0x\n");
+            lex();
+        }
     }
 
 
@@ -1264,6 +1298,8 @@ main(argc, argv) i, pid, status {
     TOKAT8 = 50;
     TOKEXCL8 = 51;
     TOKASTEREQU = 52;
+    TOKCOLON = 53;
+    TOKKWFLOAT = 54;
 
     if argc <3 {
         usage(argv[0]);
