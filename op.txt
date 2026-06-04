@@ -1,8 +1,14 @@
 Lexpr ::= "*" P6 | ID | P6 "[" Expr "]"
 
-P6 ::= Lexpr           | "&" Lexpr                        | CLIT | NLIT | SLIT | "(" Expr ")" | "{" STMT* "}" | P6 "(" { Expr { "," Expr }* }? ")"
+P6 ::= Lexpr           | "&" Lexpr                        | CLIT | NLIT | SLIT | "(" Expr ")" | "{" STMT* "}"
+   | P6 "("
+       { Expr { "," Expr }* }?
+       {
+         ":" { Expr { "," Expr }* }?
+       }? ")" "float"?
+   | "@8" Lexpr
 
-P5 ::= [+-!~] P6       | "if" Expr STMT { "else" STMT }?† | "while" Expr STMT† | "for" Expr ";" Expr ";" Expr STMT† | P6
+P5 ::= { "+" | "-" | "!" | "~" } P6       | "if" Expr STMT { "else" STMT }?† | "while" Expr STMT† | "for" Expr ";" Expr ";" Expr STMT† | P6
 
 P4 ::= P5 "*" P5    | P5 "/" P5   | P5 "%" P5 | P5 "^" P5
                     | P5 "|" P5   | P5 "&" P5
@@ -10,7 +16,7 @@ P4 ::= P5 "*" P5    | P5 "/" P5   | P5 "%" P5 | P5 "^" P5
 
 P3 ::= P4 "+" P4    | P4 "-" P4  | P4
 P2 ::= P3 "<<" P3   | P3 ">>" P3 | P3 "==" P3 | P3 "!=" P3 | P3 "<" P3 | P3 ">" P3 | P3 "<=" P3 | P3 ">=" P3 | P3
-P1 ::= P1 ":" Lexpr‡ | Lexpr "=" P1 | P2
+P1 ::= Lexpr { "=" | "+=" | "-=" | "*=" | "/=" | "|=" | "%=" | "&=" | "!8" } P1 | { "++" | "--" } Lexpr { "++" | "--" | "!!" } | P2
 Expr ::= P1
 
 †(Planned;Not implemented)
