@@ -253,6 +253,16 @@ int main(int argc, char **argv) {
             fprintf(fptr, "mov rax, rcx\n");
         } else if (sv_equal_cstr(line, "m0x")) {
             fprintf(fptr, "movq rax, xmm0\n");
+        } else if (sv_equal_cstr(line, "xdf")) {
+            fprintf(fptr, "movd xmm1, eax\n");
+            fprintf(fptr, "pxor xmm0, xmm0\n");
+            fprintf(fptr, "cvtss2sd xmm0, xmm1\n");
+            fprintf(fptr, "movq rax, xmm0\n");
+        } else if (sv_equal_cstr(line, "xfd")) {
+            fprintf(fptr, "movq xmm1, rax\n");
+            fprintf(fptr, "pxor xmm0, xmm0\n");
+            fprintf(fptr, "cvtsd2ss xmm0, xmm1\n");
+            fprintf(fptr, "movd eax, xmm0\n");
         } else if (sv_equal_cstr(line, "dar")) {
             fprintf(fptr, "lea rax, [rcx+rax*8]\n");
         } else if (sv_equal_cstr(line, "equ")) {

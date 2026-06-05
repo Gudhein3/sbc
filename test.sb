@@ -3,6 +3,7 @@ extern fprintf
 extern stderr
 extern atoi
 extern sin
+extern sinf
 
 
 fact(n)!
@@ -16,8 +17,10 @@ usage(prog)!
 
 arr[5];
 
+PI;
+
 global main
-main(argc, argv) max, x, y, z, pi {
+main(argc, argv) max, x, y, z {
     fprintf(stderr, "Aboba\n");
     x = 1;
     y = 2;
@@ -107,10 +110,16 @@ main(argc, argv) max, x, y, z, pi {
     printf("++*x = %d;x = %d\n", ++*x, x);
     printf("*x = %d\n", *x);
 
-    pi = 0x400921FB54442D18;
+    PI = 0x400921FB54442D18;
 
-    printf("sinf(pi+pi)=%f\n" : sin(: fpAdd(pi, pi))float);
-    printf("pi=%f\n" : pi);
+    printf("sin(PI+PI)=%f\n", double sin(double fpAdd(PI, PI))double);
+    printf("sinf(0)=%f\n", double sinf(float 0)float);
+    printf("sinf(PI+PI)=%f\n", double sinf(float fpAdd(PI, PI))float);
+    printf("PI=%f\n", double PI);
+
+    printf("%f+%f=%f\n", double PI, double PI, double fpAdd(PI, PI));
+    printf("%d=%f\n", 6969, double fpInt2(6969));
+    printf("floor(%f)=%d\n", fp2Int(PI), double PI);
 
     0;
 }

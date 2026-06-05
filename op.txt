@@ -1,11 +1,12 @@
 Lexpr ::= "*" P6 | ID | P6 "[" Expr "]"
 
 P6 ::= Lexpr           | "&" Lexpr                        | CLIT | NLIT | SLIT | "(" Expr ")" | "{" STMT* "}"
-   | P6 "("
-       { Expr { "," Expr }* }?
-       {
-         ":" { Expr { "," Expr }* }?
-       }? ")" "float"?
+   | P6 "(" {
+       { Expr { "," Expr }*
+           { "," { "float " | "double" } Expr }* } |
+       { { "float " | "double" } Expr { "," { "float " | "double" } Expr }* }
+
+       }? ")" { "float" | "double" }?
    | "@8" Lexpr
 
 P5 ::= { "+" | "-" | "!" | "~" } P6       | "if" Expr STMT { "else" STMT }?† | "while" Expr STMT† | "for" Expr ";" Expr ";" Expr STMT† | P6

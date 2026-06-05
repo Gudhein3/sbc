@@ -91,6 +91,7 @@ TOKEXCL8;      // !8
 TOKASTEREQU;   // *=
 TOKCOLON;      // :
 TOKKWFLOAT;    // float
+TOKKWDOUBLE;   // double
 
 tokenkind;
 tokenu64;
@@ -414,6 +415,8 @@ lex() c, i {
             tokenkind = TOKKWCONTINUE;
         else if !strcmp(&tokenstring, "float")
             tokenkind = TOKKWFLOAT;
+        else if !strcmp(&tokenstring, "double")
+            tokenkind = TOKKWDOUBLE;
         else if !strcmp(&tokenstring, "BIRDSFALLAPART")
             abort();
     }
@@ -594,7 +597,7 @@ lexpr() stat {
     return stat;
 }
 
-p6(fl) tk, si, i, argc, found, islexpr, length, dofp, fpargc {
+p6(fl) tk, si, i, argc, found, islexpr, length, fpargc, argtype, dofp {
     islexpr = lexpr();
 
     tk = peek();
@@ -702,33 +705,42 @@ p6(fl) tk, si, i, argc, found, islexpr, length, dofp, fpargc {
     tk = peek();
 
     if tk == TOKLPAR {
-        dofp = 0;
         lex();
         emits("\tsv2\n");
         emits("\tm20\n");
         argc = 0;
         fpargc = 0;
+        dofp = 0;
         if peek() != TOKRPAR {
             i = 0;
-            if peek() == TOKCOLON {
-                dofp = 1;
-                lex();
-            }
             while 1 {
-                expr();
-                if dofp {
+                tk = peek();
+                if tk == TOKKWFLOAT {
+                    argtype = 2; // f32
+                    dofp = 1;
+                    lex();
+                    fpargc++;
+                } else if tk == TOKKWDOUBLE {
+                    argtype = 1; // f64
+                    dofp = 1;
+                    lex();
                     fpargc++;
                 } else {
+                    if dofp {
+                        fprintf(stderr, "Unexpected integer argument after a fp argument at %d,%d\n", tokenrow+1, tokencol+1);
+                        exit(1);
+                    }
+                    argtype = 0; // u64
                     argc++;
+                }
+                expr();
+                if argtype == 2 {
+                    emits("\txfd\n");
                 }
                 emits("\tsv0\n");
                 tk = peek();
                 if tk == TOKCOMMA {
                     lex();
-                } else if tk == TOKCOLON {
-                    dofp = 1;
-                    lex();
-                    continue;
                 } else if tk == TOKRPAR
                     break;
                 i = i + 1;
@@ -739,16 +751,20 @@ p6(fl) tk, si, i, argc, found, islexpr, length, dofp, fpargc {
             emits("\tpux");
             emitd(fpargc);
             emit('\n');
-            emits("\tldc");
-            emitd(fpargc);
-            emit('\n');
         }
+        emits("\tldc");
+        emitd(fpargc);
+        emit('\n');
         emits("\tcal");
         emitd(argc);
         emit('\n');
         emits("\tld2\n");
         islexpr = 0;
         if peek() == TOKKWFLOAT {
+            emits("\tm0x\n");
+            emits("\txdf\n");
+            lex();
+        } else if peek() == TOKKWDOUBLE {
             emits("\tm0x\n");
             lex();
         }
@@ -1300,6 +1316,7 @@ main(argc, argv) i, pid, status {
     TOKASTEREQU = 52;
     TOKCOLON = 53;
     TOKKWFLOAT = 54;
+    TOKKWDOUBLE = 55;
 
     if argc <3 {
         usage(argv[0]);
