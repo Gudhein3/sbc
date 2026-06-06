@@ -251,6 +251,8 @@ int main(int argc, char **argv) {
             fprintf(fptr, "mov rcx, rax\n");
         } else if (sv_equal_cstr(line, "m01")) {
             fprintf(fptr, "mov rax, rcx\n");
+        } else if (sv_equal_cstr(line, "x01")) {
+            fprintf(fptr, "xchg rax, rcx\n");
         } else if (sv_equal_cstr(line, "m0x")) {
             fprintf(fptr, "movq rax, xmm0\n");
         } else if (sv_equal_cstr(line, "xdf")) {

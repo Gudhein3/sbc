@@ -971,6 +971,7 @@ p1() tk, code {
             emits("\tld1\n");
             emits("\tsv1\n");
             emits("\tdr1\n");
+            emits("\tx01\n");
             emits("\tsub\n");
             emits("\tld1\n");
             emits("\terf\n");
@@ -980,15 +981,7 @@ p1() tk, code {
             emits("\tld1\n");
             emits("\tsv1\n");
             emits("\tdr1\n");
-            emits("\tdiv\n");
-            emits("\tld1\n");
-            emits("\terf\n");
-        } else if code == 4 { // /=
-            emits("\tsv0\n");
-            p1();
-            emits("\tld1\n");
-            emits("\tsv1\n");
-            emits("\tdr1\n");
+            emits("\tx01\n");
             emits("\tdiv\n");
             emits("\tld1\n");
             emits("\terf\n");
@@ -998,6 +991,7 @@ p1() tk, code {
             emits("\tld1\n");
             emits("\tsv1\n");
             emits("\tdr1\n");
+            emits("\tx01\n");
             emits("\trem\n");
             emits("\tld1\n");
             emits("\terf\n");
@@ -1045,8 +1039,6 @@ p1() tk, code {
 }
 
 expr()! p1();
-
-addrcnt;
 
 stmt() tk, addr, addr1, haselse, oca, oba {
 

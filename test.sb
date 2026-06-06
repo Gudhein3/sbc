@@ -81,8 +81,8 @@ main(argc, argv) max, x, y, z {
     x &= 2;
     printf("x &= 2\n");
     printf("x = %d\n", x);
-    x -= 2;
-    printf("x -= 2\n");
+    x -= 3;
+    printf("x -= 3\n");
     printf("x = %d\n", x);
     x!!;
     printf("x!!\n");
