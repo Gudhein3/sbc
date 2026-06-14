@@ -21,6 +21,41 @@ extern waitpid
 extern memmove
 extern strlen
 extern abort
+extern malloc
+extern realloc
+extern memcpy
+extern memset
+extern free
+extern sprintf
+
+
+daCo(itsz) ptr {
+    ptr = malloc(32);
+    *ptr = malloc(itsz*256);
+    *(ptr+8) = 0;
+    *(ptr+16) = 256;
+    *(ptr+24) = itsz;
+    ptr;
+}
+
+daPush(da, it)! {
+    if *(da+8) + 1 >= *(da+16) {
+        *(da+16) = *(da+16)*2;
+        *da = realloc(*da, *(da+16)**(da+24));
+    }
+    if it memcpy(*da+*(da+8)**(da+24), it, *(da+24));
+    else  memset(*da+*(da+8)**(da+24), 0,  *(da+24));
+    *(da+8) = *(da+8) + 1;
+    *da+(*(da+8)-1)**(da+24);
+}
+
+daGet(da, idx)! *da+idx**(da+24);
+
+daDe(da)! {
+    free(*da);
+    free(da);
+}
+
 
 variables[160]; /* variable[0] - frame_offset;
                    variable[1]..variable[4] - name (ascii);
@@ -63,6 +98,7 @@ TOKPERS;       // %  (To not be confused with Achaemenid Empire, it falled aprox
 TOKKWIF;       // if
 TOKKWELSE;     // else
 TOKKWWHILE;    // while
+TOKKWFOR;      // for
 TOKKWEXTERN;   // extern
 TOKKWGLOBAL;   // global
 TOKKWRETURN;   // return
@@ -403,6 +439,8 @@ lex() c, i {
             tokenkind = TOKKWELSE;
         else if !strcmp(&tokenstring, "while")
             tokenkind = TOKKWWHILE;
+        else if !strcmp(&tokenstring, "for")
+            tokenkind = TOKKWFOR;
         else if !strcmp(&tokenstring, "extern")
             tokenkind = TOKKWEXTERN;
         else if !strcmp(&tokenstring, "global")
@@ -487,9 +525,40 @@ cpeek()! {
     activecharacter;
 }
 
-emit(x)! fprintf(outputfile, "%c", x);
-emits(x)! fprintf(outputfile, "%s", x);
-emitd(x)! fprintf(outputfile, "%zu", x);
+// 0 - direct
+// 1 - dynarray
+emit_mode;
+emit_dynarray;
+// XXX: Very dirty code, it should be betterized
+
+emit_textbuf[6];
+
+emit(x)!
+    if emit_mode == 0
+        fprintf(outputfile, "%c", x);
+    else
+        daPush(emit_dynarray, &x);
+emits(x) i
+    if emit_mode == 0
+        fprintf(outputfile, "%s", x);
+    else {
+        i = 0;
+        while @8 *(x+i) {
+            daPush(emit_dynarray, x+i);
+            i++;
+        }
+    }
+emitd(x) i
+    if emit_mode == 0
+        fprintf(outputfile, "%zu", x);
+    else {
+        sprintf(&emit_textbuf, "%zu", x);
+        i = 0;
+        while @8 *(&emit_textbuf+i) {
+            daPush(emit_dynarray, &emit_textbuf+i);
+            i++;
+        }
+    }
 
 
 continueaddress;
@@ -1040,7 +1109,7 @@ p1() tk, code {
 
 expr()! p1();
 
-stmt() tk, addr, addr1, haselse, oca, oba {
+stmt() tk, addr, addr1, haselse, oca, oba, old_emit_mode, old_emit_dynarray, new_emit_dynarray {
 
     tk = peek();
     if tk == TOKLBRACE {
@@ -1089,6 +1158,49 @@ stmt() tk, addr, addr1, haselse, oca, oba {
         emits("loc");
         emitd(addr1);
         emits("\n"); // ; while break\n");
+        continueaddress = oca;
+        breakaddress = oba;
+        return 0;
+    } else if tk == TOKKWFOR {
+        lex();
+        expr(); // start
+
+        oca = continueaddress;
+        oba = breakaddress;
+        continueaddress = addr = addrcounter;
+        breakaddress = addr1 = addrcounter + 1;
+        addrcounter = addrcounter + 2;
+        emits("loc");
+        emitd(addr);
+        emits("\n"); // ; for continue\n");
+        expr(); // cond
+
+        old_emit_mode = emit_mode;
+        old_emit_dynarray = emit_dynarray;
+        emit_mode = 1;
+        emit_dynarray = daCo(1);
+        new_emit_dynarray = emit_dynarray;
+
+        expr(); // iter
+        emit_textbuf = 0;
+        daPush(emit_dynarray, &emit_textbuf);
+
+        emit_mode = old_emit_mode;
+        emit_dynarray = old_emit_dynarray;
+
+
+        emits("\tljz");
+        emitd(addr1);
+        emit('\n');
+        stmt();
+        emits(*new_emit_dynarray);
+        daDe(new_emit_dynarray);
+        emits("ljp");
+        emitd(addr);
+        emit('\n');
+        emits("loc");
+        emitd(addr1);
+        emits("\n"); // ; for break\n");
         continueaddress = oca;
         breakaddress = oba;
         return 0;
@@ -1309,6 +1421,7 @@ main(argc, argv) i, pid, status {
     TOKCOLON = 53;
     TOKKWFLOAT = 54;
     TOKKWDOUBLE = 55;
+    TOKKWFOR = 56;
 
     if argc <3 {
         usage(argv[0]);
