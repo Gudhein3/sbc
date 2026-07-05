@@ -29,7 +29,8 @@ extern free
 extern sprintf
 
 
-daCo(itsz) ptr {
+daCo(itsz) {
+    auto ptr;
     ptr = malloc(32);
     *ptr = malloc(itsz*256);
     *(ptr+8) = 0;
@@ -38,7 +39,7 @@ daCo(itsz) ptr {
     ptr;
 }
 
-daPush(da, it)! {
+daPush(da, it) {
     if *(da+8) + 1 >= *(da+16) {
         *(da+16) = *(da+16)*2;
         *da = realloc(*da, *(da+16)**(da+24));
@@ -49,17 +50,17 @@ daPush(da, it)! {
     *da+(*(da+8)-1)**(da+24);
 }
 
-daGet(da, idx)! *da+idx**(da+24);
+daGet(da, idx) *da+idx**(da+24);
 
-daDe(da)! {
+daDe(da) {
     free(*da);
     free(da);
 }
 
 
-variables[160]; /* variable[0] - frame_offset;
-                   variable[1]..variable[4] - name (ascii);
-                */
+variables; /* variable[0] - frame_offset;
+              variable[1]..variable[4] - name (ascii);
+           */
 varcnt;
 
 activecharacter;
@@ -128,6 +129,7 @@ TOKASTEREQU;   // *=
 TOKCOLON;      // :
 TOKKWFLOAT;    // float
 TOKKWDOUBLE;   // double
+TOKKWAUTO;       // auto
 
 tokenkind;
 tokenu64;
@@ -138,7 +140,9 @@ tokencol;
 currentrow;
 currentcol;
 
-lex() c, i {
+lex() {
+    auto c;
+    auto i;
     c = cpeek();
     while isspace(c) {
         c = cnext();
@@ -455,6 +459,8 @@ lex() c, i {
             tokenkind = TOKKWFLOAT;
         else if !strcmp(&tokenstring, "double")
             tokenkind = TOKKWDOUBLE;
+        else if !strcmp(&tokenstring, "auto")
+            tokenkind = TOKKWAUTO;
         else if !strcmp(&tokenstring, "BIRDSFALLAPART")
             abort();
     }
@@ -464,17 +470,17 @@ lex() c, i {
     }
 }
 
-peek()! {
+peek() {
     if tokenkind == 0 lex();
     tokenkind;
 }
 
-cpush(c)! {
+cpush(c) {
     *(&stream+streamsize) = c;
     streamsize = streamsize + 1;
 }
 
-cnext()! {
+cnext() {
     if streamsize {
         activecharacter = @8 stream;
         memmove(&stream, &stream+1, streamsize);
@@ -505,7 +511,7 @@ cnext()! {
     }
     activecharacter;
 }
-cnextr()! {
+cnextr() {
     if fread(&activecharacter, 1, 1, inputfile) == 0 {
         activecharacter = 0xFF;
     }
@@ -520,7 +526,7 @@ cnextr()! {
     }
     activecharacter;
 }
-cpeek()! {
+cpeek() {
     if activecharacter==0 cnext();
     activecharacter;
 }
@@ -533,30 +539,28 @@ emit_dynarray;
 
 emit_textbuf[6];
 
-emit(x)!
+emit(x)
     if emit_mode == 0
         fprintf(outputfile, "%c", x);
     else
         daPush(emit_dynarray, &x);
-emits(x) i
+emits(x)
     if emit_mode == 0
         fprintf(outputfile, "%s", x);
     else {
-        i = 0;
-        while @8 *(x+i) {
+        auto i;
+        for i = 0 @8 *(x+i) i++ {
             daPush(emit_dynarray, x+i);
-            i++;
         }
     }
-emitd(x) i
+emitd(x)
     if emit_mode == 0
         fprintf(outputfile, "%zu", x);
     else {
         sprintf(&emit_textbuf, "%zu", x);
-        i = 0;
-        while @8 *(&emit_textbuf+i) {
+        auto i;
+        for i = 0 @8 *(&emit_textbuf+i) i++ {
             daPush(emit_dynarray, &emit_textbuf+i);
-            i++;
         }
     }
 
@@ -568,20 +572,21 @@ strbuf[1024];
 strbufsz;
 ra[6];
 
-expect(tk)!
+expect(tk)
     if peek() == tk lex();
     else {
         fprintf(stderr, "Expected token 'XXX'(%d) at %d,%d but got 'XXX'(%d)\n", tk, tokenrow+1, tokencol+1, peek());
         exit(1);
     }
 
-lexpect(tk)!
+lexpect(tk)
     if peek() != tk {
         fprintf(stderr, "LExpected token 'XXX'(%d) at %d,%d but got 'XXX'(%d)\n", tk, tokenrow+1, tokencol+1, peek());
         exit(1);
     }
 
-parseEscapeCode() c, n {
+parseEscapeCode() {
+    auto c;
     c = cnextr();
     return {
         if c == 'n' '\n';
@@ -595,6 +600,7 @@ parseEscapeCode() c, n {
                 fprintf(stderr, "Invalid hexadecimal digit: '\\%c' at %d,%d\n", c, tokenrow+1, tokencol+1);
                 exit(1);
             }
+            auto n;
             if c <= '9' n = c - '0';
             else if c <= 'F' n = c - 'A' + 10;
             else if c <= 'f' n = c - 'a' + 10;
@@ -616,17 +622,19 @@ parseEscapeCode() c, n {
     };
 }
 
-lprimary() tk, i, found {
-
+lprimary() {
+    auto tk;
     tk = peek();
     // emits("; lexpr()\n");
     if tk == TOKID {
+        auto i;
+        auto found;
         i = 0;
         found = 0;
-        while i < varcnt {
-            if strcmp(&tokenstring, &variables+(i*5*8)+8) == 0 {
+        while i < *(variables+8) {
+            if strcmp(&tokenstring, daGet(variables, i)+8) == 0 {
                 emits("\txfp");
-                emitd(variables[i*5]);
+                emitd(*daGet(variables, i));
                 emits("\n");
                 found = 1;
                 break;
@@ -650,7 +658,8 @@ lprimary() tk, i, found {
     } else return 0;
 }
 
-lexpr() stat {
+lexpr() {
+    auto stat;
     if stat = lprimary()
         if peek() == TOKLBRACK {
             if stat == 2 { // We need to get value from a localvar
@@ -666,9 +675,11 @@ lexpr() stat {
     return stat;
 }
 
-p6(fl) tk, si, i, argc, found, islexpr, length, fpargc, argtype, dofp {
+p6(fl) {
+    auto islexpr;
     islexpr = lexpr();
 
+    auto tk;
     tk = peek();
 
     // XXX: Spaghetii
@@ -712,6 +723,7 @@ p6(fl) tk, si, i, argc, found, islexpr, length, fpargc, argtype, dofp {
         }
     }
     else {
+        auto found;
         found = 0;
         if tk == TOKNUM {
             emits("\tldc");
@@ -741,6 +753,8 @@ p6(fl) tk, si, i, argc, found, islexpr, length, fpargc, argtype, dofp {
             emits("\n");
             lex();
         } else if tk == TOKSTR {
+            auto si;
+            auto length;
             si = strbufsz;
             emits("\tlds");
             emitd(si);
@@ -777,10 +791,15 @@ p6(fl) tk, si, i, argc, found, islexpr, length, fpargc, argtype, dofp {
         lex();
         emits("\tsv2\n");
         emits("\tm20\n");
+        auto argc;
+        auto fpargc;
+        auto dofp;
         argc = 0;
         fpargc = 0;
         dofp = 0;
         if peek() != TOKRPAR {
+            auto argtype;
+            auto i;
             i = 0;
             while 1 {
                 tk = peek();
@@ -847,10 +866,10 @@ p6(fl) tk, si, i, argc, found, islexpr, length, fpargc, argtype, dofp {
     0;
 }
 
-p5() tk, si, i, argc, found {
+p5() {
+    auto tk;
     tk = peek();
 
-    found = 0;
     if tk == TOKTILDA {
         lex();
         p6(0);
@@ -873,7 +892,9 @@ p5() tk, si, i, argc, found {
     return 0;
 }
 
-p4() tk, code {
+p4() {
+    auto tk;
+    auto code;
     if (code = p5()) != 0 return code;
     while 1 {
         tk = peek();
@@ -925,7 +946,9 @@ p4() tk, code {
     return 0;
 }
 
-p3() tk, code {
+p3() {
+    auto tk;
+    auto code;
     if (code = p4()) != 0 return code;
     while 1 {
         tk = peek();
@@ -951,7 +974,9 @@ p3() tk, code {
     return 0;
 }
 
-p2() tk, mode, code {
+p2() {
+    auto tk;
+    auto code;
     if (code = p3()) != 0 return code;
     while 1 {
         tk = peek();
@@ -1017,7 +1042,8 @@ p2() tk, mode, code {
     return 0;
 }
 
-p1() tk, code {
+p1() {
+    auto code;
     code = p2();
     if code
         if code == 1 { // =
@@ -1107,12 +1133,15 @@ p1() tk, code {
         }
 }
 
-expr()! p1();
+expr() p1();
 
-stmt() tk, addr, addr1, haselse, oca, oba, old_emit_mode, old_emit_dynarray, new_emit_dynarray {
+stmt() {
+    auto tk;
 
     tk = peek();
     if tk == TOKLBRACE {
+        auto addr;
+        addr = *(variables+8);
         lex();
 
         while peek() != TOKRBRACE {
@@ -1120,6 +1149,7 @@ stmt() tk, addr, addr1, haselse, oca, oba, old_emit_mode, old_emit_dynarray, new
 
         }
         lex();
+        *(variables+8) = addr;
         return 0;
     } else if tk == TOKKWCONTINUE {
         lex();
@@ -1138,9 +1168,13 @@ stmt() tk, addr, addr1, haselse, oca, oba, old_emit_mode, old_emit_dynarray, new
         expect(TOKSEMI);
         return 0;
     } else if tk == TOKKWWHILE {
+        auto addr;
+        auto addr1;
+        auto prev_continue_address;
+        auto prev_break_address;
         lex();
-        oca = continueaddress;
-        oba = breakaddress;
+        prev_continue_address = continueaddress;
+        prev_break_address = breakaddress;
         continueaddress = addr = addrcounter;
         breakaddress = addr1 = addrcounter + 1;
         addrcounter = addrcounter + 2;
@@ -1158,15 +1192,19 @@ stmt() tk, addr, addr1, haselse, oca, oba, old_emit_mode, old_emit_dynarray, new
         emits("loc");
         emitd(addr1);
         emits("\n"); // ; while break\n");
-        continueaddress = oca;
-        breakaddress = oba;
+        continueaddress = prev_continue_address;
+        breakaddress = prev_break_address;
         return 0;
     } else if tk == TOKKWFOR {
+        auto addr;
+        auto addr1;
+        auto prev_continue_address;
+        auto prev_break_address;
         lex();
         expr(); // start
 
-        oca = continueaddress;
-        oba = breakaddress;
+        prev_continue_address = continueaddress;
+        prev_break_address = breakaddress;
         continueaddress = addr = addrcounter;
         breakaddress = addr1 = addrcounter + 1;
         addrcounter = addrcounter + 2;
@@ -1174,6 +1212,10 @@ stmt() tk, addr, addr1, haselse, oca, oba, old_emit_mode, old_emit_dynarray, new
         emitd(addr);
         emits("\n"); // ; for continue\n");
         expr(); // cond
+
+        auto old_emit_mode;
+        auto old_emit_dynarray;
+        auto new_emit_dynarray;
 
         old_emit_mode = emit_mode;
         old_emit_dynarray = emit_dynarray;
@@ -1201,8 +1243,8 @@ stmt() tk, addr, addr1, haselse, oca, oba, old_emit_mode, old_emit_dynarray, new
         emits("loc");
         emitd(addr1);
         emits("\n"); // ; for break\n");
-        continueaddress = oca;
-        breakaddress = oba;
+        continueaddress = prev_continue_address;
+        breakaddress = prev_break_address;
         return 0;
     } else if tk == TOKKWRETURN {
         lex();
@@ -1211,8 +1253,24 @@ stmt() tk, addr, addr1, haselse, oca, oba, old_emit_mode, old_emit_dynarray, new
 
         expect(TOKSEMI);
         return 0;
-    } else if tk == TOKKWIF {
+    } else if tk == TOKKWAUTO {
         lex();
+        lexpect(TOKID);
+        auto variable;
+        variable = daPush(variables, 0);
+        *(variables+8)++;
+        memcpy(variable+8, &tokenstring, 64);
+        frameshift = frameshift + 8;
+        *variable = frameshift;
+        lex();
+        expect(TOKSEMI);
+        return 0;
+    } else if tk == TOKKWIF {
+        auto addr;
+        auto addr1;
+        auto cap1;
+        lex();
+        cap1 = frameshift;
         addr = addrcounter;
         addrcounter = addrcounter + 1;
         expr();
@@ -1222,6 +1280,7 @@ stmt() tk, addr, addr1, haselse, oca, oba, old_emit_mode, old_emit_dynarray, new
         stmt();
 
         tk = peek();
+        auto haselse;
         haselse = tk == TOKKWELSE;
         addr1 = addrcounter;
         addrcounter = addrcounter + 1;
@@ -1234,8 +1293,14 @@ stmt() tk, addr, addr1, haselse, oca, oba, old_emit_mode, old_emit_dynarray, new
         emitd(addr);
         emits("\n"); // ; if\n");
         if haselse {
+            auto cap2;
             lex();
+            cap2 = frameshift;
+            frameshift = cap1;
             stmt();
+            if frameshift < cap2 { // If there is a logical fork, we wanna always allocate maximum of the two
+                frameshift = cap2;
+            }
             emits("loc");
             emitd(addr1);
             emits("\n"); // ; else\n");
@@ -1247,9 +1312,11 @@ stmt() tk, addr, addr1, haselse, oca, oba, old_emit_mode, old_emit_dynarray, new
     expect(TOKSEMI);
 }
 
-top() tk, i, j, frameshift, variable, cinputfile {
-    while 1 {
+frameshift;
 
+top()
+    while 1 {
+        auto tk;
         tk = peek();
         if tk == TOKKWGLOBAL {
             lex();
@@ -1290,16 +1357,16 @@ top() tk, i, j, frameshift, variable, cinputfile {
                 expect(TOKLPAR);
                 addrcounter = 0;
                 frameshift = 0;
-                varcnt = 0;
-                i = 0;
-                while i < 6 {
+                *(variables+8) = 0;
+                auto i;
+                auto variable;
+                for i = 0 i < 6 i++ {
                     tk = peek();
                     if tk == TOKRPAR break;
                     /* TBD: Optimize this parsing thingy
                        TODOOO: Avoid overflows */
-                    variable = &variables[varcnt*5];
-                    varcnt = varcnt + 1;
-                    j = 0;
+                    variable = daPush(variables, 0);
+                    *(variables+8)++;
                     lexpect(TOKID);
                     memcpy(variable+8, &tokenstring, 64);
                     lex();
@@ -1315,42 +1382,58 @@ top() tk, i, j, frameshift, variable, cinputfile {
                         break;
                     }
                     lex();
-                    i = i + 1;
                 }
                 expect(TOKRPAR);
-                tk = peek();
-                if tk == TOKEXCL lex();
-                else
-                    while 1 {
+                // tk = peek();
+                // if tk == TOKEXCL lex();
+                // else
+                //     while 1 {
+                //
+                //         /* TBD: Optimize that parsing thingy
+                //            TODOOO: Avoid overflows */
+                //         variable = daPush(variables, 0);
+                //         *(variables+8)++;
+                //
+                //         if tk != TOKID {
+                //             fprintf(stderr, "Expected token ID at %d,%d but got 'XXX'(%d)\n", tokenrow+1, tokencol+1, tk);
+                //             exit(1);
+                //         }
+                //         memcpy(variable+8, &tokenstring, 64);
+                //         frameshift = frameshift + 8;
+                //         *variable = frameshift;
+                //         lex();
+                //
+                //         if peek() != TOKCOMMA {
+                //             break;
+                //         }
+                //         lex();
+                //         tk = peek();
+                //     }
 
-                        /* TBD: Optimize that parsing thingy
-                           TODOOO: Avoid overflows */
-                        variable = &variables[varcnt*5];
-                        varcnt = varcnt + 1;
-                        j = 0;
 
-                        if tk != TOKID {
-                            fprintf(stderr, "Expected token ID at %d,%d but got 'XXX'(%d)\n", tokenrow+1, tokencol+1, tk);
-                            exit(1);
-                        }
-                        memcpy(variable+8, &tokenstring, 64);
-                        frameshift = frameshift + 8;
-                        *variable = frameshift;
-                        lex();
+                auto old_emit_mode;
+                auto old_emit_dynarray;
+                auto new_emit_dynarray;
+                old_emit_mode = emit_mode;
+                old_emit_dynarray = emit_dynarray;
+                emit_mode = 1;
+                emit_dynarray = daCo(1);
+                new_emit_dynarray = emit_dynarray;
 
-                        if peek() != TOKCOMMA {
-                            break;
-                        }
-                        lex();
-                        tk = peek();
-                    }
+                stmt();
+                emit_mode = old_emit_mode;
+                emit_dynarray = old_emit_dynarray;
                 frameshift = frameshift + 8;
+
+                emit_textbuf = 0;
+                daPush(new_emit_dynarray, &emit_textbuf);
 
                 emits("\talc");
                 emitd(frameshift+16-(frameshift%16));
                 emits("\n");
+                emits(*new_emit_dynarray);
+                daDe(new_emit_dynarray);
 
-                stmt();
                 emits("\tret\n");
             }
         } else if tk == TOKEOF {
@@ -1360,12 +1443,11 @@ top() tk, i, j, frameshift, variable, cinputfile {
             exit(1);
         }
     }
-}
 
-usage(progname)! fprintf(stderr, "Usage: %s [-pp] input-code output-ir\n", progname);
+usage(progname) fprintf(stderr, "Usage: %s [-pp] input-code output-ir\n", progname);
 
 global main
-main(argc, argv) i, pid, status {
+main(argc, argv) {
     TOKNUM = 1;
     TOKSTR = 2;
     TOKCHAR = 3;
@@ -1422,6 +1504,9 @@ main(argc, argv) i, pid, status {
     TOKKWFLOAT = 54;
     TOKKWDOUBLE = 55;
     TOKKWFOR = 56;
+    TOKKWAUTO = 57;
+
+    variables = daCo(40);
 
     if argc <3 {
         usage(argv[0]);
@@ -1446,11 +1531,10 @@ main(argc, argv) i, pid, status {
     top();
     emits("str");
     emitd(@8*(&strbuf+0));
-    i = 1;
-    while i < strbufsz {
+    auto i;
+    for i = 1 i < strbufsz i++ {
         emits(",");
         emitd(@8*(&strbuf+i));
-        i = i + 1;
     }
     emits("\n");
     fclose(inputfile);
