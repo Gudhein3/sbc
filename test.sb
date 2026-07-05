@@ -42,6 +42,9 @@ main(argc, argv) max, x, y, z {
         if x >= 3 break;
         x = x + 1;
     }
+
+    for x = 0 x < 5 x++ printf("forloop: %d\n", x);
+
     x = 5;
     if x < 5 {
         printf("x < 5\n");
