@@ -1,4 +1,4 @@
-# SB programming language
+# Kiva programming language
 ## Syntax
 #### Expressions
 There is [A full documentation on the expressions](./op.txt) but you probably want a Fast Introduction™ so here it is \
@@ -34,16 +34,21 @@ if 2 == 2 printf("2 really equals to 2\n");
 ```
 The same for while
 ###### Variables
-"SB" has no variable scoping mechanisms yet. \
-So you have to declare them at the function definition time: See the "In-global statements" section for more details.
+You usually just write something like
+```c
+auto x;
+```
 ***
 #### In-global statements
 ###### Functions(Procedures actually)
 Almost like in C \
-But without type specification \
-And you have to declare all local variables before the start of function(procedure).
+But without type specification
 ```
-main() i, x, y, z {
+main() {
+    auto i;
+    auto x;
+    auto y;
+    auto z;
     x = 0;
     y = 1;
     i = 0;
@@ -59,9 +64,9 @@ main() i, x, y, z {
     }
 }
 ```
-If function(procedure) has no local variables, just put an "!" instead.
+
 ```
-fact(x)!
+fact(x)
   if x < 1 x;
   else x*fact(x-1);
 ```
@@ -82,7 +87,7 @@ glblInt; // Semicolon is required here; as I said above, they aren't the same as
 glblArr[69]; // 69 computer words, not bytes.
 ayota()! (glblInt = glblInt + 1) - 1;
 ```
-Continiously speaking, all global variables are allocated on the [.bss section](https://it.wikipedia.org/wiki/.bss), hence automatical[ly](https://en.wikipedia.org/wiki/-ly) [zero](https://en.wikipedia.org/wiki/Combinatorial_game_theory#Numbers)-[initialized](https://dictionary.cambridge.org/dictionary/english/initialized) by [your OS](https://en.wikipedia.org/wiki/Operating_system)
+All global variables are zero-initialized btw.
 ***
 ###### Externals
 ```
@@ -90,16 +95,16 @@ extern printf // Now le symbol "printf" avaliable for our object (Only if you ar
 // No semicolon needed
 ```
 ***
-# IR
-Currently IR is used only in the [Bootstrapping file](./bootstrap/sbc.ir) to minimize its size.\
-But in the future I'll add other platforms (e.g. MS Windows)
 # Bootstrapping
 ```shell
-$ cc -o sba sba.c
-$ ./sba bootstrap/sbc.ir sbc
-$ ./sb sbc.sb sbc
-$ ./sb sbc.sb sbc
-$ ./sb sbc.sb sbc
-$ ./sb sbc.sb sbc
-... Now you can recompile the compiler using the same compiler
+$ cc -o kivaa kivaa.c
+$ ./kivaa bootstrap/kiva.ir kivac
+$ ./kiva kivac.k kivac
+$ ./kiva kivac.k kivac
+$ ./kiva kivac.k kivac
+$ ./kiva kivac.k kivac
+$ ./kiva kivac.k kivac
+$ ./kiva kivac.k kivac
+$ ./kiva kivac.k kivac
+... Now you can recompile the compiler over and over again
 ```

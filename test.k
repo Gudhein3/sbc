@@ -6,13 +6,13 @@ extern sin
 extern sinf
 
 
-fact(n)!
+fact(n)
     if n <= 0
         1;
     else
         n*fact(n-1);
 
-usage(prog)!
+usage(prog)
     fprintf(stderr, "Usage: %s fibonacci-seq-limit\n", prog);
 
 arr[5];
@@ -20,7 +20,11 @@ arr[5];
 PI;
 
 global main
-main(argc, argv) max, x, y, z {
+main(argc, argv) {
+    auto max;
+    auto x;
+    auto y;
+    auto z;
     fprintf(stderr, "Aboba\n");
     x = 1;
     y = 2;

@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+set -e
+./kivac $1 $2.ir
+./kivaa $2.ir $2 ${@:3}
